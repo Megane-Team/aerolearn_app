@@ -54,91 +54,92 @@ class LoginState extends State<Login> {
               child: Column(
                 children: [
                   Stack(children: [
-                    if(!_isAtEnd)
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.7,
-                      width: double.infinity,
-                      child: Image.asset(
-                        Assets.logos("half_logo"),
-                        alignment: Alignment.centerRight,
-                        fit: BoxFit.contain,
+                    if (!_isAtEnd)
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.7,
+                        width: double.infinity,
+                        child: Image.asset(
+                          Assets.logos("half_logo"),
+                          alignment: Alignment.centerRight,
+                          fit: BoxFit.contain,
+                        ),
                       ),
-                    ),
                     if (_isAtEnd)
-                    Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.35, left: MediaQuery.of(context).size.width * 0.1),
-                      child: SelectableText.rich(
-                       TextSpan(
-                         children: [
-                           TextSpan(
-                             text: 'Halo,\n',
-                             style: TextStyle(
-                               fontSize:
-                               MediaQuery.of(context).size.width * 0.06,
-                               fontWeight: FontWeight.bold,
-                               color: const Color(0xff5092FF),
-                               height: 1.2,
-                             ),
-                           ),
-                           TextSpan(
-                             text: 'Selamat datang di \nAeroLearn!',
-                             style: TextStyle(
-                               fontSize:
-                               MediaQuery.of(context).size.width * 0.06,
-                               fontWeight: FontWeight.bold,
-                               color: Colors.white,
-                               height: 1.2,
-                             ),
-                           )
-                         ]
-                       )
-                      ),
-                    )
-                  ]),
-                  if(!_isAtEnd)
-                  Padding(
-                    padding: EdgeInsets.only(
-                        right: MediaQuery.of(context).size.width * 0.2, top: 0),
-                    child: SelectableText.rich(
-                      TextSpan(
-                        children: [
+                      Container(
+                        width: double.infinity,
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.35,
+                            left: MediaQuery.of(context).size.width * 0.1),
+                        child: SelectableText.rich(TextSpan(children: [
                           TextSpan(
-                            text: 'Geser ke atas\nuntuk',
+                            text: 'Halo,\n',
                             style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.08,
-                                fontWeight: FontWeight.bold,
-                                color: const Color(0xff5092FF),
-                                height: 1.2,
-                                letterSpacing: 1.2),
-                            // This sets the line height (45 / 36)
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.06,
+                              fontWeight: FontWeight.bold,
+                              color: const Color(0xff5092FF),
+                              height: 1.2,
+                            ),
                           ),
                           TextSpan(
-                              text: '  Masuk',
+                            text: 'Selamat datang di \nAeroLearn!',
+                            style: TextStyle(
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.06,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                              height: 1.2,
+                            ),
+                          )
+                        ])),
+                      )
+                  ]),
+                  if (!_isAtEnd)
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: MediaQuery.of(context).size.width * 0.2,
+                          top: 0),
+                      child: SelectableText.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Geser ke atas\nuntuk',
                               style: TextStyle(
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.08,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  height: 1)),
-                        ],
+                                  color: const Color(0xff5092FF),
+                                  height: 1.2,
+                                  letterSpacing: 1.2),
+                              // This sets the line height (45 / 36)
+                            ),
+                            TextSpan(
+                                text: '  Masuk',
+                                style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.08,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    height: 1)),
+                          ],
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.left,
                     ),
-                  ),
                   const SizedBox(
                     height: 0,
                   ),
-                  if(!_isAtEnd)
-                  SizedBox(
-                    child: Container(
-                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
-                        child: Image.asset(
-                          Assets.icons("arrow_slide"),
-                          scale: 1.5,
-                        )),
-                  )
+                  if (!_isAtEnd)
+                    SizedBox(
+                      child: Container(
+                          margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.05),
+                          child: Image.asset(
+                            Assets.icons("arrow_slide"),
+                            scale: 1.5,
+                          )),
+                    )
                 ],
               ),
             ),
