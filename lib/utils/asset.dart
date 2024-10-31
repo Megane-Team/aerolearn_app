@@ -1,11 +1,11 @@
 class Assets {
-  static const path = 'assets/images';
+  static const path = 'assets/image';
 
   static String logos(String name) {
-    return '$path/logos/$name.png';
+    return '$path/logo/$name.png';
   }
 
   static String icons(String name) {
-    return '$path/icons/$name.png';
+    return '$path/icon/$name.png';
   }
 }
