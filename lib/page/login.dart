@@ -11,8 +11,10 @@ class Login extends StatefulWidget {
 
 class LoginState extends State<Login> {
   late bool showPass = false;
+  late bool _isAtEnd = false;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final SheetController _slideController = SheetController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -27,6 +29,7 @@ class LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: const Color(0xff12395D),
       body: SlidingSheet(
+          controller: _slideController,
           color: Colors.blue,
           elevation: 8,
           cornerRadius: 50,
@@ -35,27 +38,84 @@ class LoginState extends State<Login> {
             snappings: [40, 350, double.infinity],
             positioning: SnapPositioning.pixelOffset,
           ),
+          listener: (state) {
+            if (state.extent == state.maxExtent) {
+              setState(() {
+                _isAtEnd = true;
+              });
+            } else {
+              setState(() {
+                _isAtEnd = false;
+              });
+            }
+          },
           body: Center(
             child: SizedBox(
               child: Column(
                 children: [
+                  Stack(children: [
+                    if(!_isAtEnd)
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      width: double.infinity,
+                      child: Image.asset(
+                        Assets.logos("half_logo"),
+                        alignment: Alignment.centerRight,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                    if (_isAtEnd)
+                    Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.35, left: MediaQuery.of(context).size.width * 0.1),
+                      child: SelectableText.rich(
+                       TextSpan(
+                         children: [
+                           TextSpan(
+                             text: 'Halo,\n',
+                             style: TextStyle(
+                               fontSize:
+                               MediaQuery.of(context).size.width * 0.06,
+                               fontWeight: FontWeight.bold,
+                               color: const Color(0xff5092FF),
+                               height: 1.2,
+                             ),
+                           ),
+                           TextSpan(
+                             text: 'Selamat datang di \nAeroLearn!',
+                             style: TextStyle(
+                               fontSize:
+                               MediaQuery.of(context).size.width * 0.06,
+                               fontWeight: FontWeight.bold,
+                               color: Colors.white,
+                               height: 1.2,
+                             ),
+                           )
+                         ]
+                       )
+                      ),
+                    )
+                  ]),
+                  if(!_isAtEnd)
                   Padding(
-                    padding: const EdgeInsets.only(right: 100.0, top: 600.0),
+                    padding: EdgeInsets.only(
+                        right: MediaQuery.of(context).size.width * 0.2, top: 0),
                     child: SelectableText.rich(
                       TextSpan(
                         children: [
                           TextSpan(
-                              text: 'Geser ke atas\nuntuk',
-                              style: TextStyle(
-                                  fontSize:
-                                      MediaQuery.of(context).size.width * 0.08,
-                                  fontWeight: FontWeight.bold,
-                                  color: const Color(0xff5092FF),
-                                  height:
-                                      1) // This sets the line height (45 / 36)
-                              ),
+                            text: 'Geser ke atas\nuntuk',
+                            style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.08,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xff5092FF),
+                                height: 1.2,
+                                letterSpacing: 1.2),
+                            // This sets the line height (45 / 36)
+                          ),
                           TextSpan(
-                              text: ' Masuk',
+                              text: '  Masuk',
                               style: TextStyle(
                                   fontSize:
                                       MediaQuery.of(context).size.width * 0.08,
@@ -68,11 +128,12 @@ class LoginState extends State<Login> {
                     ),
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 0,
                   ),
+                  if(!_isAtEnd)
                   SizedBox(
                     child: Container(
-                        margin: const EdgeInsets.only(top: 1),
+                        margin: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.05),
                         child: Image.asset(
                           Assets.icons("arrow_slide"),
                           scale: 1.5,
