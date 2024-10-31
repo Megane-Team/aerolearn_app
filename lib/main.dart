@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aerolearn/router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:aerolearn/constant/themes.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,9 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        textTheme: GoogleFonts.montserratTextTheme(),
-      ),
+      theme: mainTheme,
       routerConfig: router,
     );
   }

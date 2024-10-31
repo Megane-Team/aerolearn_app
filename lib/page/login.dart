@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
+import 'package:aerolearn/utils/asset.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -12,13 +13,14 @@ class LoginState extends State<Login> {
   late bool showPass = false;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
-    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,31 +35,45 @@ class LoginState extends State<Login> {
             snappings: [40, 350, double.infinity],
             positioning: SnapPositioning.pixelOffset,
           ),
-          body: const Center(
-            child: Padding(
-              padding: EdgeInsets.only(right: 100.0, top: 200.0),
-              child: SelectableText.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                        text: 'Geser ke atas\nuntuk',
-                        style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xff5092FF),
-                            height: 1) // This sets the line height (45 / 36)
-                        ),
-                    TextSpan(
-                        text: ' Masuk',
-                        style: TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            height: 1)),
-                  ],
-                ),
-                textAlign: TextAlign.left,
-              ),
+          body: Center(
+            child: SizedBox(
+             child: Column(
+               children: [
+                 Padding(
+                   padding: const EdgeInsets.only(right: 100.0, top: 600.0),
+                   child: SelectableText.rich(
+                     TextSpan(
+                       children: [
+                         TextSpan(
+                             text: 'Geser ke atas\nuntuk',
+                             style: TextStyle(
+                                 fontSize: MediaQuery.of(context).size.width * 0.08,
+                                 fontWeight: FontWeight.bold,
+                                 color: const Color(0xff5092FF),
+                                 height: 1) // This sets the line height (45 / 36)
+                         ),
+                         TextSpan(
+                             text: ' Masuk',
+                             style: TextStyle(
+                                 fontSize: MediaQuery.of(context).size.width * 0.08,
+                                 fontWeight: FontWeight.bold,
+                                 color: Colors.white,
+                                 height: 1)),
+                       ],
+                     ),
+                     textAlign: TextAlign.left,
+                   ),
+                 ),
+                 const SizedBox(height: 10,),
+                 SizedBox(
+                     child: Container(
+                        margin: const EdgeInsets.only(top: 1),
+                         child: Image.asset(Assets.icons("arrow_slide"), scale: 1.5,)
+                      ),
+
+                 )
+               ],
+             ),
             ),
           ),
           builder: (context, state) {
@@ -65,7 +81,7 @@ class LoginState extends State<Login> {
               color: Colors.white,
               height: MediaQuery.of(context).size.height * 0.5,
               child: Container(
-                height: 10,
+                height: double.infinity,
                 color: Colors.white,
                 child: Column(children: [
                   Align(
@@ -91,89 +107,144 @@ class LoginState extends State<Login> {
                           style: TextStyle(
                             fontSize: fontSize,
                             fontWeight: FontWeight.bold,
+                            color: const Color(0xff1D5C96),
                           ),
                         );
                       },
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(
-                        top: MediaQuery.of(context).size.height * 0.05,
-                        right: 20,
-                        bottom: 20,
-                        left: 20),
-                    child: Column(children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        child: TextField(
-                          controller: _usernameController,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10))),
-                            labelText: 'Nomor Induk Karyawan',
-                            labelStyle: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width * 0.03,
-                            ),
-
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height *
-                            0.04,
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.07,
-                        child: TextField(
-                          controller: _passwordController,
-                          obscureText: showPass,
-                          decoration: InputDecoration(
-                            border: const OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                            ),
-                            labelText: 'Kata Sandi',
-                            labelStyle: TextStyle(
-                              fontSize: MediaQuery.of(context).size.width * 0.03,
-                            ),
-                              
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  showPass ? Icons.visibility : Icons.visibility_off,
-                                  color: const Color(0xff5A5A5A),
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.04,
+                          right: 20,
+                          bottom: 20,
+                          left: 20),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            child: TextFormField(
+                              cursorColor: Colors.black,
+                              controller: _usernameController,
+                              decoration: InputDecoration(
+                                focusedBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                border: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                labelText: 'Nomor Induk Karyawan',
+                                labelStyle: TextStyle(
+                                  color: Colors.black,
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.03,
                                 ),
-                                onPressed: (){
-                                  setState(() {
-                                    setState(() {
-                                      showPass = !showPass;
-                                    });
-                                  });
-                                },
-                              )
+                              ),
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Masukkan nomor induk karyawan';
+                                }
+                                return null;
+                              },
+                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.06,
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xff1D5C96)),
-                          onPressed: () {
-                            String username = _usernameController.text;
-                            String password = _usernameController.text;
-                          },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(color: Color(0xffFFFFFF)),
+                          const SizedBox(
+                            height: 10,
                           ),
-                        ),
-                      ),
-                    ]),
-                  )
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.1,
+                            child: TextFormField(
+                              cursorColor: Colors.black,
+                              controller: _passwordController,
+                              obscureText: showPass,
+                              decoration: InputDecoration(
+                                  focusedBorder: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  border: const OutlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.black),
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  labelText: 'Kata Sandi',
+                                  errorBorder: const OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.red),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10)),
+                                  ),
+                                  labelStyle: TextStyle(
+                                    color: Colors.black,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width *
+                                            0.03,
+                                  ),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      showPass
+                                          ? Icons.visibility
+                                          : Icons.visibility_off,
+                                      color: const Color(0xff5A5A5A),
+                                    ),
+                                    iconSize: 25,
+                                    onPressed: () {
+                                      setState(() {
+                                        setState(() {
+                                          showPass = !showPass;
+                                        });
+                                      });
+                                    },
+                                  )),
+                              style: TextStyle(
+                                fontSize:
+                                    MediaQuery.of(context).size.width * 0.03,
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return '';
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.04),
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.06,
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xff1D5C96)),
+                              onPressed: () {
+                                if (_formKey.currentState!.validate()) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Form is valid!')),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                        content: Text('Form is invalid!')),
+                                  );
+                                }
+                              },
+                              child: const Text(
+                                'Login',
+                                style: TextStyle(color: Color(0xffFFFFFF)),
+                              ),
+                            ),
+                          ),
+                        ]),
+                      ))
                 ]),
               ),
             );
