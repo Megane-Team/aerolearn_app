@@ -37,43 +37,49 @@ class LoginState extends State<Login> {
           ),
           body: Center(
             child: SizedBox(
-             child: Column(
-               children: [
-                 Padding(
-                   padding: const EdgeInsets.only(right: 100.0, top: 600.0),
-                   child: SelectableText.rich(
-                     TextSpan(
-                       children: [
-                         TextSpan(
-                             text: 'Geser ke atas\nuntuk',
-                             style: TextStyle(
-                                 fontSize: MediaQuery.of(context).size.width * 0.08,
-                                 fontWeight: FontWeight.bold,
-                                 color: const Color(0xff5092FF),
-                                 height: 1) // This sets the line height (45 / 36)
-                         ),
-                         TextSpan(
-                             text: ' Masuk',
-                             style: TextStyle(
-                                 fontSize: MediaQuery.of(context).size.width * 0.08,
-                                 fontWeight: FontWeight.bold,
-                                 color: Colors.white,
-                                 height: 1)),
-                       ],
-                     ),
-                     textAlign: TextAlign.left,
-                   ),
-                 ),
-                 const SizedBox(height: 10,),
-                 SizedBox(
-                     child: Container(
-                        margin: const EdgeInsets.only(top: 1),
-                         child: Image.asset(Assets.icons("arrow_slide"), scale: 1.5,)
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 100.0, top: 600.0),
+                    child: SelectableText.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                              text: 'Geser ke atas\nuntuk',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.08,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color(0xff5092FF),
+                                  height:
+                                      1) // This sets the line height (45 / 36)
+                              ),
+                          TextSpan(
+                              text: ' Masuk',
+                              style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).size.width * 0.08,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                  height: 1)),
+                        ],
                       ),
-
-                 )
-               ],
-             ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    child: Container(
+                        margin: const EdgeInsets.only(top: 1),
+                        child: Image.asset(
+                          Assets.icons("arrow_slide"),
+                          scale: 1.5,
+                        )),
+                  )
+                ],
+              ),
             ),
           ),
           builder: (context, state) {
