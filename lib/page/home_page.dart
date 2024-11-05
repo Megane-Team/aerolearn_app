@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -25,7 +24,7 @@ class ProfileState extends State<Profile> {
               children: [
                 IconButton(
                   icon:
-                  const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                      const Icon(Icons.arrow_back_ios_new, color: Colors.white),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -118,25 +117,30 @@ class ProfileState extends State<Profile> {
                         return AlertDialog(
                           title: const Text('Konfirmasi'),
                           content:
-                          const Text('Apakah Anda yakin ingin keluar?'),
+                              const Text('Apakah Anda yakin ingin keluar?'),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
                               style: TextButton.styleFrom(
-                                foregroundColor: Colors.red, // Change the text color
-                                backgroundColor: Colors.yellow, // Change the background color
+                                foregroundColor:
+                                    Colors.red, // Change the text color
+                                backgroundColor: Colors
+                                    .yellow, // Change the background color
                               ),
                               child: const Text('Batal'),
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).popUntil((route) => route.isFirst);
+                                Navigator.of(context)
+                                    .popUntil((route) => route.isFirst);
                               },
                               style: TextButton.styleFrom(
-                                foregroundColor: Colors.green, // Change the text color
-                                backgroundColor: Colors.blue, // Change the background color
+                                foregroundColor:
+                                    Colors.green, // Change the text color
+                                backgroundColor:
+                                    Colors.blue, // Change the background color
                               ),
                               child: const Text('Ya'),
                             ),
@@ -157,7 +161,7 @@ class ProfileState extends State<Profile> {
                           color: Color(0xff12395D)), // Add your icon here
                       SizedBox(
                           width:
-                          10), // Add some space between the icon and text
+                              10), // Add some space between the icon and text
                       Text(
                         'Keluar',
                         style: TextStyle(
