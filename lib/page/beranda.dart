@@ -11,32 +11,44 @@ class _BerandaState extends State<Beranda> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue[800],
-      appBar: AppBar(
-        backgroundColor: Colors.blue[900],
-        title: Row(
-          children: [Text('Hi, Hafidz!'),
-          SizedBox(width: 10),
-            Icon(Icons.person),
-            Spacer(),
-            Icon(Icons.notifications)
-          ],
-        ),
-      ),
-      body: Stack(
-        children: [
-          Column(
-            children: [
-              SizedBox(height: 20),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
-                ),
-              )
-            ],
-          )
-        ],
-      ),
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(225.0),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(25),
+            ),
+            child: AppBar(
+              backgroundColor: const Color(0xFF12395D),
+              elevation: 0,
+              title: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  const Text(
+                    'Hi, ',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF09B1EC)),
+                  ),
+                  const Text(
+                    'Hafidz!',
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  )
+                ],
+              ),
+            ),
+          )),
     );
   }
 }
