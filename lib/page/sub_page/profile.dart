@@ -81,9 +81,6 @@ class ProfileState extends State<Profile> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildButtonRow('Sertifikat', Icons.chevron_right, () {
-                    // Your onPressed code here
-                  }),
                   buildButtonRow('Riwayat Pelatihan', Icons.chevron_right, () {
                     // Your onPressed code here
                   }),
@@ -91,7 +88,7 @@ class ProfileState extends State<Profile> {
               ),
             ),
 
-            const SizedBox(height: 30),
+            const SizedBox(height: 75),
 
             // Logout Button
             Center(
@@ -119,19 +116,42 @@ class ProfileState extends State<Profile> {
                           content:
                               const Text('Apakah Anda yakin ingin keluar?'),
                           actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text('Batal'),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .popUntil((route) => route.isFirst);
-                              },
-                              child: const Text('Ya'),
-                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text('Batal'),
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors
+                                        .red, // Mengubah warna teks menjadi merah
+                                    side: BorderSide(
+                                        color: Colors
+                                            .red), // Menambahkan border merah
+                                    minimumSize: Size(100,
+                                        40), // Mengatur ukuran minimum tombol
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .popUntil((route) => route.isFirst);
+                                  },
+                                  child: const Text('Ya'),
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors
+                                        .green, // Mengubah warna teks menjadi hijau
+                                    side: BorderSide(
+                                        color: Colors
+                                            .green), // Menambahkan border hijau
+                                    minimumSize: Size(100,
+                                        40), // Mengatur ukuran minimum tombol
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         );
                       },
