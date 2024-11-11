@@ -83,7 +83,9 @@ class _HistoryState extends State<History> {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 10,),
+                          const SizedBox(
+                            height: 10,
+                          ),
                           Text(
                             progressTraining['jenis_latihan']!,
                             style: const TextStyle(
