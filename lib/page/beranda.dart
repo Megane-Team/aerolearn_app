@@ -12,7 +12,7 @@ class _BerandaState extends State<Beranda> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(225.0),
+          preferredSize: const Size.fromHeight(214.0),
           child: ClipRRect(
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(25),
@@ -20,32 +20,76 @@ class _BerandaState extends State<Beranda> {
             child: AppBar(
               backgroundColor: const Color(0xFF12395D),
               elevation: 0,
-              title: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.person,
-                      color: Colors.white,
+              title: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 50,
                     ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                  const Text(
-                    'Hi, ',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF09B1EC)),
-                  ),
-                  const Text(
-                    'Hafidz!',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  )
-                ],
+                    const Row(
+                      children: [
+                        const CircleAvatar(
+                          radius: 23,
+                          backgroundColor: Color(0xffDADADA),
+                          child: Icon(Icons.person,
+                              size: 29, color: Color(0xff12395D)),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Hi, ',
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color(0xFF09B1EC)),
+                            ),
+                            const Text(
+                              'Selamat siang!',
+                              style: TextStyle(
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white),
+                            ),
+                          ],
+                        ),
+                        const Spacer(),
+                        const Icon(
+                          Icons.notifications,
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      child: const Row(
+                        children: [
+                          Icon(Icons.search, color: Colors.grey),
+                          SizedBox(width: 5),
+                          Expanded(
+                              child: TextField(
+                            decoration: InputDecoration(
+                              hintText: 'Cari Pelatihan',
+                              hintStyle: TextStyle(
+                                color: Color(0xFF12395D),
+                              ),
+                              border: InputBorder.none,
+                            ),
+                          ))
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           )),
