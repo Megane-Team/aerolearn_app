@@ -12,7 +12,7 @@ class _BerandaState extends State<Beranda> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(214.0),
+          preferredSize: const Size.fromHeight(212.0),
           child: ClipRRect(
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(25),
