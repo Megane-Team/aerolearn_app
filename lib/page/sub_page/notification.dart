@@ -37,7 +37,7 @@ class _NotificationState extends State<Notification> {
             const SizedBox(width: 48),
           ],
         ),
-        backgroundColor: Color(0xff12395D),
+        backgroundColor: const Color(0xff12395D),
       ),
       body: ListView(
         children: const [
