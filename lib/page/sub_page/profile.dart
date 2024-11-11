@@ -56,135 +56,131 @@ class ProfileState extends State<Profile> {
           ),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 20),
-            // Non-editable Fields
-            Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  buildNonEditableField('Nomor Induk Karyawan', 'NIK001'),
-                  buildNonEditableField('Nama', 'John Doe'),
-                  buildNonEditableField('E-mail', 'johndoe@example.com'),
-                  buildNonEditableField('Password', '********'),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 20),
+          // Non-editable Fields
+          Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                buildNonEditableField('Nomor Induk Karyawan', 'NIK001'),
+                buildNonEditableField('Nama', 'John Doe'),
+                buildNonEditableField('E-mail', 'johndoe@example.com'),
+                buildNonEditableField('Password', '********'),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(
+              right: 20.0,
+              left: 20.0,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                buildButtonRow('Riwayat Pelatihan', Icons.chevron_right, () {
+                  // Your onPressed code here
+                }),
+              ],
+            ),
+          ),
+
+          const SizedBox(height: 75),
+
+          // Logout Button
+          Center(
+            child: Container(
+              height: 60,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.5), // Shadow color
+                    spreadRadius: 1, // Spread radius
+                    blurRadius: 5, // Blur radius
+                    offset: const Offset(0, 0), // Offset in x and y direction
+                  ),
                 ],
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.only(
-                right: 20.0,
-                left: 20.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildButtonRow('Riwayat Pelatihan', Icons.chevron_right, () {
-                    // Your onPressed code here
-                  }),
-                ],
-              ),
-            ),
-
-            const SizedBox(height: 75),
-
-            // Logout Button
-            Center(
-              child: Container(
-                height: 60,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.5), // Shadow color
-                      spreadRadius: 1, // Spread radius
-                      blurRadius: 5, // Blur radius
-                      offset: const Offset(0, 0), // Offset in x and y direction
+              child: ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Konfirmasi'),
+                        content: const Text('Apakah Anda yakin ingin keluar?'),
+                        actions: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors
+                                      .red, // Mengubah warna teks menjadi merah
+                                  side: const BorderSide(
+                                      color: Colors
+                                          .red), // Menambahkan border merah
+                                  minimumSize: const Size(100,
+                                      40), // Mengatur ukuran minimum tombol
+                                ),
+                                child: const Text('Batal'),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .popUntil((route) => route.isFirst);
+                                },
+                                style: TextButton.styleFrom(
+                                  foregroundColor: Colors
+                                      .green, // Mengubah warna teks menjadi hijau
+                                  side: const BorderSide(
+                                      color: Colors
+                                          .green), // Menambahkan border hijau
+                                  minimumSize: const Size(100,
+                                      40), // Mengatur ukuran minimum tombol
+                                ),
+                                child: const Text('Ya'),
+                              ),
+                            ],
+                          )
+                        ],
+                      );
+                    },
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
+                ),
+                child: const Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.logout,
+                        color: Color(0xff12395D)), // Add your icon here
+                    SizedBox(
+                        width: 10), // Add some space between the icon and text
+                    Text(
+                      'Keluar',
+                      style: TextStyle(
+                        color: Color(0xff12395D),
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
-                child: ElevatedButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text('Konfirmasi'),
-                          content:
-                              const Text('Apakah Anda yakin ingin keluar?'),
-                          actions: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text('Batal'),
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors
-                                        .red, // Mengubah warna teks menjadi merah
-                                    side: BorderSide(
-                                        color: Colors
-                                            .red), // Menambahkan border merah
-                                    minimumSize: Size(100,
-                                        40), // Mengatur ukuran minimum tombol
-                                  ),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context)
-                                        .popUntil((route) => route.isFirst);
-                                  },
-                                  child: const Text('Ya'),
-                                  style: TextButton.styleFrom(
-                                    foregroundColor: Colors
-                                        .green, // Mengubah warna teks menjadi hijau
-                                    side: BorderSide(
-                                        color: Colors
-                                            .green), // Menambahkan border hijau
-                                    minimumSize: Size(100,
-                                        40), // Mengatur ukuran minimum tombol
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        );
-                      },
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 15),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(Icons.logout,
-                          color: Color(0xff12395D)), // Add your icon here
-                      SizedBox(
-                          width:
-                              10), // Add some space between the icon and text
-                      Text(
-                        'Keluar',
-                        style: TextStyle(
-                          color: Color(0xff12395D),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

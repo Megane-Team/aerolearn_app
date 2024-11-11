@@ -86,6 +86,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  flutter_datetime_format:
+    dependency: "direct main"
+    description:
+      name: flutter_datetime_format
+      sha256: "12a0565013ca21346e29af04f3d40cba49db21745c2e8d0e4e56744bb17ecd4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1"
   flutter_lints:
     dependency: "direct dev"
     description:

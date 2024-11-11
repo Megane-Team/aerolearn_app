@@ -23,7 +23,8 @@ class _ScheduleState extends State<Schedule> {
           ), // Adjust the value as needed
           child: Text(
             'Jadwal Pelatihan',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+                fontWeight: FontWeight.w900, color: Color(0xff12395D)),
           ),
         ),
       ),
@@ -43,6 +44,9 @@ class _ScheduleState extends State<Schedule> {
                 firstDay: DateTime.utc(2000, 1, 1),
                 lastDay: DateTime.utc(2100, 12, 31),
                 focusedDay: _focusedDay,
+                headerStyle: const HeaderStyle(
+                  formatButtonVisible: false,
+                ),
                 calendarFormat: CalendarFormat.month,
                 selectedDayPredicate: (day) {
                   return isSameDay(_selectedDay, day);
