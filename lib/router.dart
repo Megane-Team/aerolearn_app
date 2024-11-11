@@ -1,3 +1,4 @@
+import 'package:aerolearn/page/progress.dart';
 import 'package:aerolearn/page/schedule.dart';
 import 'package:aerolearn/page/sub_page/notification.dart';
 import 'package:aerolearn/page/sub_page/profile.dart';
@@ -11,6 +12,7 @@ final router = GoRouter(
     GoRoute(
         path: "/notification",
         builder: (context, state) => const Notification()),
-    GoRoute(path: "/", builder: (context, state) => const Schedule()),
+    GoRoute(path: "/schedule", builder: (context, state) => const Schedule()),
+    GoRoute(path: "/", builder: (context, state) => const Progress()),
   ],
 );

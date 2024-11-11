@@ -41,6 +41,7 @@ dependencies:
   material3_layout: ^0.0.7
   table_calendar: ^3.1.2
   flutter_dash: ^1.0.0
+  flutter_datetime_format: ^0.0.1
 
 dev_dependencies:
   flutter_test:
