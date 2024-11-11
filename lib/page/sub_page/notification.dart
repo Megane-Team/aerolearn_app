@@ -25,7 +25,7 @@ class _NotificationState extends State<Notification> {
             const Expanded(
               child: Center(
                 child: Text(
-                  'Notifikasi',
+                  'Riwayat Pelatihan',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -37,7 +37,7 @@ class _NotificationState extends State<Notification> {
             const SizedBox(width: 48),
           ],
         ),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xff12395D),
       ),
       body: ListView(
         children: const [

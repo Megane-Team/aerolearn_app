@@ -14,9 +14,10 @@ class _BerandaState extends State<Beranda> {
       backgroundColor: Colors.blue[800],
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
-        title: Row(
-          children: [Text('Hi, Hafidz!'),
-          SizedBox(width: 10),
+        title: const Row(
+          children: [
+            Text('Hi, Hafidz!'),
+            SizedBox(width: 10),
             Icon(Icons.person),
             Spacer(),
             Icon(Icons.notifications)
@@ -27,11 +28,10 @@ class _BerandaState extends State<Beranda> {
         children: [
           Column(
             children: [
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Container(
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Container(),
               )
             ],
           )
