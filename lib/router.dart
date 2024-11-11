@@ -5,6 +5,7 @@ import 'package:aerolearn/page/sub_page/profile.dart';
 import 'package:aerolearn/page/sub_page/training_history.dart';
 import 'package:go_router/go_router.dart';
 import 'package:aerolearn/page/login.dart';
+import 'package:aerolearn/page/beranda.dart';
 
 final router = GoRouter(
   routes: [
