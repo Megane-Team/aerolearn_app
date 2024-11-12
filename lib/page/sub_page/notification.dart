@@ -97,3 +97,12 @@ class NoNotificationItem extends StatelessWidget {
     );
   }
 }
+
+List<Map<String, String>> training = [
+  {
+    'tanggal': '2024-11-08',
+  },
+  {
+    'tanggal': '2024-11-09',
+  },
+];
