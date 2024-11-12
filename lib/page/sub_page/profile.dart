@@ -27,7 +27,7 @@ class ProfileState extends State<Profile> {
                   icon:
                       const Icon(Icons.arrow_back_ios_new, color: Colors.white),
                   onPressed: () {
-                    context.go('/');
+                    context.go('/mainpage');
                   },
                 ),
                 const Text(

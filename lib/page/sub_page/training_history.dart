@@ -147,6 +147,19 @@ class _HistoryState extends State<History> {
   }
 }
 
+String searchQuery = '';
+
+List<Map<String, String>> get filteredTraining {
+  if (searchQuery.isEmpty) {
+    return training;
+  } else {
+    return training.where((item) {
+      DateTime trainingDate = DateTime.parse(item['tanggal']!);
+      return trainingDate.toString().contains(searchQuery);
+    }).toList();
+  }
+}
+
 List<Map<String, String>> training = [
   {
     'jenis_latihan': 'Aircraft Painting',

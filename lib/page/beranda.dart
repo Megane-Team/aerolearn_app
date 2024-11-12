@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
 import 'package:go_router/go_router.dart';
+import 'package:aerolearn/utils/search.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -10,8 +11,11 @@ class Beranda extends StatefulWidget {
 }
 
 class _BerandaState extends State<Beranda> {
+  TextEditingController searchController = TextEditingController();
+  String searchQuery = '';
   @override
   Widget build(BuildContext context) {
+    List<Map<String, String>> filteredTraining = filterTraining(training, searchQuery);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(212.0),
@@ -83,8 +87,9 @@ class _BerandaState extends State<Beranda> {
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(25.0),
                     ),
-                    child: const TextField(
-                      decoration: InputDecoration(
+                    child:TextField(
+                      controller: searchController,
+                      decoration: const InputDecoration(
                         icon: Icon(Icons.search, color: Color(0xff12395D)),
                         hintText: 'Cari Pelatihan',
                         hintStyle: TextStyle(
@@ -92,6 +97,11 @@ class _BerandaState extends State<Beranda> {
                         ),
                         border: InputBorder.none,
                       ),
+                      onChanged: (query) {
+                        setState(() {
+                          searchQuery = query;
+                        });
+                      },
                     ),
                   ),
                   const Spacer(flex: 1),
@@ -103,9 +113,9 @@ class _BerandaState extends State<Beranda> {
         children: [
           Expanded(
               child: ListView.builder(
-            itemCount: training.length,
+            itemCount: filteredTraining.length,
             itemBuilder: (context, index) {
-              var detailTraining = training[index];
+              var detailTraining = filteredTraining[index];
               return Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Container(
