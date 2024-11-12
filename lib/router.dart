@@ -9,14 +9,54 @@ import 'package:aerolearn/page/beranda.dart';
 
 final router = GoRouter(
   routes: [
-    GoRoute(path: "/login", builder: (context, state) => const Login()),
-    GoRoute(path: "/profile", builder: (context, state) => const Profile()),
     GoRoute(
-        path: "/notification",
-        builder: (context, state) => const Notification()),
-    GoRoute(path: "/schedule", builder: (context, state) => const Schedule()),
-    GoRoute(path: "/progress", builder: (context, state) => const Progress()),
-    GoRoute(path: '/history', builder: (context, state) => const History()),
-    GoRoute(path: "/", builder: (context, state) => const Beranda()),
+      path: "/login",
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const Login(),
+      ),
+    ),
+    GoRoute(
+      path: "/profile",
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const Profile(),
+      ),
+    ),
+    GoRoute(
+      path: "/notification",
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const NotificationPage(),
+      ),
+    ),
+    GoRoute(
+      path: "/schedule",
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const Schedule(),
+      ),
+    ),
+    GoRoute(
+      path: "/progress",
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const Progress(),
+      ),
+    ),
+    GoRoute(
+      path: "/history",
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const History(),
+      ),
+    ),
+    GoRoute(
+      path: "/",
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const Beranda(),
+      ),
+    ),
   ],
 );

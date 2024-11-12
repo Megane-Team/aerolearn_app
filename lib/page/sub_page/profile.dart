@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -12,7 +13,7 @@ class ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(225.0), // Atur tinggi AppBar
+        preferredSize: const Size.fromHeight(225.0),
         child: ClipRRect(
           borderRadius: const BorderRadius.vertical(
             bottom: Radius.circular(25),
@@ -26,7 +27,7 @@ class ProfileState extends State<Profile> {
                   icon:
                       const Icon(Icons.arrow_back_ios_new, color: Colors.white),
                   onPressed: () {
-                    Navigator.pop(context);
+                    context.go('/');
                   },
                 ),
                 const Text(
@@ -122,29 +123,20 @@ class ProfileState extends State<Profile> {
                                   Navigator.pop(context);
                                 },
                                 style: TextButton.styleFrom(
-                                  foregroundColor: Colors
-                                      .red, // Mengubah warna teks menjadi merah
-                                  side: const BorderSide(
-                                      color: Colors
-                                          .red), // Menambahkan border merah
-                                  minimumSize: const Size(100,
-                                      40), // Mengatur ukuran minimum tombol
+                                  foregroundColor: Colors.red,
+                                  side: const BorderSide(color: Colors.red),
+                                  minimumSize: const Size(100, 40),
                                 ),
                                 child: const Text('Batal'),
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context)
-                                      .popUntil((route) => route.isFirst);
+                                  context.go('/login');
                                 },
                                 style: TextButton.styleFrom(
-                                  foregroundColor: Colors
-                                      .green, // Mengubah warna teks menjadi hijau
-                                  side: const BorderSide(
-                                      color: Colors
-                                          .green), // Menambahkan border hijau
-                                  minimumSize: const Size(100,
-                                      40), // Mengatur ukuran minimum tombol
+                                  foregroundColor: Colors.green,
+                                  side: const BorderSide(color: Colors.green),
+                                  minimumSize: const Size(100, 40),
                                 ),
                                 child: const Text('Ya'),
                               ),
@@ -163,10 +155,8 @@ class ProfileState extends State<Profile> {
                 child: const Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.logout,
-                        color: Color(0xff12395D)), // Add your icon here
-                    SizedBox(
-                        width: 10), // Add some space between the icon and text
+                    Icon(Icons.logout, color: Color(0xff12395D)),
+                    SizedBox(width: 10),
                     Text(
                       'Keluar',
                       style: TextStyle(
