@@ -27,7 +27,7 @@ class _BerandaState extends State<Beranda> {
                     SizedBox(
                       height: 50,
                     ),
-                     Row(
+                    Row(
                       children: [
                         CircleAvatar(
                           radius: 23,
@@ -44,14 +44,14 @@ class _BerandaState extends State<Beranda> {
                             Text(
                               'Hi, ',
                               style: TextStyle(
-                                  fontSize: 19,
+                                  fontSize: 11,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF09B1EC)),
                             ),
                             Text(
                               'Selamat siang!',
                               style: TextStyle(
-                                  fontSize: 19,
+                                  fontSize: 11,
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white),
                             ),
@@ -69,6 +69,78 @@ class _BerandaState extends State<Beranda> {
               ),
             ),
           )),
+      body: Column(
+        children: [
+          Expanded(
+              child: ListView.builder(
+            itemCount: training.length,
+            itemBuilder: (context, index) {
+              var detailTraining = training[index];
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                    padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    height: 95,
+                    decoration: BoxDecoration(
+                      color: const Color(0xffEDEDED),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text(
+                              'Pelatihan',
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              detailTraining['jenis_latihan']!,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            // Add your onPressed code here!
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: const Text('Rincian'),
+                        ),
+                      ],
+                    )),
+              );
+            },
+          ))
+        ],
+      ),
     );
   }
 }
+
+List<Map<String, String>> training = [
+  {'jenis_latihan': 'Aircraft Painting'},
+  {'jenis_latihan': 'Aircraft Modification'},
+  {'jenis_latihan': 'Aircraft Painting'},
+  {'jenis_latihan': 'Aircraft Modification'},
+  {'jenis_latihan': 'Aircraft Painting'},
+  {'jenis_latihan': 'Aircraft Modification'},
+  {'jenis_latihan': 'Aircraft Painting'},
+  {'jenis_latihan': 'Aircraft Modification'},
+];

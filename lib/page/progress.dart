@@ -27,9 +27,6 @@ class _ProgressState extends State<Progress> {
         ),
         body: Column(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
             Expanded(
               child: ListView.builder(
                 itemCount: training.length,
