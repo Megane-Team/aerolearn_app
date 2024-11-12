@@ -15,7 +15,8 @@ class _BerandaState extends State<Beranda> {
   String searchQuery = '';
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> filteredTraining = filterTraining(training, searchQuery);
+    List<Map<String, String>> filteredTraining =
+        filterTraining(training, searchQuery);
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(212.0),
@@ -87,7 +88,7 @@ class _BerandaState extends State<Beranda> {
                       border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(25.0),
                     ),
-                    child:TextField(
+                    child: TextField(
                       controller: searchController,
                       decoration: const InputDecoration(
                         icon: Icon(Icons.search, color: Color(0xff12395D)),
