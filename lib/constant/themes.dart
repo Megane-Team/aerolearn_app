@@ -6,8 +6,8 @@ final ThemeData mainTheme = ThemeData(
   useMaterial3: true,
   colorScheme: const ColorScheme(
       brightness: Brightness.light,
-      primary: Colors.white,
-      onPrimary: Colors.black,
+      primary: Colors.black,
+      onPrimary: Colors.white,
       secondary: Colors.white,
       onSecondary: Colors.black,
       error: Colors.red,

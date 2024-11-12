@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
 
-class Notification extends StatefulWidget {
-  const Notification({super.key});
+class NotificationPage extends StatefulWidget {
+  const NotificationPage({super.key});
 
   @override
-  State<Notification> createState() => _NotificationState();
+  State<NotificationPage> createState() => NotificationState();
 }
 
-class _NotificationState extends State<Notification> {
+class NotificationState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
