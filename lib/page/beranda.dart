@@ -107,7 +107,8 @@ class _BerandaState extends State<Beranda> {
             itemBuilder: (context, index) {
               var detailTraining = training[index];
               return Padding(
-                padding: const EdgeInsets.only(top: 10, right: 16, left: 16, bottom: 2),
+                padding: const EdgeInsets.only(
+                    top: 10, right: 16, left: 16, bottom: 2),
                 child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),

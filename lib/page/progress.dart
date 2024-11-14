@@ -39,7 +39,11 @@ class _ProgressState extends State<Progress> {
                   DateTime trainingDate =
                       DateTime.parse(progressTraining['tanggal']!);
                   return Padding(
-                    padding: const EdgeInsets.only(top: 10, right: 16, left: 16,),
+                    padding: const EdgeInsets.only(
+                      top: 10,
+                      right: 16,
+                      left: 16,
+                    ),
                     child: Container(
                       padding:
                           const EdgeInsets.only(top: 20, left: 20, right: 20),

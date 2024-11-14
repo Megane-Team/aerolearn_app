@@ -43,52 +43,52 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomNavigationBar: ClipRRect(
-      borderRadius: const BorderRadius.only(
-      topLeft: Radius.circular(30.0),
-      topRight: Radius.circular(30.0),
-         ),
-      child: SizedBox(
-        height: 75,
-        child: BottomNavigationBar(
-              backgroundColor: Color(0xFFE4E4E4),
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.calendar_month,
-                color: _selectedIndex == 0
-                    ? const Color(0xFF0463CA)
-                    : const Color(0xFF74AEFF),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(30.0),
+          topRight: Radius.circular(30.0),
+        ),
+        child: SizedBox(
+          height: 75,
+          child: BottomNavigationBar(
+            backgroundColor: Color(0xFFE4E4E4),
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.calendar_month,
+                  color: _selectedIndex == 0
+                      ? const Color(0xFF0463CA)
+                      : const Color(0xFF74AEFF),
+                ),
+                label: 'Jadwal',
               ),
-              label: 'Jadwal',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home,
-                color: _selectedIndex == 1
-                    ? const Color(0xFF0463CA)
-                    : const Color(0xFF74AEFF),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home,
+                  color: _selectedIndex == 1
+                      ? const Color(0xFF0463CA)
+                      : const Color(0xFF74AEFF),
+                ),
+                label: 'Beranda',
               ),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(
-                Icons.show_chart,
-                color: _selectedIndex == 2
-                    ? const Color(0xFF0463CA)
-                    : const Color(0xFF74AEFF),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.show_chart,
+                  color: _selectedIndex == 2
+                      ? const Color(0xFF0463CA)
+                      : const Color(0xFF74AEFF),
+                ),
+                label: 'Progress',
               ),
-              label: 'Progress',
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          onTap: _onItemTapped,
-          selectedFontSize: 14.0,
-          unselectedFontSize: 12.0,
-          selectedIconTheme: const IconThemeData(size: 35.0),
-          unselectedIconTheme: const IconThemeData(size: 25.0),
+            ],
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            selectedFontSize: 14.0,
+            unselectedFontSize: 12.0,
+            selectedIconTheme: const IconThemeData(size: 35.0),
+            unselectedIconTheme: const IconThemeData(size: 25.0),
+          ),
         ),
       ),
-            ),
     );
   }
 }
