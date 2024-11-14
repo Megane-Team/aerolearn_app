@@ -17,6 +17,7 @@ class _ProgressState extends State<Progress> {
             padding: EdgeInsets.only(
               top: 20.0,
               left: 15,
+              bottom: 18,
             ), // Adjust the value as needed
             child: Text(
               'Progres Latihan',
@@ -38,7 +39,7 @@ class _ProgressState extends State<Progress> {
                   DateTime trainingDate =
                       DateTime.parse(progressTraining['tanggal']!);
                   return Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: const EdgeInsets.only(top: 10, right: 16, left: 16,),
                     child: Container(
                       padding:
                           const EdgeInsets.only(top: 20, left: 20, right: 20),

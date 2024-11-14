@@ -14,7 +14,7 @@ class _BerandaState extends State<Beranda> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(212.0),
+          preferredSize: const Size.fromHeight(175.0),
           child: ClipRRect(
             borderRadius: const BorderRadius.vertical(
               bottom: Radius.circular(25),
@@ -50,15 +50,15 @@ class _BerandaState extends State<Beranda> {
                         const Text(
                           'Hi, ',
                           style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF09B1EC)),
+                              fontSize: 17,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white),
                         ),
                         Text(
                           getGreeting(),
                           style: const TextStyle(
                               fontSize: 19,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.w600,
                               color: Colors.white),
                         ),
                       ],
@@ -74,13 +74,12 @@ class _BerandaState extends State<Beranda> {
               flexibleSpace: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Spacer(flex: 3),
+                  const Spacer(flex: 5),
                   Container(
                     width: 360,
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      border: Border.all(color: Colors.black),
                       borderRadius: BorderRadius.circular(25.0),
                     ),
                     child: const TextField(
@@ -101,13 +100,14 @@ class _BerandaState extends State<Beranda> {
           )),
       body: Column(
         children: [
+          SizedBox(height: 5),
           Expanded(
               child: ListView.builder(
             itemCount: training.length,
             itemBuilder: (context, index) {
               var detailTraining = training[index];
               return Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.only(top: 10, right: 16, left: 16, bottom: 2),
                 child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 20, vertical: 10),
