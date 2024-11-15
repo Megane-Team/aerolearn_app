@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
 import 'package:go_router/go_router.dart';
 import 'package:aerolearn/utils/search.dart';
+import 'package:aerolearn/notification_service.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -11,6 +12,7 @@ class Beranda extends StatefulWidget {
 }
 
 class _BerandaState extends State<Beranda> {
+  final NotificationService _notificationService = NotificationService();
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
   @override
@@ -154,7 +156,11 @@ class _BerandaState extends State<Beranda> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            // Add your onPressed code here!
+                            _notificationService.showNotification(
+                              0,
+                              'Test Notification',
+                              'This is a test notification',
+                            );
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
