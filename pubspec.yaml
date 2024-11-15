@@ -42,17 +42,36 @@ dependencies:
   table_calendar: ^3.1.2
   flutter_dash: ^1.0.0
   flutter_datetime_format: ^0.0.1
+  flutter_native_splash: ^2.4.2
+  flutter_local_notifications: ^18.0.1
+  flutter_launcher_icons: ^0.14.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter_lints: ^4.0.0
+
+flutter_native_splash:
+    color: "0e3579"
+    image : assets/image/logo/logo.png
+    android_12 :
+      color: "0e3579"
+      image: assets/image/logo/logo.png
+
+flutter_launcher_icons:
+  android: true
+  image_path_android: 'assets/image/logo/logo.png'
+  adaptive_icon_background: "#0e3579"
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^4.0.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -64,6 +83,8 @@ flutter:
      - assets/image/logo/
 
   uses-material-design: true
+
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

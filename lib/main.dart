@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:aerolearn/router.dart';
 import 'package:aerolearn/constant/themes.dart';
+import 'notification_service.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final NotificationService notificationService = NotificationService();
+  await notificationService.init();
   runApp(const MyApp());
 }
 
