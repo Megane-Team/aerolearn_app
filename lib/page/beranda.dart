@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:aerolearn/utils/search.dart';
 import 'package:aerolearn/notification_service.dart';
 
-class Beranda extends StatefulWidget {  
+class Beranda extends StatefulWidget {
   const Beranda({super.key});
 
   @override
