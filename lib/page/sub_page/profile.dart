@@ -13,7 +13,7 @@ class ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(225.0),
+        preferredSize: const Size.fromHeight(175.0),
         child: ClipRRect(
           borderRadius: const BorderRadius.vertical(
             bottom: Radius.circular(25),
@@ -40,14 +40,15 @@ class ProfileState extends State<Profile> {
               ],
             ),
             flexibleSpace: const Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Spacer(
                   flex: 3,
                 ),
                 CircleAvatar(
-                  radius: 60,
+                  radius: 50,
                   backgroundColor: Color(0xffDADADA),
-                  child: Icon(Icons.person, size: 80, color: Color(0xff12395D)),
+                  child: Icon(Icons.person, size: 70, color: Color(0xff12395D)),
                 ),
                 Spacer(
                   flex: 1,
@@ -59,9 +60,8 @@ class ProfileState extends State<Profile> {
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const SizedBox(height: 20),
-          // Non-editable Fields
           Container(
             padding: const EdgeInsets.all(20),
             child: Column(
@@ -87,11 +87,8 @@ class ProfileState extends State<Profile> {
               ],
             ),
           ),
-
-          const SizedBox(height: 75),
-
-          // Logout Button
-          Center(
+          Align(
+            alignment: Alignment.bottomCenter,
             child: Container(
               height: 60,
               width: double.infinity,
@@ -149,6 +146,7 @@ class ProfileState extends State<Profile> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
+                  side: BorderSide.none,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 ),

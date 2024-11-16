@@ -38,6 +38,7 @@ class LoginState extends State<Login> {
             snappings: [40, 350, double.infinity],
             positioning: SnapPositioning.pixelOffset,
           ),
+          openDuration: const Duration(milliseconds: 100),
           listener: (state) {
             if (state.extent == state.maxExtent) {
               setState(() {
@@ -153,13 +154,28 @@ class LoginState extends State<Login> {
                           ),
                         ),
                       if (!_isAtEnd)
-                        Container(
-                          margin: EdgeInsets.only(
-                            top: MediaQuery.of(context).size.height * 0.03,
-                          ),
-                          child: Image.asset(
-                            Assets.icons("arrow_slide"),
-                            scale: 1,
+                        GestureDetector(
+                          onPanUpdate: (details) {
+                            // Trigger the sliding action based on drag direction
+                            if (details.delta.dy < 0) {
+                              // Dragging up
+                              _slideController.snapToExtent(
+                                  _slideController.state?.maxExtent ??
+                                      350); // Snap to max extent
+                            } else if (details.delta.dy > 0) {
+                              // Dragging down
+                              _slideController.snapToExtent(
+                                  40); // Adjust the extent as needed
+                            }
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).size.height * 0.03,
+                            ),
+                            child: Image.asset(
+                              Assets.icons("arrow_slide"),
+                              scale: 1,
+                            ),
                           ),
                         ),
                     ],
