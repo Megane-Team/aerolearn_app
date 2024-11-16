@@ -129,7 +129,8 @@ Widget listTraining(context, selectedDay, focusedDay) {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                        padding:
+                            const EdgeInsets.only(top: 10, left: 20, right: 20),
                         width: MediaQuery.of(context).size.width * 0.68,
                         height: 110,
                         decoration: BoxDecoration(

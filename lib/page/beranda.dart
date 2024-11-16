@@ -80,7 +80,8 @@ class _BerandaState extends State<Beranda> {
               ),
               flexibleSpace: Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFF12395D), // Ensure the color is consistent
+                  color:
+                      const Color(0xFF12395D), // Ensure the color is consistent
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
