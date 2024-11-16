@@ -159,10 +159,13 @@ class LoginState extends State<Login> {
                             // Trigger the sliding action based on drag direction
                             if (details.delta.dy < 0) {
                               // Dragging up
-                              _slideController.snapToExtent(_slideController.state?.maxExtent ?? 350); // Snap to max extent
+                              _slideController.snapToExtent(
+                                  _slideController.state?.maxExtent ??
+                                      350); // Snap to max extent
                             } else if (details.delta.dy > 0) {
                               // Dragging down
-                              _slideController.snapToExtent(40); // Adjust the extent as needed
+                              _slideController.snapToExtent(
+                                  40); // Adjust the extent as needed
                             }
                           },
                           child: Container(
@@ -182,8 +185,7 @@ class LoginState extends State<Login> {
             ),
           ),
           builder: (context, state) {
-            return
-              Container(
+            return Container(
               color: Colors.white,
               height: MediaQuery.of(context).size.height * 0.5,
               child: Container(

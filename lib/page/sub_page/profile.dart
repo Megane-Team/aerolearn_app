@@ -146,7 +146,7 @@ class ProfileState extends State<Profile> {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
-                  side:BorderSide.none,
+                  side: BorderSide.none,
                   padding:
                       const EdgeInsets.symmetric(horizontal: 50, vertical: 15),
                 ),
