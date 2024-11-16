@@ -77,13 +77,28 @@ class ProfileState extends State<Profile> {
             padding: const EdgeInsets.only(
               right: 20.0,
               left: 20.0,
+              bottom: 130.0,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                buildButtonRow('Riwayat Pelatihan', Icons.chevron_right, () {
+                Row(
+                  children: [
+                    Padding(
+                        padding: EdgeInsets.only(left: 4),
+                    child: Container(
+                      width: 4,
+                      height: 24,
+                      color: Color(0xff12395D),
+                    ),
+                    ),
+                    Expanded(child:
+                    buildButtonRow('Riwayat Pelatihan', Icons.chevron_right, () {
                   // Your onPressed code here
                 }),
+                    ),
+                  ],
+                )
               ],
             ),
           ),
@@ -96,7 +111,7 @@ class ProfileState extends State<Profile> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.5), // Shadow color
+                    color: Color(0xff12395D).withOpacity(0.5), // Shadow color
                     spreadRadius: 1, // Spread radius
                     blurRadius: 5, // Blur radius
                     offset: const Offset(0, 0), // Offset in x and y direction
