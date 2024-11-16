@@ -129,8 +129,8 @@ Widget listTraining(context, selectedDay, focusedDay) {
                         ),
                       ),
                       Container(
-                        padding: const EdgeInsets.only(top: 10, left: 20),
-                        width: MediaQuery.of(context).size.width * 0.7,
+                        padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                        width: MediaQuery.of(context).size.width * 0.68,
                         height: 110,
                         decoration: BoxDecoration(
                           color: const Color(0xffEDEDED),
@@ -153,6 +153,7 @@ Widget listTraining(context, selectedDay, focusedDay) {
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                             const SizedBox(height: 5),
                             Text(
