@@ -78,42 +78,47 @@ class _BerandaState extends State<Beranda> {
                   ],
                 ),
               ),
-              flexibleSpace: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Spacer(flex: 5),
-                  Container(
-                    width: 360,
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(25.0),
-                    ),
-                    child: TextField(
-                      controller: searchController,
-                      decoration: const InputDecoration(
-                        icon: Icon(Icons.search, color: Color(0xff12395D)),
-                        hintText: 'Cari Pelatihan',
-                        hintStyle: TextStyle(
-                          color: Color(0xff12395D),
-                        ),
-                        border: InputBorder.none,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  color:
+                      const Color(0xFF12395D), // Ensure the color is consistent
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(flex: 5),
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(25.0),
                       ),
-                      onChanged: (query) {
-                        setState(() {
-                          searchQuery = query;
-                        });
-                      },
+                      child: TextField(
+                        controller: searchController,
+                        decoration: const InputDecoration(
+                          icon: Icon(Icons.search, color: Color(0xff12395D)),
+                          hintText: 'Cari Pelatihan',
+                          hintStyle: TextStyle(
+                            color: Color(0xff12395D),
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (query) {
+                          setState(() {
+                            searchQuery = query;
+                          });
+                        },
+                      ),
                     ),
-                  ),
-                  const Spacer(flex: 1),
-                ],
+                    const Spacer(flex: 1),
+                  ],
+                ),
               ),
             ),
           )),
       body: Column(
         children: [
-          SizedBox(height: 5),
           Expanded(
               child: ListView.builder(
             itemCount: filteredTraining.length,
@@ -134,25 +139,29 @@ class _BerandaState extends State<Beranda> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              'Pelatihan',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                        SizedBox(
+                          width: 180,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Pelatihan',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                            const SizedBox(height: 20),
-                            Text(
-                              detailTraining['jenis_latihan']!,
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
+                              Text(
+                                detailTraining['jenis_latihan']!,
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         ElevatedButton(
                           onPressed: () {

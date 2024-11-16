@@ -13,6 +13,7 @@ class _ProgressState extends State<Progress> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.white,
           title: const Padding(
             padding: EdgeInsets.only(
               top: 20.0,
@@ -25,12 +26,14 @@ class _ProgressState extends State<Progress> {
                   fontWeight: FontWeight.w900, color: Color(0xff12395D)),
             ),
           ),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+            ),
+          ),
         ),
         body: Column(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
             Expanded(
               child: ListView.builder(
                 itemCount: training.length,
@@ -112,20 +115,24 @@ class _ProgressState extends State<Progress> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    progressTraining['instruktur']!,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const Text(
-                                    'Instruktur',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.35,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      progressTraining['instruktur']!,
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const Text(
+                                      'Instruktur',
+                                      style: TextStyle(fontSize: 12),
+                                    ),
+                                  ],
+                                ),
                               )
                             ],
                           )
