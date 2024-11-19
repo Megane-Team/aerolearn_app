@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:aerolearn/page/login.dart';
 
 final router = GoRouter(
-  initialLocation: ('/mainpage'),
+  initialLocation: ('/login'),
   routes: [
     GoRoute(
       path: "/login",
@@ -16,10 +16,10 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
-      path: "/profile",
+      path: '/profile',
       pageBuilder: (context, state) => NoTransitionPage(
         key: state.pageKey,
-        child: const Profile(),
+        child: Profile(),
       ),
     ),
     GoRoute(

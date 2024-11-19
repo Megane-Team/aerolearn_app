@@ -115,7 +115,7 @@ class _ProgressState extends State<Progress> {
                               const SizedBox(
                                 width: 10,
                               ),
-                              Container(
+                              SizedBox(
                                 width: MediaQuery.of(context).size.width * 0.35,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
