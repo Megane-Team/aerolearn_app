@@ -5,7 +5,7 @@ class UserProfile {
   final String nama;
   final String password;
   final String email;
-  final String user_role;
+  final String userRole;
 
   UserProfile(
       {required this.id,
@@ -14,7 +14,7 @@ class UserProfile {
       required this.email,
       required this.nama,
       required this.password,
-      required this.user_role});
+      required this.userRole});
 
   factory UserProfile.fromJson(Map<String, dynamic> json) {
     return UserProfile(
@@ -24,7 +24,7 @@ class UserProfile {
       nama: json['nama'],
       email: json['email'],
       password: json['password'],
-      user_role: json['user_role'],
+      userRole: json['user_role'],
     );
   }
 }
