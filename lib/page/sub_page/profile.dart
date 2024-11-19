@@ -85,17 +85,18 @@ class ProfileState extends State<Profile> {
                 Row(
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 4),
-                    child: Container(
-                      width: 4,
-                      height: 24,
-                      color: Color(0xff12395D),
+                      padding: EdgeInsets.only(left: 4),
+                      child: Container(
+                        width: 4,
+                        height: 24,
+                        color: Color(0xff12395D),
+                      ),
                     ),
-                    ),
-                    Expanded(child:
-                    buildButtonRow('Riwayat Pelatihan', Icons.chevron_right, () {
-                  // Your onPressed code here
-                }),
+                    Expanded(
+                      child: buildButtonRow(
+                          'Riwayat Pelatihan', Icons.chevron_right, () {
+                        // Your onPressed code here
+                      }),
                     ),
                   ],
                 )

@@ -1,4 +1,3 @@
-import 'package:aerolearn/page/beranda.dart';
 import 'package:aerolearn/utils/asset.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -19,21 +18,22 @@ class _DetailState extends State<Detail> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
-                icon: Image.asset(Assets.icons('arrow_back')),
-                onPressed: () {
-                  context.go('/mainpage');
-                },
-              ),
-            Expanded(child: Center(
-              child: Text(
-                'Rincian Training',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  fontSize: 24,
+              icon: Image.asset(Assets.icons('arrow_back')),
+              onPressed: () {
+                context.go('/mainpage');
+              },
+            ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  'Rincian Training',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
                 ),
               ),
-            ),
             ),
             SizedBox(width: 48),
           ],
