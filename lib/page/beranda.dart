@@ -165,11 +165,7 @@ class _BerandaState extends State<Beranda> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            _notificationService.showNotification(
-                              0,
-                              'Test Notification',
-                              'This is a test notification',
-                            );
+                            context.go('/detail');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
