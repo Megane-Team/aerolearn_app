@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wtf_sliding_sheet/wtf_sliding_sheet.dart';
 import 'package:aerolearn/utils/asset.dart';
+import 'package:aerolearn/action/login.dart';
+import 'package:go_router/go_router.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -247,7 +249,7 @@ class LoginState extends State<Login> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
-                                labelText: 'Nomor Induk Karyawan',
+                                labelText: 'Username',
                                 labelStyle: TextStyle(
                                   color: Colors.black,
                                   fontSize: MediaQuery.of(context).size.width *
@@ -260,7 +262,7 @@ class LoginState extends State<Login> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Masukkan nomor induk karyawan';
+                                  return 'Masukkan username';
                                 }
                                 return null;
                               },
@@ -332,17 +334,35 @@ class LoginState extends State<Login> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xff1D5C96),
                               ),
-                              onPressed: () {
+                              onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Form is valid!')),
+                                  var loginResult = await ApiService.login(
+                                    _usernameController.text,
+                                    _passwordController.text,
                                   );
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                        content: Text('Form is invalid!')),
-                                  );
+                                  if (loginResult != "peserta") {
+                                    showDialog(
+                                      // ignore: use_build_context_synchronously
+                                      context: context, // Add context parameter
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Login Failed'),
+                                          content: Text(
+                                              'Invalid username or password. Please try again.'),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: Text('OK'),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+                                  } else {
+                                    context.go('/mainpage');
+                                  }
                                 }
                               },
                               child: const Text(
