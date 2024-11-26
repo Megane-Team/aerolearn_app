@@ -8,4 +8,8 @@ class Assets {
   static String icons(String name) {
     return '$path/icon/$name.png';
   }
+
+  static String files(String name) {
+    return 'assets/docs/$name.pdf';
+  }
 }

@@ -21,102 +21,103 @@ class _BerandaState extends State<Beranda> {
         filterTraining(training, searchQuery);
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(175.0),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              bottom: Radius.circular(25),
+        preferredSize: const Size.fromHeight(175.0),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.vertical(
+            bottom: Radius.circular(25),
+          ),
+          child: AppBar(
+            backgroundColor: const Color(0xFF12395D),
+            elevation: 0,
+            title: Padding(
+              padding: const EdgeInsets.only(
+                  top: 20, bottom: 10, left: 10, right: 10),
+              child: Row(
+                children: [
+                  InkWell(
+                    onTap: () {
+                      context.go('/profile');
+                    },
+                    child: const CircleAvatar(
+                      radius: 23,
+                      backgroundColor: Color(0xffDADADA),
+                      child: Icon(
+                        Icons.person,
+                        size: 29,
+                        color: Color(0xff12395D),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Hi, ',
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        getGreeting(),
+                        style: const TextStyle(
+                            fontSize: 19,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  const Icon(
+                    Icons.notifications,
+                    color: Colors.white,
+                  ),
+                ],
+              ),
             ),
-            child: AppBar(
-              backgroundColor: const Color(0xFF12395D),
-              elevation: 0,
-              title: Padding(
-                padding: const EdgeInsets.only(
-                    top: 20, bottom: 10, left: 10, right: 10),
-                child: Row(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        context.go('/profile');
-                      },
-                      child: const CircleAvatar(
-                        radius: 23,
-                        backgroundColor: Color(0xffDADADA),
-                        child: Icon(
-                          Icons.person,
-                          size: 29,
+            flexibleSpace: Container(
+              decoration: BoxDecoration(
+                color:
+                    const Color(0xFF12395D), // Ensure the color is consistent
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Spacer(flex: 5),
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(25.0),
+                    ),
+                    child: TextField(
+                      controller: searchController,
+                      decoration: const InputDecoration(
+                        icon: Icon(Icons.search, color: Color(0xff12395D)),
+                        hintText: 'Cari Pelatihan',
+                        hintStyle: TextStyle(
                           color: Color(0xff12395D),
                         ),
+                        border: InputBorder.none,
                       ),
+                      onChanged: (query) {
+                        setState(() {
+                          searchQuery = query;
+                        });
+                      },
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Hi, ',
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                        Text(
-                          getGreeting(),
-                          style: const TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white),
-                        ),
-                      ],
-                    ),
-                    const Spacer(),
-                    const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
-              flexibleSpace: Container(
-                decoration: BoxDecoration(
-                  color:
-                      const Color(0xFF12395D), // Ensure the color is consistent
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Spacer(flex: 5),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(25.0),
-                      ),
-                      child: TextField(
-                        controller: searchController,
-                        decoration: const InputDecoration(
-                          icon: Icon(Icons.search, color: Color(0xff12395D)),
-                          hintText: 'Cari Pelatihan',
-                          hintStyle: TextStyle(
-                            color: Color(0xff12395D),
-                          ),
-                          border: InputBorder.none,
-                        ),
-                        onChanged: (query) {
-                          setState(() {
-                            searchQuery = query;
-                          });
-                        },
-                      ),
-                    ),
-                    const Spacer(flex: 1),
-                  ],
-                ),
+                  ),
+                  const Spacer(flex: 1),
+                ],
               ),
             ),
-          )),
+          ),
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
