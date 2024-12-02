@@ -6,7 +6,7 @@ class KatalogTraining extends StatefulWidget {
   const KatalogTraining({super.key});
 
   @override
-  State<KatalogTraining> createState() => _KatalogTrainingState();
+  State<KatalogTraining> createState() => _KatalogTrainingState(  );
 }
 
 class _KatalogTrainingState extends State<KatalogTraining> {
@@ -79,7 +79,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                       style: TextStyle(
                           color: Color(0xFF1D5C96),
                           fontSize: 14,
-                          fontWeight: FontWeight.w500),
+                          fontWeight: FontWeight.w600),
                     ),
                   ),
                 ],
@@ -135,14 +135,20 @@ Widget buildTrainingButton(BuildContext context, String title) {
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Color(0xFF898989)),
-          borderRadius: BorderRadius.circular(25.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              title,
-              style: TextStyle(color: Color(0xFF1D5C96), fontSize: 16.0),
+            Flexible(
+              child: Text(
+                title,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Color(0xFF1D5C96),
+                    fontSize: 14.0,
+                    fontWeight: FontWeight.w600),
+              ),
             ),
           ],
         ),
@@ -153,7 +159,7 @@ Widget buildTrainingButton(BuildContext context, String title) {
 
 List<Map<String, String>> training = [
   {
-    'jenis_latihan': 'Aircraft Painting',
+    'jenis_latihan': 'Aircraft Basic Training',
     'instruktur': 'Muhammad Hafidz',
   }
 ];

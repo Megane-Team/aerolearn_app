@@ -14,42 +14,43 @@ class _MateriState extends State<Materi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              IconButton(
-                icon: Image.asset(Assets.icons('arrow_back')),
-                onPressed: () {
-                  context.go('/katalog');
-                },
-              ),
-              Expanded(
-                child: Center(
-                  child: Text(
-                    'Materi Pelatihan',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
+      appBar: AppBar(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: Image.asset(Assets.icons('arrow_back')),
+              onPressed: () {
+                context.go('/katalog');
+              },
+            ),
+            Expanded(
+              child: Center(
+                child: Text(
+                  'Materi Pelatihan',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontSize: 24,
                   ),
                 ),
               ),
-              SizedBox(width: 48),
-            ],
-          ),
-          backgroundColor: Color(0xff12395D),
-        ),
-        body: SizedBox(
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(15)),
             ),
-            padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
-            child: SfPdfViewer.asset(Assets.files('AgingAircraftTraining2024')),
+            SizedBox(width: 48),
+          ],
+        ),
+        backgroundColor: Color(0xff12395D),
+      ),
+      body: SizedBox(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
-        ));
+          padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
+          child: SfPdfViewer.asset(Assets.files('AgingAircraftTraining2024')),
+        ),
+      ),
+    );
   }
 }
