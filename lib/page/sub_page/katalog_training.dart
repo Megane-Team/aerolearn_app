@@ -6,7 +6,7 @@ class KatalogTraining extends StatefulWidget {
   const KatalogTraining({super.key});
 
   @override
-  State<KatalogTraining> createState() => _KatalogTrainingState(  );
+  State<KatalogTraining> createState() => _KatalogTrainingState();
 }
 
 class _KatalogTrainingState extends State<KatalogTraining> {
