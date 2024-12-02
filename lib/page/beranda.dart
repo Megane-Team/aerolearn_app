@@ -12,7 +12,6 @@ class Beranda extends StatefulWidget {
 }
 
 class _BerandaState extends State<Beranda> {
-  final NotificationService _notificationService = NotificationService();
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
   @override
