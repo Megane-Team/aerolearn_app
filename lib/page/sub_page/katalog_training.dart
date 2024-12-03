@@ -92,7 +92,6 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                 Center(
                   child: Container(
                     width: MediaQuery.of(context).size.width * 0.92,
-                    height: 383,
                     decoration: BoxDecoration(
                       border: Border.all(color: Color(0xFF898989)),
                       color: Colors.white,
@@ -106,9 +105,9 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                       child: Column(
                         children: [
                           buildTrainingButton(
-                              context, 'Aircraft Configuration Design'),
+                              context, 'Aircraft Configuration Design', '/materi'),
                           buildTrainingButton(
-                              context, 'Aircraft Structure (Structure Design)'),
+                              context, 'UJIAN', ''),
                         ],
                       ),
                     ),
@@ -123,12 +122,12 @@ class _KatalogTrainingState extends State<KatalogTraining> {
   }
 }
 
-Widget buildTrainingButton(BuildContext context, String title) {
+Widget buildTrainingButton(BuildContext context, String title, String route) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0),
     child: GestureDetector(
       onTap: () {
-        context.go("/Materi");
+        context.go(route);
       },
       child: Container(
         padding: EdgeInsets.all(10),
