@@ -21,7 +21,7 @@ class _MateriState extends State<Materi> {
             IconButton(
               icon: Image.asset(Assets.icons('arrow_back')),
               onPressed: () {
-                context.go('/katalog');
+                context.pop();
               },
             ),
             Expanded(

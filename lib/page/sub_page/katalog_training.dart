@@ -104,10 +104,9 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                       padding: EdgeInsets.all(16.0),
                       child: Column(
                         children: [
-                          buildTrainingButton(
-                              context, 'Aircraft Configuration Design', '/materi'),
-                          buildTrainingButton(
-                              context, 'UJIAN', ''),
+                          buildTrainingButton(context,
+                              'Aircraft Configuration Design', '/materi'),
+                          buildTrainingButton(context, 'UJIAN', ''),
                         ],
                       ),
                     ),

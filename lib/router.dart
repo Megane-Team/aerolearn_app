@@ -5,12 +5,12 @@ import 'package:aerolearn/utils/navigation_bar.dart';
 import 'package:go_router/go_router.dart';
 import 'package:aerolearn/page/login.dart';
 import 'package:aerolearn/page/sub_page/detail.dart';
-import 'package:aerolearn/page/sub_page/materi.dart';
 import 'package:aerolearn/page/sub_page/katalog_training.dart';
 import 'package:aerolearn/page/sub_page/feedback.dart';
+import 'package:aerolearn/page/sub_page/materi.dart';
 
 final router = GoRouter(
-  initialLocation: ('/feedback'),
+  initialLocation: ('/katalog'),
   routes: [
     GoRoute(
       path: "/login",
@@ -55,17 +55,17 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
-      path: "/materi",
-      pageBuilder: (context, state) => NoTransitionPage(
-        key: state.pageKey,
-        child: const Materi(),
-      ),
-    ),
-    GoRoute(
       path: "/katalog",
       pageBuilder: (context, state) => NoTransitionPage(
         key: state.pageKey,
         child: const KatalogTraining(),
+      ),
+    ),
+    GoRoute(
+      path: "/materi",
+      pageBuilder: (context, state) => NoTransitionPage(
+        key: state.pageKey,
+        child: const Materi(),
       ),
     ),
     GoRoute(
