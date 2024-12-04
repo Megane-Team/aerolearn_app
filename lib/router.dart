@@ -10,7 +10,7 @@ import 'package:aerolearn/page/sub_page/katalog_training.dart';
 import 'package:aerolearn/page/sub_page/feedback.dart';
 
 final router = GoRouter(
-  initialLocation: ('/katalog'),
+  initialLocation: ('/feedback'),
   routes: [
     GoRoute(
       path: "/login",

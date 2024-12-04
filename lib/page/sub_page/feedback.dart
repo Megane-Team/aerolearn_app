@@ -63,7 +63,14 @@ class _FeedbackState extends State<Feedback> {
                             controller: _opinionController,
                             decoration: InputDecoration(
                               hintText:'Harap isi sesuai pendapatmu',
-                              border: OutlineInputBorder(
+                                hintStyle: TextStyle(color: Colors.grey,fontSize: 14, fontWeight: FontWeight.w500),
+                              enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: Color(0xFFD8D8D8))
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Color(0xFF9D9D9D))
+                              ),
+                              errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.red)
                               ),
                             ),
@@ -97,8 +104,15 @@ class _FeedbackState extends State<Feedback> {
                         controller: _learnedController,
                         decoration: InputDecoration(
                           hintText: 'isi sesuai pendapatmu',
-                          border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Color(0xFFD9D9D9))
+                          hintStyle: TextStyle(color: Colors.grey,fontSize: 14, fontWeight: FontWeight.w500),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFD8D8D8))
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFF9D9D9D))
+                          ),
+                          errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red)
                           ),
                         ),
                         maxLines: 3,
@@ -132,8 +146,15 @@ class _FeedbackState extends State<Feedback> {
                         controller: _normalController,
                         decoration: InputDecoration(
                           hintText: 'pkawodkoa',
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFD9D9D9))
+                          hintStyle: TextStyle(color: Colors.grey,fontSize: 14, fontWeight: FontWeight.w500),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFFD8D8D8))
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Color(0xFF9D9D9D)),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.red)
                           ),
                         ),
                         maxLines: 3,
@@ -148,25 +169,36 @@ class _FeedbackState extends State<Feedback> {
                   ],
                 ),
                 SizedBox(height: 50),
-                ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Mendapatkan teks dari TextFormField
-                        final opinion = _opinionController.text;
-                        final learned = _learnedController.text;
-                        final normal = _normalController.text;
+                SizedBox(
+                  width: 20,
+                  child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // Mendapatkan teks dari TextFormField
+                          final opinion = _opinionController.text;
+                          final learned = _learnedController.text;
+                          final normal = _normalController.text;
 
-                        //proses data
-                        print('pendapat: $opinion');
-                        print('pelajaran: $learned');
-                        print('sesuai harapan: $normal');
+                          //proses data
+                          print('pendapat: $opinion');
+                          print('pelajaran: $learned');
+                          print('sesuai harapan: $normal');
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('Menigirim Feedback')),
-                        );
-                      }
-                    },
-                    child: Text('Kirim'))
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Menigirim Feedback')),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Color(0xFF12395D),
+                        foregroundColor: Colors.white,
+                        minimumSize: Size(100, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)
+                        )
+                      ),
+                      child: Text('Kirim')),
+                ),
                 ],
             ),
         ),
