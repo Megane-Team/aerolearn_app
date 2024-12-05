@@ -41,14 +41,14 @@ class _FeedbackState extends State<Feedback> {
         color: Color(0xFFEDEDED),
         child: Form(
           key: _formKey,
-          child: ListView(
+          child: Column(
             children: [
               SizedBox(height: 50),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 11),
+                    padding: const EdgeInsets.only(left: 15),
                     child: Text(
                       'Bagaimana pendapatmu tentang pelatihan',
                       style: TextStyle(fontSize: 16, color: Color(0xFF12395D)),
@@ -65,9 +65,9 @@ class _FeedbackState extends State<Feedback> {
                             fontSize: 14,
                             fontWeight: FontWeight.w500),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFD8D8D8))),
+                            borderSide: BorderSide(color: Color(0xFFB8B8B8))),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF9D9D9D))),
+                            borderSide: BorderSide(color: Color(0xFF7C7C7C))),
                         errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red)),
                       ),
@@ -87,7 +87,7 @@ class _FeedbackState extends State<Feedback> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 11),
+                    padding: const EdgeInsets.only(left: 15),
                     child: Text(
                       'Apa yang kamu dapatkan dari pelatihan',
                       style: TextStyle(fontSize: 16, color: Color(0xFF12395D)),
@@ -98,15 +98,15 @@ class _FeedbackState extends State<Feedback> {
                     child: TextFormField(
                       controller: _learnedController,
                       decoration: InputDecoration(
-                        hintText: 'isi sesuai pendapatmu',
+                        hintText: 'Isi sesuai pendapatmu',
                         hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 14,
                             fontWeight: FontWeight.w500),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFD8D8D8))),
+                            borderSide: BorderSide(color: Color(0xFFB8B8B8))),
                         focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFF9D9D9D))),
+                            borderSide: BorderSide(color: Color(0xFF7C7C7C))),
                         errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red)),
                       ),
@@ -121,14 +121,14 @@ class _FeedbackState extends State<Feedback> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 11),
+                    padding: const EdgeInsets.only(left: 15),
                     child: Text(
-                      'Apakah ..........',
+                      'Apakah ada tambahan dan saran untuk pelatihan ini?',
                       style: TextStyle(fontSize: 16, color: Color(0xFF12395D)),
                     ),
                   ),
@@ -137,15 +137,15 @@ class _FeedbackState extends State<Feedback> {
                     child: TextFormField(
                       controller: _normalController,
                       decoration: InputDecoration(
-                        hintText: 'pkawodkoa',
+                        hintText: 'Isi sesuai pendapatmu',
                         hintStyle: TextStyle(
                             color: Colors.grey,
                             fontSize: 14,
                             fontWeight: FontWeight.w500),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFD8D8D8))),
+                            borderSide: BorderSide(color: Color(0xFFB8B8B8))),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Color(0xFF9D9D9D)),
+                          borderSide: BorderSide(color: Color(0xFF7C7C7C)),
                         ),
                         errorBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.red)),
@@ -161,9 +161,8 @@ class _FeedbackState extends State<Feedback> {
                   ),
                 ],
               ),
-              SizedBox(height: 50),
+              SizedBox(height: 90),
               SizedBox(
-                width: 20,
                 child: ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
@@ -183,9 +182,9 @@ class _FeedbackState extends State<Feedback> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF12395D),
+                        backgroundColor: Color(0xFF1D5C96),
                         foregroundColor: Colors.white,
-                        minimumSize: Size(100, 50),
+                        minimumSize: Size(230,60),
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10))),
                     child: Text('Kirim')),
