@@ -43,12 +43,12 @@ class _FeedbackState extends State<Feedback> {
           key: _formKey,
           child: Column(
             children: [
-              SizedBox(height: 50),
+              SizedBox(height: 35),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15),
+                    padding: const EdgeInsets.only(left: 15, top: 5),
                     child: Text(
                       'Bagaimana pendapatmu tentang pelatihan',
                       style: TextStyle(fontSize: 16, color: Color(0xFF12395D)),
@@ -82,12 +82,12 @@ class _FeedbackState extends State<Feedback> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15),
+                    padding: const EdgeInsets.only(left: 15, top: 5),
                     child: Text(
                       'Apa yang kamu dapatkan dari pelatihan',
                       style: TextStyle(fontSize: 16, color: Color(0xFF12395D)),
@@ -121,12 +121,12 @@ class _FeedbackState extends State<Feedback> {
                   ),
                 ],
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 15),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 15),
+                    padding: const EdgeInsets.only(left: 15, top: 15),
                     child: Text(
                       'Apakah ada tambahan dan saran untuk pelatihan ini?',
                       style: TextStyle(fontSize: 16, color: Color(0xFF12395D)),
@@ -164,30 +164,34 @@ class _FeedbackState extends State<Feedback> {
               SizedBox(height: 90),
               SizedBox(
                 child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Mendapatkan teks dari TextFormField
-                        final opinion = _opinionController.text;
-                        final learned = _learnedController.text;
-                        final normal = _normalController.text;
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Mendapatkan teks dari TextFormField
+                      final opinion = _opinionController.text;
+                      final learned = _learnedController.text;
+                      final normal = _normalController.text;
 
-                        //proses data
-                        print('pendapat: $opinion');
-                        print('pelajaran: $learned');
-                        print('sesuai harapan: $normal');
+                      //proses data
+                      print('pendapat: $opinion');
+                      print('pelajaran: $learned');
+                      print('sesuai harapan: $normal');
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Menigirim Feedback')),
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Color(0xFF1D5C96),
-                        foregroundColor: Colors.white,
-                        minimumSize: Size(230,60),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                    child: Text('Kirim')),
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Menigirim Feedback')),
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF1D5C96),
+                      foregroundColor: Colors.white,
+                      minimumSize: Size(230, 60),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                  child: Text(
+                    'Kirim',
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
+                ),
               ),
             ],
           ),
