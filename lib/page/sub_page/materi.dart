@@ -1,10 +1,13 @@
+import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/utils/asset.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class Materi extends StatefulWidget {
-  const Materi({super.key});
+  final konten;
+  final id;
+  const Materi({super.key, required this.konten, required this.id});
 
   @override
   State<Materi> createState() => _MateriState();
@@ -48,7 +51,7 @@ class _MateriState extends State<Materi> {
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
-          child: SfPdfViewer.asset(Assets.files('AgingAircraftTraining2024')),
+          child: SfPdfViewer.network('$baseURL/docs/${widget.konten}'),
         ),
       ),
     );

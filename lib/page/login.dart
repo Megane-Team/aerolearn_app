@@ -14,14 +14,14 @@ class Login extends StatefulWidget {
 class LoginState extends State<Login> {
   late bool showPass = false;
   late bool _isAtEnd = false;
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final SheetController _slideController = SheetController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -237,7 +237,7 @@ class LoginState extends State<Login> {
                             height: MediaQuery.of(context).size.height * 0.1,
                             child: TextFormField(
                               cursorColor: Colors.black,
-                              controller: _usernameController,
+                              controller: _emailController,
                               decoration: InputDecoration(
                                 focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
@@ -249,7 +249,7 @@ class LoginState extends State<Login> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
-                                labelText: 'Username',
+                                labelText: 'Email',
                                 labelStyle: TextStyle(
                                   color: Colors.black,
                                   fontSize: MediaQuery.of(context).size.width *
@@ -262,7 +262,7 @@ class LoginState extends State<Login> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Masukkan username';
+                                  return 'Masukkan Email';
                                 }
                                 return null;
                               },
@@ -337,7 +337,7 @@ class LoginState extends State<Login> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   var loginResult = await ApiService.login(
-                                    _usernameController.text,
+                                    _emailController.text,
                                     _passwordController.text,
                                   );
                                   if (loginResult != "peserta") {
@@ -348,7 +348,7 @@ class LoginState extends State<Login> {
                                         return AlertDialog(
                                           title: Text('Login Failed'),
                                           content: Text(
-                                              'Invalid username or password. Please try again.'),
+                                              'Invalid Email or password. Please try again.'),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
@@ -361,6 +361,7 @@ class LoginState extends State<Login> {
                                       },
                                     );
                                   } else {
+                                    // ignore: use_build_context_synchronously
                                     context.go('/mainpage');
                                   }
                                 }

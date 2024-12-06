@@ -4,10 +4,10 @@ import 'dart:convert';
 import 'package:aerolearn/constant/variable.dart';
 
 class ApiService {
-  static Future<String?> login(String username, String password) async {
-    final url = '$baseURL/login';
+  static Future<String?> login(String email, String password) async {
+    final url = '$baseURL/user/login';
     final response = await HttpService.postRequest(
-        url, {'username': username, 'password': password});
+        url, {'email': email, 'password': password});
 
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);

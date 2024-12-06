@@ -9,7 +9,7 @@ import 'package:aerolearn/page/sub_page/materi.dart';
 import 'package:aerolearn/page/sub_page/katalog_training.dart';
 
 final router = GoRouter(
-  initialLocation: ('/katalog'),
+  initialLocation: ('/login'),
   routes: [
     GoRoute(
       path: "/login",
@@ -54,18 +54,26 @@ final router = GoRouter(
       ),
     ),
     GoRoute(
-      path: "/materi",
-      pageBuilder: (context, state) => NoTransitionPage(
-        key: state.pageKey,
-        child: const Materi(),
-      ),
-    ),
+        path: "/materi",
+        pageBuilder: (context, state) => NoTransitionPage(
+              key: state.pageKey,
+              child: Materi(
+                  id: state.uri.queryParameters['id'],
+                  konten: state.extra as String),
+            )),
     GoRoute(
       path: "/katalog",
-      pageBuilder: (context, state) => NoTransitionPage(
-        key: state.pageKey,
-        child: const KatalogTraining(),
-      ),
+      pageBuilder: (context, state) {
+        final id = state.uri.queryParameters['id'];
+        final extraData = state.extra as Map<String, dynamic>;
+        final instruktur = extraData['instruktur'];
+        final training = extraData['training'];
+        return NoTransitionPage(
+          key: state.pageKey,
+          child: KatalogTraining(
+              id: id, instruktur: instruktur, training: training),
+        );
+      },
     ),
   ],
 );
