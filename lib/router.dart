@@ -57,7 +57,9 @@ final router = GoRouter(
         path: "/materi",
         pageBuilder: (context, state) => NoTransitionPage(
               key: state.pageKey,
-              child: Materi(id: state.uri.queryParameters['id'], konten: state.extra as String),
+              child: Materi(
+                  id: state.uri.queryParameters['id'],
+                  konten: state.extra as String),
             )),
     GoRoute(
       path: "/katalog",

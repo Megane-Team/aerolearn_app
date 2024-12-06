@@ -160,13 +160,15 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                 context,
                                                 materi.judul,
                                                 "/materi?id=$id",
-                                                true, materi.konten);
+                                                true,
+                                                materi.konten);
                                           } else {
                                             return buildTrainingButton(
                                                 context,
                                                 materi.judul,
                                                 "/materi",
-                                                false, materi.konten);
+                                                false,
+                                                materi.konten);
                                           }
                                         },
                                       );
