@@ -1,7 +1,7 @@
 import 'package:aerolearn/action/profile.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:aerolearn/controller/profile.dart';
+import 'package:aerolearn/variable/profile.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -76,12 +76,10 @@ class ProfileState extends State<Profile> {
                   } else if (snapshot.hasData) {
                     return Column(
                       children: [
-                        buildNonEditableField(
-                            'Username', snapshot.data!.username),
+                        buildNonEditableField('E-mail', snapshot.data!.email),
                         buildNonEditableField(
                             'Password', snapshot.data!.password),
                         buildNonEditableField('Nama', snapshot.data!.nama),
-                        buildNonEditableField('E-mail', snapshot.data!.email),
                       ],
                     );
                   } else {
