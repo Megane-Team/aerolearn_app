@@ -10,7 +10,7 @@ import 'package:aerolearn/page/sub_page/feedback.dart';
 import 'package:aerolearn/page/sub_page/materi.dart';
 
 final router = GoRouter(
-  initialLocation: ('/profile'),
+  initialLocation: ('/mainpage'),
   routes: [
     GoRoute(
       path: "/login",
