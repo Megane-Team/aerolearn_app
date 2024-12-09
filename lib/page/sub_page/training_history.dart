@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/formatted_date.dart';
 import 'package:aerolearn/utils/asset.dart';
+import 'package:go_router/go_router.dart';
 
 class History extends StatefulWidget {
   const History({super.key});
@@ -20,7 +21,7 @@ class _HistoryState extends State<History> {
               IconButton(
                 icon: Image.asset(Assets.icons('arrow_back')),
                 onPressed: () {
-                  // Aksi ketika tombol kembali ditekan
+                  context.go('/profile');
                 },
               ),
               const Expanded(

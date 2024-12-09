@@ -11,7 +11,7 @@ class _FeedbackState extends State<Feedback> {
   final _formKey = GlobalKey<FormState>();
   final _opinionController = TextEditingController();
   final _learnedController = TextEditingController();
-  final _normalController = TextEditingController();
+  final _hopeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class _FeedbackState extends State<Feedback> {
                             fontSize: 14,
                             fontWeight: FontWeight.w500),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFB8B8B8))),
+                            borderSide: BorderSide(color: Color(0xFF9D9D9D))),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color(0xFF7C7C7C))),
                         errorBorder: OutlineInputBorder(
@@ -104,7 +104,7 @@ class _FeedbackState extends State<Feedback> {
                             fontSize: 14,
                             fontWeight: FontWeight.w500),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFB8B8B8))),
+                            borderSide: BorderSide(color: Color(0xFF9D9D9D))),
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Color(0xFF7C7C7C))),
                         errorBorder: OutlineInputBorder(
@@ -135,7 +135,7 @@ class _FeedbackState extends State<Feedback> {
                   Padding(
                     padding: const EdgeInsets.all(11),
                     child: TextFormField(
-                      controller: _normalController,
+                      controller: _hopeController,
                       decoration: InputDecoration(
                         hintText: 'Isi sesuai pendapatmu',
                         hintStyle: TextStyle(
@@ -143,7 +143,7 @@ class _FeedbackState extends State<Feedback> {
                             fontSize: 14,
                             fontWeight: FontWeight.w500),
                         enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xFFB8B8B8))),
+                            borderSide: BorderSide(color: Color(0xFF9D9D9D))),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Color(0xFF7C7C7C)),
                         ),
@@ -169,12 +169,12 @@ class _FeedbackState extends State<Feedback> {
                       // Mendapatkan teks dari TextFormField
                       final opinion = _opinionController.text;
                       final learned = _learnedController.text;
-                      final normal = _normalController.text;
+                      final hope = _hopeController.text;
 
                       //proses data
                       print('pendapat: $opinion');
                       print('pelajaran: $learned');
-                      print('sesuai harapan: $normal');
+                      print('sesuai harapan: $hope');
 
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Menigirim Feedback')),
