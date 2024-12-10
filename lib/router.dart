@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:aerolearn/page/sub_page/notification.dart';
 import 'package:aerolearn/page/sub_page/profile.dart';
 import 'package:aerolearn/page/sub_page/training_history.dart';
@@ -77,10 +79,14 @@ class AppRouter {
             final extraData = state.extra as Map<String, dynamic>;
             final instruktur = extraData['instruktur'];
             final training = extraData['training'];
+            final id_pelatihan = extraData['id_pelatihan'];
             return NoTransitionPage(
               key: state.pageKey,
               child: KatalogTraining(
-                  id: id, instruktur: instruktur, training: training),
+                  id: id,
+                  instruktur: instruktur,
+                  training: training,
+                  id_pelatihan: id_pelatihan),
             );
           },
         ),

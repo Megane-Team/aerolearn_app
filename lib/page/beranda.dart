@@ -146,6 +146,10 @@ class _BerandaState extends State<Beranda> {
                     } else if (snapshot.hasData) {
                       List<Training> trainingData =
                           filterTraining(snapshot.data!, searchQuery);
+                      if (trainingData.isEmpty) {
+                        return Center(
+                            child: Text('No training data available'));
+                      }
                       return ListView.builder(
                         itemCount: trainingData.length,
                         itemBuilder: (context, index) {

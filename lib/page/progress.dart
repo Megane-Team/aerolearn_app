@@ -17,7 +17,7 @@ class _ProgressState extends State<Progress> {
   @override
   void initState() {
     super.initState();
-    futurePelaksanaanPelatihanData = fetchPelaksanaanTrainining();
+    futurePelaksanaanPelatihanData = fetchPelaksanaanTraining();
   }
 
   @override
@@ -58,6 +58,9 @@ class _ProgressState extends State<Progress> {
                               ?.where((item) => item.isSelesai != 'Selesai')
                               .toList() ??
                           [];
+                      if (training.isEmpty) {
+                        return Center(child: Text('No progress'));
+                      }
                       return ListView.builder(
                         itemCount: training.length,
                         itemBuilder: (context, index) {
@@ -132,6 +135,9 @@ class _ProgressState extends State<Progress> {
                                       ElevatedButton(
                                         onPressed: () {
                                           var id = progressTraining.id;
+                                          var idPelatihan = progressTraining
+                                              .id_pelatihan
+                                              .toString();
                                           String instruktur =
                                               progressTraining.nama_intsruktur;
                                           String training =
@@ -139,6 +145,7 @@ class _ProgressState extends State<Progress> {
                                           context.go('/katalog?id=$id', extra: {
                                             'instruktur': instruktur,
                                             'training': training,
+                                            'id_pelatihan': idPelatihan,
                                           });
                                         },
                                         style: ElevatedButton.styleFrom(

@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:aerolearn/action/absen.dart';
 import 'package:aerolearn/action/materi.dart';
 import 'package:aerolearn/utils/asset.dart';
@@ -9,11 +11,13 @@ class KatalogTraining extends StatefulWidget {
   final String? id;
   final String instruktur;
   final String training;
+  final String? id_pelatihan;
   const KatalogTraining(
       {super.key,
       required this.id,
       required this.instruktur,
-      required this.training});
+      required this.training,
+      required this.id_pelatihan});
 
   @override
   State<KatalogTraining> createState() => _KatalogTrainingState();
@@ -26,7 +30,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
   @override
   void initState() {
     super.initState();
-    futureMateri = fetchMateriData(widget.id);
+    futureMateri = fetchMateriData(widget.id_pelatihan);
   }
 
   @override
@@ -121,67 +125,60 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          FutureBuilder<List<Materi>>(
-                              future: futureMateri,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                } else if (snapshot.hasError) {
-                                  return Center(
-                                      child: Text('Error: ${snapshot.error}'));
-                                } else if (snapshot.hasData) {
-                                  List<Materi> materiAll = snapshot.data ?? [];
-                                  return ListView.builder(
-                                    itemCount: materiAll.length,
-                                    itemBuilder: (context, index) {
-                                      var materi = materiAll[index];
-                                      return FutureBuilder<bool>(
-                                        future: fetchAbsenData(materi.id),
-                                        builder: (context, attendanceSnapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          } else if (snapshot.hasError) {
-                                            return Center(
-                                                child: Text(
-                                                    'Error: ${snapshot.error}'));
-                                          } else if (attendanceSnapshot
-                                                  .hasData &&
-                                              attendanceSnapshot.data == true) {
-                                            var id = materi.id;
-                                            return buildTrainingButton(
-                                                context,
-                                                materi.judul,
-                                                "/materi?id=$id",
-                                                true,
-                                                materi.konten);
-                                          } else {
-                                            return buildTrainingButton(
-                                                context,
-                                                materi.judul,
-                                                "/materi",
-                                                false,
-                                                materi.konten);
-                                          }
-                                        },
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  return Center(
-                                      child: Text('No data available'));
-                                }
-                              })
-                        ],
-                      ),
-                    ),
+                        padding: EdgeInsets.all(16.0),
+                        child: FutureBuilder<List<Materi>>(
+                            future: futureMateri,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                    child: Text('Error: ${snapshot.error}'));
+                              } else if (snapshot.hasData) {
+                                List<Materi> materiAll = snapshot.data ?? [];
+                                return ListView.builder(
+                                  itemCount: materiAll.length,
+                                  itemBuilder: (context, index) {
+                                    var materi = materiAll[index];
+                                    return FutureBuilder<bool>(
+                                      future: fetchAbsenData(materi.id),
+                                      builder: (context, attendanceSnapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        } else if (snapshot.hasError) {
+                                          return Center(
+                                              child: Text(
+                                                  'Error: ${snapshot.error}'));
+                                        } else if (attendanceSnapshot.hasData &&
+                                            attendanceSnapshot.data == true) {
+                                          var id = materi.id_pelatihan;
+                                          return buildTrainingButton(
+                                              context,
+                                              materi.judul,
+                                              "/materi?id=$id",
+                                              true,
+                                              materi.konten);
+                                        } else {
+                                          return buildTrainingButton(
+                                              context,
+                                              materi.judul,
+                                              "/materi",
+                                              false,
+                                              materi.konten);
+                                        }
+                                      },
+                                    );
+                                  },
+                                );
+                              } else {
+                                return Center(child: Text('No data available'));
+                              }
+                            })),
                   ),
                 ),
               ],
