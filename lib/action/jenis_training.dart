@@ -7,8 +7,9 @@ Future<List<Training>> fetchTrainingData() async {
   final url = '$baseURL/training/';
   final response = await HttpService.getRequest(url);
   if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((data) => Training.fromJson(data)).toList();
+    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    List<dynamic> data = jsonResponse['data'];
+    return data.map((item) => Training.fromJson(item)).toList();
   } else {
     throw Exception('Failed to load training data');
   }
