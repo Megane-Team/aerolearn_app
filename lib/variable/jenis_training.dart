@@ -4,6 +4,7 @@ class Training {
   final String deskripsi;
   final String koordinator;
   final String kategori;
+  final String createdAt;
 
   Training({
     required this.id,
@@ -11,6 +12,7 @@ class Training {
     required this.deskripsi,
     required this.koordinator,
     required this.kategori,
+    required this.createdAt,
   });
 
   factory Training.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class Training {
       deskripsi: json['deskripsi'],
       koordinator: json['koordinator'],
       kategori: json['kategori'],
+      createdAt: json['createdAt'],
     );
   }
 }

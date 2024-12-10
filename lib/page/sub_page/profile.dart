@@ -1,4 +1,5 @@
 import 'package:aerolearn/action/profile.dart';
+import 'package:aerolearn/utils/session.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:aerolearn/variable/profile.dart';
@@ -157,7 +158,8 @@ class ProfileState extends State<Profile> {
                                 child: const Text('Batal'),
                               ),
                               TextButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  await SessionService.logout();
                                   context.go('/login');
                                 },
                                 style: TextButton.styleFrom(

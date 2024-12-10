@@ -136,7 +136,7 @@ class _ProgressState extends State<Progress> {
                                               progressTraining.nama_intsruktur;
                                           String training =
                                               progressTraining.nama_pelatihan;
-                                          context.go('katalog?id=$id', extra: {
+                                          context.go('/katalog?id=$id', extra: {
                                             'instruktur': instruktur,
                                             'training': training,
                                           });

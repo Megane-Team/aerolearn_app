@@ -27,10 +27,10 @@ class PelaksanaanPelatihan {
       nama_pelatihan: json['nama_pelatihan'],
       nama_intsruktur: json['nama_instruktur'],
       tanggal: DateTime.parse(json['tanggal']),
-      jam_selesai: json['jam_mulai'],
-      jam_mulai: json['jam_selesai'],
+      jam_selesai: json['jamMulai'],
+      jam_mulai: json['jamSelesai'],
       jenis_training: json['jenis_training'],
-      isSelesai: json['is_selesai'],
+      isSelesai: json['isSelesai'],
       ruangan: json['ruangan'],
     );
   }
