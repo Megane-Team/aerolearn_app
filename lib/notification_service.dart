@@ -1,4 +1,10 @@
+// ignore_for_file: depend_on_referenced_packages
+
+import 'package:aerolearn/action/pelaksanaan.dart';
+import 'package:aerolearn/utils/session.dart';
+import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
@@ -14,7 +20,11 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> showNotification(int id, String title, String body) async {
+  Future<void> scheduleNotification(
+      int id, String title, String body, DateTime scheduledDate) async {
+    final tz.TZDateTime tzScheduledDate =
+        tz.TZDateTime.from(scheduledDate, tz.local);
+
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'your_channel_id',
@@ -27,12 +37,41 @@ class NotificationService {
     const NotificationDetails platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
-    await _flutterLocalNotificationsPlugin.show(
+    await _flutterLocalNotificationsPlugin.zonedSchedule(
       id,
       title,
       body,
+      tzScheduledDate,
       platformChannelSpecifics,
-      payload: 'item x',
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
+      matchDateTimeComponents: DateTimeComponents.time,
+      androidScheduleMode: AndroidScheduleMode.exact, // Tambahkan parameter ini
     );
+  }
+
+  void scheduleTrainingNotification(PelaksanaanPelatihan pelatihan) {
+    DateTime scheduledDate = pelatihan.tanggal.subtract(Duration(days: 3));
+    scheduleNotification(
+      pelatihan.id,
+      'Reminder: ${pelatihan.nama_pelatihan}',
+      'Pelatihan ${pelatihan.nama_pelatihan} akan dimulai pada ${pelatihan.tanggal}',
+      scheduledDate,
+    );
+  }
+
+  Future<void> fetchAndScheduleNotifications() async {
+    try {
+      var token = await SessionService.getToken();
+      if (token != null && token.isNotEmpty) {
+        List<PelaksanaanPelatihan> pelatihanList =
+            await fetchPelaksanaanTraining();
+        for (var pelatihan in pelatihanList) {
+          scheduleTrainingNotification(pelatihan);
+        }
+      }
+    } catch (e) {
+      throw ('Error fetching and scheduling notifications: $e');
+    }
   }
 }

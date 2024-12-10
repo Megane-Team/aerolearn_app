@@ -1,17 +1,22 @@
+// ignore_for_file: depend_on_referenced_packages, implementation_imports
+
 import 'package:flutter/material.dart';
 import 'package:aerolearn/router.dart';
 import 'package:aerolearn/constant/themes.dart';
 import 'package:go_router/src/router.dart';
 import 'notification_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
+final NotificationService notificationService = NotificationService();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final NotificationService notificationService = NotificationService();
+  tz.initializeTimeZones();
   await notificationService.init();
+  await notificationService.fetchAndScheduleNotifications();
   final router = await AppRouter.createRouter();
   runApp(MyApp(router: router));
 }
