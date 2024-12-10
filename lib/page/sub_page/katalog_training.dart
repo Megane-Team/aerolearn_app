@@ -159,7 +159,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                             return buildTrainingButton(
                                                 context,
                                                 materi.judul,
-                                                "/materi?id=$id",
+                                                "/materi/$id",
                                                 true,
                                                 materi.konten);
                                           } else {
@@ -203,6 +203,7 @@ Widget buildTrainingButton(
               context.go(route, extra: konten);
             }
           : null,
+      //pop up absen!!!
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(

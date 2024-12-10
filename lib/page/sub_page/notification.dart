@@ -44,13 +44,11 @@ class NotificationState extends State<NotificationPage> {
           NotificationItem(
             date: '25 Okt 2024',
             description:
-                'Pelatihan Aircraft Painting akan diadakan pada tanggal 01 November 2024.',
+                'Pelatihan Aircraft Painting ',
+            description1:
+            'akan diadakan pada tanggal 01 November 2024.',
           ),
-          NotificationItem(
-            date: '25 Nov 2024',
-            description:
-                'Pelatihan Aircraft Painting akan diadakan pada tanggal 02 Desember 2024.',
-          ),
+
           NoNotificationItem(),
         ],
       ),
@@ -61,15 +59,69 @@ class NotificationState extends State<NotificationPage> {
 class NotificationItem extends StatelessWidget {
   final String date;
   final String description;
+  final String description1;
 
   const NotificationItem(
-      {super.key, required this.date, required this.description});
+      {super.key, required this.date, required this.description, required this.description1});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(date),
-      subtitle: Text(description),
+        contentPadding: EdgeInsets.symmetric(horizontal: 10),
+        leading:
+              Icon(
+                Icons.info_outline
+              ),
+      title: Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          SizedBox(height: 10),
+          Row(
+            children: [
+              Column(
+                children: [
+                  Text(
+                    'info',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(width: 230),
+              Text(
+                date,
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400
+                ),
+              ),
+            ],
+          ),
+
+        ],
+      ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              description,
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600
+              ),
+            ),
+            SizedBox(height: 4),
+            Text(
+              description1,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400
+              ),
+            ),
+          ],
+        )
     );
   }
 }
