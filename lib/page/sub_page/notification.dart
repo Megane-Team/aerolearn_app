@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
+import 'package:go_router/go_router.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -19,7 +20,7 @@ class NotificationState extends State<NotificationPage> {
             IconButton(
               icon: Image.asset(Assets.icons('arrow_back')),
               onPressed: () {
-                // Aksi ketika tombol kembali ditekan
+                context.go('/mainpage');
               },
             ),
             const Expanded(
@@ -43,12 +44,9 @@ class NotificationState extends State<NotificationPage> {
         children: const [
           NotificationItem(
             date: '25 Okt 2024',
-            description:
-                'Pelatihan Aircraft Painting ',
-            description1:
-            'akan diadakan pada tanggal 01 November 2024.',
+            description: 'Pelatihan Aircraft Painting ',
+            description1: 'akan diadakan pada tanggal 01 November 2024.',
           ),
-
           NoNotificationItem(),
         ],
       ),
@@ -62,66 +60,66 @@ class NotificationItem extends StatelessWidget {
   final String description1;
 
   const NotificationItem(
-      {super.key, required this.date, required this.description, required this.description1});
+      {super.key,
+      required this.date,
+      required this.description,
+      required this.description1});
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 10),
-        leading:
-              Icon(
-                Icons.info_outline
-              ),
-      title: Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          SizedBox(height: 10),
-          Row(
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: Colors.black,
+                width: 1.0
+          )
+        )
+      ),
+      child: ListTile(
+          contentPadding: EdgeInsets.symmetric(horizontal: 1),
+          leading: Padding(
+            padding: const EdgeInsets.only(bottom: 35),
+            child: Icon(Icons.info_outline),
+          ),
+          title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
+              Row(
                 children: [
+                  Column(
+                    children: [
+                      Text(
+                        'info',
+                        style:
+                            TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 230),
                   Text(
-                    'info',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400
-                    ),
+                    date,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                   ),
                 ],
               ),
-              SizedBox(width: 230),
-              Text(
-                date,
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400
-                ),
-              ),
             ],
           ),
-
-        ],
-      ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              description,
-              style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                description,
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
-            ),
-            SizedBox(height: 4),
-            Text(
-              description1,
-              style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400
+              SizedBox(height: 4),
+              Text(
+                description1,
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
-            ),
-          ],
-        )
+            ],
+          )),
     );
   }
 }

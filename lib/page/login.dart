@@ -37,7 +37,7 @@ class LoginState extends State<Login> {
           cornerRadius: 50,
           snapSpec: const SnapSpec(
             snap: true,
-            snappings: [40, 350, double.infinity],
+            snappings: [40, double.infinity, double.infinity],
             positioning: SnapPositioning.pixelOffset,
           ),
           openDuration: const Duration(milliseconds: 100),

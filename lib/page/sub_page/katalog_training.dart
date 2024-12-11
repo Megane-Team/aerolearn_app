@@ -4,6 +4,7 @@ import 'package:aerolearn/utils/asset.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:quickalert/quickalert.dart';
 
 class KatalogTraining extends StatefulWidget {
   final String? id;
@@ -202,8 +203,17 @@ Widget buildTrainingButton(
           ? () {
               context.go(route, extra: konten);
             }
-          : null,
-      //pop up absen!!!
+          : () {
+              TextButton(
+                  onPressed: () {
+                    QuickAlert.show(
+                      context: context,
+                      type: QuickAlertType.confirm,
+                      text: "Absen Berhasil",
+                    );
+                  },
+                  child: Text('Absen'));
+            },
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
