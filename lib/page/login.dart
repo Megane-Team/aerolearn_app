@@ -12,7 +12,7 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
-  late bool showPass = false;
+  late bool showPass = true;
   late bool _isAtEnd = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -37,7 +37,7 @@ class LoginState extends State<Login> {
           cornerRadius: 50,
           snapSpec: const SnapSpec(
             snap: true,
-            snappings: [40, 350, double.infinity],
+            snappings: [40, double.infinity, double.infinity],
             positioning: SnapPositioning.pixelOffset,
           ),
           openDuration: const Duration(milliseconds: 100),
@@ -51,6 +51,7 @@ class LoginState extends State<Login> {
                 _isAtEnd = false;
               });
             }
+            FocusScope.of(context).unfocus();
           },
           body: Center(
             child: SizedBox(
@@ -300,8 +301,8 @@ class LoginState extends State<Login> {
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     showPass
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                     color: const Color(0xff5A5A5A),
                                   ),
                                   iconSize: 25,
@@ -340,7 +341,26 @@ class LoginState extends State<Login> {
                                     _emailController.text,
                                     _passwordController.text,
                                   );
-                                  if (loginResult != "peserta") {
+                                  if (loginResult == null) {
+                                    showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Login Failed'),
+                                            content: Text(
+                                                'Invalid Email or password. Please try again.'),
+                                            actions: [
+                                              TextButton(onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                                child: Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        }
+                                    );
+                                  }
+                                  else if (loginResult != "peserta") {
                                     showDialog(
                                       // ignore: use_build_context_synchronously
                                       context: context, // Add context parameter
