@@ -70,13 +70,7 @@ class NotificationItem extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.black,
-                width: 1.0
-          )
-        )
-      ),
+          border: Border(bottom: BorderSide(color: Colors.black, width: 1.0))),
       child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 1),
           leading: Padding(
@@ -92,8 +86,8 @@ class NotificationItem extends StatelessWidget {
                     children: [
                       Text(
                         'info',
-                        style:
-                            TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
