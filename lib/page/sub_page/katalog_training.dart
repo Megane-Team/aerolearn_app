@@ -204,21 +204,17 @@ Widget buildTrainingButton(
               );
             }
           : () {
-        QuickAlert.show(
-            context: context,
-            type: QuickAlertType.confirm,
-        text: 'Absen',
-          confirmBtnText: 'Ya',
-          cancelBtnText: 'Tidak',
-          confirmBtnColor: Colors.green,
-          confirmBtnTextStyle: TextStyle(
-            color: Colors.red,
-            fontWeight: FontWeight.w500
-          ),
-        );
-      },
-
-
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.confirm,
+                text: 'Absen',
+                confirmBtnText: 'Ya',
+                cancelBtnText: 'Tidak',
+                confirmBtnColor: Colors.green,
+                confirmBtnTextStyle:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+              );
+            },
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
