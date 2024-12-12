@@ -7,12 +7,14 @@ import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class MateriPage extends StatefulWidget {
   final String konten;
-  const MateriPage({super.key, required this.konten,});
+  const MateriPage({
+    super.key,
+    required this.konten,
+  });
 
   @override
   State<MateriPage> createState() => _MateriState();
 }
-
 
 class _MateriState extends State<MateriPage> {
   @override

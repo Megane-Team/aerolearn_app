@@ -53,10 +53,7 @@ class _BerandaState extends State<Beranda> {
                   InkWell(
                     onTap: () {
                       Navigator.push(context,
-                        MaterialPageRoute(
-                          builder: (context) => Profile()
-                        )
-                      );
+                          MaterialPageRoute(builder: (context) => Profile()));
                     },
                     child: const CircleAvatar(
                       radius: 23,

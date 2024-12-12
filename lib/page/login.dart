@@ -351,17 +351,16 @@ class LoginState extends State<Login> {
                                             content: Text(
                                                 'Invalid Email or password. Please try again.'),
                                             actions: [
-                                              TextButton(onPressed: () {
-                                                Navigator.of(context).pop();
-                                              },
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
                                                 child: Text('OK'),
                                               ),
                                             ],
                                           );
-                                        }
-                                    );
-                                  }
-                                  else if (loginResult != "peserta") {
+                                        });
+                                  } else if (loginResult != "peserta") {
                                     showDialog(
                                       // ignore: use_build_context_synchronously
                                       context: context, // Add context parameter

@@ -143,11 +143,16 @@ class _ProgressState extends State<Progress> {
                                           String training =
                                               progressTraining.nama_pelatihan;
                                           Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => KatalogTraining(id: id, instruktur: instruktur, training: training, id_pelatihan: idPelatihan)
-                                            )
-                                          );
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      KatalogTraining(
+                                                          id: id,
+                                                          instruktur:
+                                                              instruktur,
+                                                          training: training,
+                                                          id_pelatihan:
+                                                              idPelatihan)));
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.black,

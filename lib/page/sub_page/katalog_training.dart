@@ -195,15 +195,14 @@ Widget buildTrainingButton(
     child: GestureDetector(
       onTap: isUnlocked
           ? () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MateriPage(konten: konten),
-          ),
-        );
-      }
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MateriPage(konten: konten),
+                ),
+              );
+            }
           : null,
-
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
