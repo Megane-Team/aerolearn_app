@@ -1,20 +1,24 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:aerolearn/action/absen.dart';
 import 'package:aerolearn/action/materi.dart';
 import 'package:aerolearn/utils/asset.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:aerolearn/page/sub_page/materi_page.dart';
 import 'package:quickalert/quickalert.dart';
 
 class KatalogTraining extends StatefulWidget {
-  final String? id;
+  final int id;
   final String instruktur;
   final String training;
+  final String? id_pelatihan;
   const KatalogTraining(
       {super.key,
       required this.id,
       required this.instruktur,
-      required this.training});
+      required this.training,
+      required this.id_pelatihan});
 
   @override
   State<KatalogTraining> createState() => _KatalogTrainingState();
@@ -27,20 +31,21 @@ class _KatalogTrainingState extends State<KatalogTraining> {
   @override
   void initState() {
     super.initState();
-    futureMateri = fetchMateriData(widget.id);
+    futureMateri = fetchMateriData(widget.id_pelatihan);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
               icon: Image.asset(Assets.icons('arrow_back')),
               onPressed: () {
-                context.go("/mainpage");
+                Navigator.pop(context);
               },
             ),
             Expanded(
@@ -122,67 +127,57 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                       ),
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Column(
-                        children: [
-                          FutureBuilder<List<Materi>>(
-                              future: futureMateri,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
-                                } else if (snapshot.hasError) {
-                                  return Center(
-                                      child: Text('Error: ${snapshot.error}'));
-                                } else if (snapshot.hasData) {
-                                  List<Materi> materiAll = snapshot.data ?? [];
-                                  return ListView.builder(
-                                    itemCount: materiAll.length,
-                                    itemBuilder: (context, index) {
-                                      var materi = materiAll[index];
-                                      return FutureBuilder<bool>(
-                                        future: fetchAbsenData(materi.id),
-                                        builder: (context, attendanceSnapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          } else if (snapshot.hasError) {
-                                            return Center(
-                                                child: Text(
-                                                    'Error: ${snapshot.error}'));
-                                          } else if (attendanceSnapshot
-                                                  .hasData &&
-                                              attendanceSnapshot.data == true) {
-                                            var id = materi.id;
-                                            return buildTrainingButton(
-                                                context,
-                                                materi.judul,
-                                                "/materi/$id",
-                                                true,
-                                                materi.konten);
-                                          } else {
-                                            return buildTrainingButton(
-                                                context,
-                                                materi.judul,
-                                                "/materi",
-                                                false,
-                                                materi.konten);
-                                          }
-                                        },
-                                      );
-                                    },
-                                  );
-                                } else {
-                                  return Center(
-                                      child: Text('No data available'));
-                                }
-                              })
-                        ],
-                      ),
-                    ),
+                        padding: EdgeInsets.all(16.0),
+                        child: FutureBuilder<List<Materi>>(
+                            future: futureMateri,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return Center(
+                                    child: Text('Error: ${snapshot.error}'));
+                              } else if (snapshot.hasData) {
+                                List<Materi> materiAll = snapshot.data ?? [];
+                                return ListView.builder(
+                                  itemCount: materiAll.length,
+                                  itemBuilder: (context, index) {
+                                    var materi = materiAll[index];
+                                    return FutureBuilder<bool>(
+                                      future: fetchAbsenData(materi.id),
+                                      builder: (context, attendanceSnapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Center(
+                                              child:
+                                                  CircularProgressIndicator());
+                                        } else if (snapshot.hasError) {
+                                          return Center(
+                                              child: Text(
+                                                  'Error: ${snapshot.error}'));
+                                        } else if (attendanceSnapshot.hasData &&
+                                            attendanceSnapshot.data == true) {
+                                          return buildTrainingButton(
+                                              context,
+                                              materi.judul,
+                                              true,
+                                              materi.konten);
+                                        } else {
+                                          return buildTrainingButton(
+                                              context,
+                                              materi.judul,
+                                              false,
+                                              materi.konten);
+                                        }
+                                      },
+                                    );
+                                  },
+                                );
+                              } else {
+                                return Center(child: Text('No data available'));
+                              }
+                            })),
                   ),
                 ),
               ],
@@ -195,25 +190,35 @@ class _KatalogTrainingState extends State<KatalogTraining> {
 }
 
 Widget buildTrainingButton(
-    BuildContext context, String title, String route, bool isUnlocked, konten) {
+    BuildContext context, String title, bool isUnlocked, konten) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0),
     child: GestureDetector(
       onTap: isUnlocked
           ? () {
-              context.go(route, extra: konten);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MateriPage(konten: konten),
+                ),
+              );
             }
           : () {
-              TextButton(
-                  onPressed: () {
-                    QuickAlert.show(
-                      context: context,
-                      type: QuickAlertType.confirm,
-                      text: "Absen Berhasil",
-                    );
-                  },
-                  child: Text('Absen'));
-            },
+        QuickAlert.show(
+            context: context,
+            type: QuickAlertType.confirm,
+        text: 'Absen',
+          confirmBtnText: 'Ya',
+          cancelBtnText: 'Tidak',
+          confirmBtnColor: Colors.green,
+          confirmBtnTextStyle: TextStyle(
+            color: Colors.red,
+            fontWeight: FontWeight.w500
+          ),
+        );
+      },
+
+
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(

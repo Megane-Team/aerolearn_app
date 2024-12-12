@@ -3,7 +3,7 @@ import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
 
-Future<List<PelaksanaanPelatihan>> fetchPelaksanaanTrainining() async {
+Future<List<PelaksanaanPelatihan>> fetchPelaksanaanTraining() async {
   final url = '$baseURL/peserta/progress';
   final response = await HttpService.getRequest(url);
   if (response.statusCode == 200) {

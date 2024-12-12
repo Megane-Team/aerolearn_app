@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:aerolearn/action/profile.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class ProfileState extends State<Profile> {
             bottom: Radius.circular(25),
           ),
           child: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: const Color(0xff12395D),
             elevation: 0,
             title: Row(
@@ -30,7 +33,7 @@ class ProfileState extends State<Profile> {
                   icon:
                       const Icon(Icons.arrow_back_ios_new, color: Colors.white),
                   onPressed: () {
-                    context.go('/mainpage');
+                    Navigator.pop(context);
                   },
                 ),
                 const Text(

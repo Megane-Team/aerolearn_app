@@ -1,30 +1,34 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/utils/asset.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-class Materi extends StatefulWidget {
-  final konten;
-  final id;
-  const Materi({super.key, required this.konten, required this.id});
+class MateriPage extends StatefulWidget {
+  final String konten;
+  const MateriPage({
+    super.key,
+    required this.konten,
+  });
 
   @override
-  State<Materi> createState() => _MateriState();
+  State<MateriPage> createState() => _MateriState();
 }
 
-class _MateriState extends State<Materi> {
+class _MateriState extends State<MateriPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
               icon: Image.asset(Assets.icons('arrow_back')),
               onPressed: () {
-                context.go('/katalog');
+                Navigator.pop(context);
               },
             ),
             Expanded(

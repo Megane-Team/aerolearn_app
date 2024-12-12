@@ -1,4 +1,5 @@
 import 'package:aerolearn/action/jenis_training.dart';
+import 'package:aerolearn/page/sub_page/profile.dart';
 import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
@@ -51,7 +52,8 @@ class _BerandaState extends State<Beranda> {
                 children: [
                   InkWell(
                     onTap: () {
-                      context.go('/profile');
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Profile()));
                     },
                     child: const CircleAvatar(
                       radius: 23,
@@ -151,6 +153,10 @@ class _BerandaState extends State<Beranda> {
                     } else if (snapshot.hasData) {
                       List<Training> trainingData =
                           filterTraining(snapshot.data!, searchQuery);
+                      if (trainingData.isEmpty) {
+                        return Center(
+                            child: Text('No training data available'));
+                      }
                       return ListView.builder(
                         itemCount: trainingData.length,
                         itemBuilder: (context, index) {
