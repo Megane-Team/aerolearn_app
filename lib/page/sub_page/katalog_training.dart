@@ -5,10 +5,10 @@ import 'package:aerolearn/action/materi.dart';
 import 'package:aerolearn/utils/asset.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:aerolearn/page/sub_page/materi_page.dart';
 
 class KatalogTraining extends StatefulWidget {
-  final String? id;
+  final int id;
   final String instruktur;
   final String training;
   final String? id_pelatihan;
@@ -37,13 +37,14 @@ class _KatalogTrainingState extends State<KatalogTraining> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
               icon: Image.asset(Assets.icons('arrow_back')),
               onPressed: () {
-                context.go("/mainpage");
+                Navigator.pop(context);
               },
             ),
             Expanded(
@@ -156,18 +157,15 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                   'Error: ${snapshot.error}'));
                                         } else if (attendanceSnapshot.hasData &&
                                             attendanceSnapshot.data == true) {
-                                          var id = materi.id_pelatihan;
                                           return buildTrainingButton(
                                               context,
                                               materi.judul,
-                                              "/materi?id=$id",
                                               true,
                                               materi.konten);
                                         } else {
                                           return buildTrainingButton(
                                               context,
                                               materi.judul,
-                                              "/materi",
                                               false,
                                               materi.konten);
                                         }
@@ -191,13 +189,18 @@ class _KatalogTrainingState extends State<KatalogTraining> {
 }
 
 Widget buildTrainingButton(
-    BuildContext context, String title, String route, bool isUnlocked, konten) {
+    BuildContext context, String title, bool isUnlocked, konten) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0),
     child: GestureDetector(
       onTap: isUnlocked
           ? () {
-              context.go(route, extra: konten);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MateriPage(konten: konten),
+                ),
+              );
             }
           : null,
       child: Container(

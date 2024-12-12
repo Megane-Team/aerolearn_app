@@ -1,8 +1,8 @@
 import 'package:aerolearn/action/pelaksanaan.dart';
+import 'package:aerolearn/page/sub_page/katalog_training.dart';
 import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/formatted_date.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class Progress extends StatefulWidget {
   const Progress({super.key});
@@ -142,11 +142,17 @@ class _ProgressState extends State<Progress> {
                                               progressTraining.nama_intsruktur;
                                           String training =
                                               progressTraining.nama_pelatihan;
-                                          context.go('/katalog?id=$id', extra: {
-                                            'instruktur': instruktur,
-                                            'training': training,
-                                            'id_pelatihan': idPelatihan,
-                                          });
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      KatalogTraining(
+                                                          id: id,
+                                                          instruktur:
+                                                              instruktur,
+                                                          training: training,
+                                                          id_pelatihan:
+                                                              idPelatihan)));
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.black,
