@@ -1,4 +1,5 @@
 import 'package:aerolearn/action/jenis_training.dart';
+import 'package:aerolearn/page/sub_page/profile.dart';
 import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
@@ -51,7 +52,11 @@ class _BerandaState extends State<Beranda> {
                 children: [
                   InkWell(
                     onTap: () {
-                      context.go('/profile');
+                      Navigator.push(context,
+                        MaterialPageRoute(
+                          builder: (context) => Profile()
+                        )
+                      );
                     },
                     child: const CircleAvatar(
                       radius: 23,
