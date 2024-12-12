@@ -6,6 +6,7 @@ import 'package:aerolearn/utils/asset.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/page/sub_page/materi_page.dart';
+import 'package:quickalert/quickalert.dart';
 
 class KatalogTraining extends StatefulWidget {
   final int id;
@@ -202,7 +203,18 @@ Widget buildTrainingButton(
                 ),
               );
             }
-          : null,
+          : () {
+              QuickAlert.show(
+                context: context,
+                type: QuickAlertType.confirm,
+                text: 'Absen',
+                confirmBtnText: 'Ya',
+                cancelBtnText: 'Tidak',
+                confirmBtnColor: Colors.green,
+                confirmBtnTextStyle:
+                    TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+              );
+            },
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(

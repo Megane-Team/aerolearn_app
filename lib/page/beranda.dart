@@ -88,10 +88,15 @@ class _BerandaState extends State<Beranda> {
                     ],
                   ),
                   const Spacer(),
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
+                  InkWell(
+                    onTap: () {
+                      context.go('/notification');
+                    },
+                    child: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),

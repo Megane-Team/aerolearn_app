@@ -95,7 +95,7 @@ class ProfileState extends State<Profile> {
             padding: const EdgeInsets.only(
               right: 20.0,
               left: 20.0,
-              bottom: 130.0,
+              bottom: 120.0,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,13 +111,31 @@ class ProfileState extends State<Profile> {
                       ),
                     ),
                     Expanded(
-                      child: buildButtonRow(
-                          'Riwayat Pelatihan', Icons.chevron_right, () {
+                      child: buildButtonRow('E-Sertifikat', Icons.chevron_right,
+                          () {
                         // Your onPressed code here
                       }),
                     ),
                   ],
-                )
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 4),
+                      child: Container(
+                        width: 4,
+                        height: 24,
+                        color: Color(0xff12395D),
+                      ),
+                    ),
+                    Expanded(
+                      child: buildButtonRow(
+                          'Riwayat Pelatihan', Icons.chevron_right, () {
+                        context.go('/history');
+                      }),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -253,19 +271,19 @@ Widget buildButtonRow(String text, IconData icon, VoidCallback onPressed,
           child: TextButton(
             onPressed: onPressed,
             style: TextButton.styleFrom(
-              foregroundColor: Colors.blue,
               alignment: Alignment.centerLeft,
             ),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 text,
-                style: const TextStyle(color: Color(0xff12395D)),
+                style: const TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.w500),
               ),
             ),
           ),
         ),
-        Icon(icon, color: const Color(0xff12395D)),
+        Icon(icon, color: const Color(0xff12395D)), //icon arrow_chevron_right
       ],
     ),
   );
