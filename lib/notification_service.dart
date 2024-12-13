@@ -46,12 +46,13 @@ class NotificationService {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
       matchDateTimeComponents: DateTimeComponents.time,
-      androidScheduleMode: AndroidScheduleMode.exact, // Tambahkan parameter ini
+      androidScheduleMode: AndroidScheduleMode.exact,
     );
   }
 
   void scheduleTrainingNotification(PelaksanaanPelatihan pelatihan) {
-    DateTime scheduledDate = pelatihan.tanggal.subtract(Duration(days: 3));
+    DateTime target = DateTime.now().copyWith(hour: 19, minute: 29);
+    DateTime scheduledDate = target.subtract(Duration(minutes: 5));
     scheduleNotification(
       pelatihan.id,
       'Reminder: ${pelatihan.nama_pelatihan}',

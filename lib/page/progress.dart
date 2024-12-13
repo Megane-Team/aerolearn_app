@@ -139,7 +139,7 @@ class _ProgressState extends State<Progress> {
                                               .id_pelatihan
                                               .toString();
                                           String instruktur =
-                                              progressTraining.nama_intsruktur;
+                                              progressTraining.nama_instruktur;
                                           String training =
                                               progressTraining.nama_pelatihan;
                                           Navigator.push(
@@ -176,7 +176,7 @@ class _ProgressState extends State<Progress> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              progressTraining.nama_intsruktur,
+                                              progressTraining.nama_instruktur,
                                               style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold),

@@ -16,7 +16,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   tz.initializeTimeZones();
   await notificationService.init();
-  await notificationService.fetchAndScheduleNotifications();
+  // await notificationService.fetchAndScheduleNotifications();
   final router = await AppRouter.createRouter();
   runApp(MyApp(router: router));
 }

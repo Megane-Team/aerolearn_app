@@ -113,7 +113,7 @@ class ProfileState extends State<Profile> {
                     Expanded(
                       child: buildButtonRow('E-Sertifikat', Icons.chevron_right,
                           () {
-                        // Your onPressed code here
+                        context.go('/sertifikat');
                       }),
                     ),
                   ],

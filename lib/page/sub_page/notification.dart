@@ -68,8 +68,8 @@ class NotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 10),
       decoration: BoxDecoration(
+        color: Colors.lightBlue,
           border: Border(bottom: BorderSide(color: Colors.black, width: 1.0))),
       child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 1),
