@@ -72,22 +72,23 @@ class ProfileState extends State<Profile> {
         children: [
           Container(
             padding: const EdgeInsets.all(20),
-            child: FutureBuilder<UserProfile>(
-                future: fetchUserProfile(),
+            child: FutureBuilder<UserProfile?>(
+                future: fetchUserProfile(context),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
-                  // } else if (snapshot.hasData) {
-                  //   return Column(
-                  //     children: [
-                  //       buildNonEditableField('E-mail', snapshot.data!.email),
-                  //       buildNonEditableField(
-                  //           'Password', snapshot.data!.password),
-                  //       buildNonEditableField('Nama', snapshot.data!.nama),
-                  //     ],
-                  //   );
+                  } else if (snapshot.hasData) {
+                    return Column(
+                      children: [
+                        buildNonEditableField('E-mail', snapshot.data!.email),
+                        buildNonEditableField('Nama', snapshot.data!.nama),
+                        buildNonEditableField('No Telp', snapshot.data!.noTelp),
+                        buildNonEditableField('Tempat, Tanggal Lahir',
+                            '${snapshot.data!.tempatLahir}, ${snapshot.data!.tanggalLahir}')
+                      ],
+                    );
                   } else {
                     return Text('No data found');
                   }
@@ -115,7 +116,10 @@ class ProfileState extends State<Profile> {
                     Expanded(
                       child: buildButtonRow('E-Sertifikat', Icons.chevron_right,
                           () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SertifikatList()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SertifikatList()));
                       }),
                     ),
                   ],
@@ -133,7 +137,8 @@ class ProfileState extends State<Profile> {
                     Expanded(
                       child: buildButtonRow(
                           'Riwayat Pelatihan', Icons.chevron_right, () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => History()));
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => History()));
                       }),
                     ),
                   ],

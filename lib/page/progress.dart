@@ -1,7 +1,7 @@
 import 'package:aerolearn/action/pelaksanaan.dart';
 import 'package:aerolearn/page/sub_page/katalog_training.dart';
 import 'package:aerolearn/variable/pelaksanaan.dart';
-import 'package:aerolearn/utils/formatted_date.dart';
+import 'package:aerolearn/utils/formatted.dart';
 import 'package:flutter/material.dart';
 
 class Progress extends StatefulWidget {
@@ -12,12 +12,12 @@ class Progress extends StatefulWidget {
 }
 
 class _ProgressState extends State<Progress> {
-  late Future<List<PelaksanaPelatihan>> futurePelaksanaanPelatihanData;
+  late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
 
   @override
   void initState() {
     super.initState();
-    futurePelaksanaanPelatihanData = fetchPelaksanaanTraining();
+    futurePelaksanaanPelatihanData = fetchPelaksanaanTraining(context);
   }
 
   @override
@@ -46,7 +46,7 @@ class _ProgressState extends State<Progress> {
         body: Column(
           children: [
             Expanded(
-              child: FutureBuilder<List<PelaksanaPelatihan>>(
+              child: FutureBuilder<List<PelaksanaPelatihan>?>(
                   future: futurePelaksanaanPelatihanData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -99,7 +99,7 @@ class _ProgressState extends State<Progress> {
                                             fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        FormattedDate.formatDate(trainingDate),
+                                        Formatted.formatDate(trainingDate),
                                         style: const TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.bold),
@@ -109,7 +109,7 @@ class _ProgressState extends State<Progress> {
                                   Align(
                                     alignment: Alignment.centerRight,
                                     child: Text(
-                                      '${progressTraining.jam_mulai} - ${progressTraining.jam_selesai}',
+                                      '${Formatted.formatTime(progressTraining.jam_mulai)} - ${Formatted.formatTime(progressTraining.jam_selesai)}',
                                       style: const TextStyle(fontSize: 14),
                                     ),
                                   ),

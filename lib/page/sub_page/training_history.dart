@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:aerolearn/utils/formatted_date.dart';
+import 'package:aerolearn/utils/formatted.dart';
 import 'package:aerolearn/utils/asset.dart';
 
 class History extends StatefulWidget {
@@ -78,7 +78,7 @@ class _HistoryState extends State<History> {
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                FormattedDate.formatDate(trainingDate),
+                                Formatted.formatDate(trainingDate),
                                 style: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),

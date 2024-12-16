@@ -1,8 +1,5 @@
-import 'package:aerolearn/action/pelaksanaan.dart';
-import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
-
 
 class SertifikatList extends StatefulWidget {
   const SertifikatList({super.key});
@@ -12,12 +9,9 @@ class SertifikatList extends StatefulWidget {
 }
 
 class _SertifikatListState extends State<SertifikatList> {
-  late Future<List<PelaksanaPelatihan>> afterPelaksanaanPelatihanData;
-
   @override
   void initState() {
     super.initState();
-    afterPelaksanaanPelatihanData = fetchPelaksanaanTraining();
   }
 
   @override
@@ -56,17 +50,14 @@ class _SertifikatListState extends State<SertifikatList> {
           children: [
             SizedBox(height: 14),
             Center(
-              child:
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.92,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Color(0xFF898989)),
-                    borderRadius: BorderRadius.all(Radius.circular(15)
-                    ),
-                  ),
-                )
-            ),
+                child: Container(
+              width: MediaQuery.of(context).size.width * 0.92,
+              height: 200,
+              decoration: BoxDecoration(
+                border: Border.all(color: Color(0xFF898989)),
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+            )),
           ],
         ));
   }

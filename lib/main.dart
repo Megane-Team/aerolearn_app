@@ -4,19 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:aerolearn/router.dart';
 import 'package:aerolearn/constant/themes.dart';
 import 'package:go_router/src/router.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'notification_service.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/data/latest.dart' as tz;
 
-final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
-final NotificationService notificationService = NotificationService();
+Future<void> requestExactAlarmPermission() async {
+  if (await Permission.scheduleExactAlarm.request().isGranted) {
+    print('permission granted');
+  } else {
+    await Permission.scheduleExactAlarm.request();
+  }
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  tz.initializeTimeZones();
-  await notificationService.init();
-  // await notificationService.fetchAndScheduleNotifications();
+  await NotificationService.init();
+  await requestExactAlarmPermission();
   final router = await AppRouter.createRouter();
   runApp(MyApp(router: router));
 }

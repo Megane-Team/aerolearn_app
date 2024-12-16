@@ -1,7 +1,6 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:aerolearn/page/sub_page/notification.dart';
-import 'package:aerolearn/page/sub_page/sertifikat_page.dart';
 import 'package:aerolearn/page/sub_page/training_history.dart';
 import 'package:aerolearn/utils/navigation_bar.dart';
 import 'package:aerolearn/utils/session.dart';
@@ -54,20 +53,6 @@ class AppRouter {
           pageBuilder: (context, state) => NoTransitionPage(
             key: state.pageKey,
             child: const Detail(),
-          ),
-        ),
-        GoRoute(
-          path: "/sertifikatKatalog",
-          pageBuilder: (context, state) => NoTransitionPage(
-            key: state.pageKey,
-            child: const SertifikatList(),
-          ),
-        ),
-        GoRoute(
-          path: "/sertifikatPage",
-          pageBuilder: (context, state) => NoTransitionPage(
-            key: state.pageKey,
-            child: const SertifikatKatalog(),
           ),
         ),
       ],

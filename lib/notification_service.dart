@@ -1,18 +1,21 @@
-// ignore_for_file: depend_on_referenced_packages
+import 'dart:convert';
 
-import 'package:aerolearn/action/pelaksanaan.dart';
+import 'package:aerolearn/constant/variable.dart';
+import 'package:aerolearn/utils/http.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin
+      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
-  Future<void> init() async {
+  static init() async {
+    tz.initializeTimeZones();
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/launcher_icon');
 
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
@@ -20,11 +23,13 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  Future<void> scheduleNotification(
-      int id, String title, String body, DateTime scheduledDate) async {
-    final tz.TZDateTime tzScheduledDate =
-        tz.TZDateTime.from(scheduledDate, tz.local);
-
+  static scheduleNotification(PelaksanaPelatihan pelatihan) async {
+    final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
+      pelatihan.tanggal
+          .subtract(Duration(days: 3))
+          .add(Duration(hours: 10, minutes: 30)),
+      tz.local,
+    );
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       'your_channel_id',
@@ -32,43 +37,44 @@ class NotificationService {
       channelDescription: 'your_channel_description',
       importance: Importance.max,
       priority: Priority.high,
-      showWhen: false,
     );
-    const NotificationDetails platformChannelSpecifics =
+
+    var platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
-      id,
-      title,
-      body,
-      tzScheduledDate,
+      pelatihan.id,
+      pelatihan.nama_pelatihan,
+      pelatihan.nama_instruktur,
+      scheduledDate,
       platformChannelSpecifics,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-      androidScheduleMode: AndroidScheduleMode.exact,
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
+    print('Notification scheduled successfully');
   }
 
-  void scheduleTrainingNotification(PelaksanaPelatihan pelatihan) {
-    DateTime target = DateTime.now().copyWith(hour: 19, minute: 29);
-    DateTime scheduledDate = target.subtract(Duration(minutes: 5));
-    scheduleNotification(
-      pelatihan.id,
-      'Reminder: ${pelatihan.nama_pelatihan}',
-      'Pelatihan ${pelatihan.nama_pelatihan} akan dimulai pada ${pelatihan.tanggal}',
-      scheduledDate,
-    );
-  }
-
-  Future<void> fetchAndScheduleNotifications() async {
+  static fetchAndScheduleNotifications() async {
     try {
+      Future<List<PelaksanaPelatihan>> fetchNotificationsTraining() async {
+        final url = '$baseURL/peserta/progress';
+        final response = await HttpService.getRequest(url);
+        if (response.statusCode == 200) {
+          Map<String, dynamic> jsonResponse = json.decode(response.body);
+          List<dynamic> data = jsonResponse['data'];
+          return data.map((item) => PelaksanaPelatihan.fromJson(item)).toList();
+        } else {
+          throw Exception('Failed to load training data');
+        }
+      }
+
       var token = await SessionService.getToken();
       if (token != null && token.isNotEmpty) {
         List<PelaksanaPelatihan> pelatihanList =
-            await fetchPelaksanaanTraining();
+            await fetchNotificationsTraining();
         for (var pelatihan in pelatihanList) {
-          scheduleTrainingNotification(pelatihan);
+          scheduleNotification(pelatihan);
         }
       }
     } catch (e) {
