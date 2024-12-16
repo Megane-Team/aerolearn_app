@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:aerolearn/action/profile.dart';
+import 'package:aerolearn/page/sub_page/sertifikat_list.dart';
+import 'package:aerolearn/page/sub_page/training_history.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -77,15 +79,15 @@ class ProfileState extends State<Profile> {
                     return CircularProgressIndicator();
                   } else if (snapshot.hasError) {
                     return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        buildNonEditableField('E-mail', snapshot.data!.email),
-                        buildNonEditableField(
-                            'Password', snapshot.data!.password),
-                        buildNonEditableField('Nama', snapshot.data!.nama),
-                      ],
-                    );
+                  // } else if (snapshot.hasData) {
+                  //   return Column(
+                  //     children: [
+                  //       buildNonEditableField('E-mail', snapshot.data!.email),
+                  //       buildNonEditableField(
+                  //           'Password', snapshot.data!.password),
+                  //       buildNonEditableField('Nama', snapshot.data!.nama),
+                  //     ],
+                  //   );
                   } else {
                     return Text('No data found');
                   }
@@ -113,7 +115,7 @@ class ProfileState extends State<Profile> {
                     Expanded(
                       child: buildButtonRow('E-Sertifikat', Icons.chevron_right,
                           () {
-                        context.go('/sertifikat');
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SertifikatList()));
                       }),
                     ),
                   ],
@@ -131,7 +133,7 @@ class ProfileState extends State<Profile> {
                     Expanded(
                       child: buildButtonRow(
                           'Riwayat Pelatihan', Icons.chevron_right, () {
-                        context.go('/history');
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => History()));
                       }),
                     ),
                   ],

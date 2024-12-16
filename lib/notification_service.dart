@@ -50,7 +50,7 @@ class NotificationService {
     );
   }
 
-  void scheduleTrainingNotification(PelaksanaanPelatihan pelatihan) {
+  void scheduleTrainingNotification(PelaksanaPelatihan pelatihan) {
     DateTime target = DateTime.now().copyWith(hour: 19, minute: 29);
     DateTime scheduledDate = target.subtract(Duration(minutes: 5));
     scheduleNotification(
@@ -65,7 +65,7 @@ class NotificationService {
     try {
       var token = await SessionService.getToken();
       if (token != null && token.isNotEmpty) {
-        List<PelaksanaanPelatihan> pelatihanList =
+        List<PelaksanaPelatihan> pelatihanList =
             await fetchPelaksanaanTraining();
         for (var pelatihan in pelatihanList) {
           scheduleTrainingNotification(pelatihan);

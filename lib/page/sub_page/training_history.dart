@@ -20,7 +20,7 @@ class _HistoryState extends State<History> {
               IconButton(
                 icon: Image.asset(Assets.icons('arrow_back')),
                 onPressed: () {
-                  // Aksi ketika tombol kembali ditekan
+                  Navigator.pop(context);
                 },
               ),
               const Expanded(
@@ -144,19 +144,6 @@ class _HistoryState extends State<History> {
             )
           ],
         ));
-  }
-}
-
-String searchQuery = '';
-
-List<Map<String, String>> get filteredTraining {
-  if (searchQuery.isEmpty) {
-    return training;
-  } else {
-    return training.where((item) {
-      DateTime trainingDate = DateTime.parse(item['tanggal']!);
-      return trainingDate.toString().contains(searchQuery);
-    }).toList();
   }
 }
 

@@ -12,7 +12,7 @@ class Progress extends StatefulWidget {
 }
 
 class _ProgressState extends State<Progress> {
-  late Future<List<PelaksanaanPelatihan>> futurePelaksanaanPelatihanData;
+  late Future<List<PelaksanaPelatihan>> futurePelaksanaanPelatihanData;
 
   @override
   void initState() {
@@ -46,7 +46,7 @@ class _ProgressState extends State<Progress> {
         body: Column(
           children: [
             Expanded(
-              child: FutureBuilder<List<PelaksanaanPelatihan>>(
+              child: FutureBuilder<List<PelaksanaPelatihan>>(
                   future: futurePelaksanaanPelatihanData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -54,7 +54,7 @@ class _ProgressState extends State<Progress> {
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (snapshot.hasData) {
-                      List<PelaksanaanPelatihan> training = snapshot.data
+                      List<PelaksanaPelatihan> training = snapshot.data
                               ?.where((item) => item.isSelesai != 'Selesai')
                               .toList() ??
                           [];
@@ -155,7 +155,7 @@ class _ProgressState extends State<Progress> {
                                                               idPelatihan)));
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.black,
+                                          backgroundColor: Color(0xFF2C2C2C),
                                           foregroundColor: Colors.white,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
