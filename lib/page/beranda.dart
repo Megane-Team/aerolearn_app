@@ -14,13 +14,13 @@ class Beranda extends StatefulWidget {
 
 class _BerandaState extends State<Beranda> {
   TextEditingController searchController = TextEditingController();
-  late Future<List<Training>> futureTrainingData;
+  late Future<List<Training>?> futureTrainingData;
   String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
-    futureTrainingData = fetchTrainingData();
+    futureTrainingData = fetchTrainingData(context);
   }
 
   List<Training> filterTraining(List<Training> training, String query) {
@@ -88,10 +88,15 @@ class _BerandaState extends State<Beranda> {
                     ],
                   ),
                   const Spacer(),
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
+                  InkWell(
+                    onTap: () {
+                      context.go('/notification');
+                    },
+                    child: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -138,7 +143,7 @@ class _BerandaState extends State<Beranda> {
       body: Column(
         children: [
           Expanded(
-              child: FutureBuilder<List<Training>>(
+              child: FutureBuilder<List<Training>?>(
                   future: futureTrainingData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {

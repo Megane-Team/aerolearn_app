@@ -1,11 +1,13 @@
 // ignore_for_file: non_constant_identifier_names
 
 import 'package:aerolearn/action/absen.dart';
+import 'package:aerolearn/action/absenPost.dart';
 import 'package:aerolearn/action/materi.dart';
 import 'package:aerolearn/utils/asset.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/page/sub_page/materi_page.dart';
+import 'package:quickalert/quickalert.dart';
 
 class KatalogTraining extends StatefulWidget {
   final int id;
@@ -24,13 +26,13 @@ class KatalogTraining extends StatefulWidget {
 }
 
 class _KatalogTrainingState extends State<KatalogTraining> {
-  late Future<List<Materi>> futureMateri;
+  late Future<List<Materi>?> futureMateri;
   bool isLocked = false;
 
   @override
   void initState() {
     super.initState();
-    futureMateri = fetchMateriData(widget.id_pelatihan);
+    futureMateri = fetchMateriData(context, widget.id_pelatihan);
   }
 
   @override
@@ -127,7 +129,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                     ),
                     child: Padding(
                         padding: EdgeInsets.all(16.0),
-                        child: FutureBuilder<List<Materi>>(
+                        child: FutureBuilder<List<Materi>?>(
                             future: futureMateri,
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
@@ -143,8 +145,9 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                   itemCount: materiAll.length,
                                   itemBuilder: (context, index) {
                                     var materi = materiAll[index];
-                                    return FutureBuilder<bool>(
-                                      future: fetchAbsenData(materi.id),
+                                    return FutureBuilder<bool?>(
+                                      future:
+                                          fetchAbsenData(context, materi.id),
                                       builder: (context, attendanceSnapshot) {
                                         if (snapshot.connectionState ==
                                             ConnectionState.waiting) {
@@ -161,13 +164,17 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                               context,
                                               materi.judul,
                                               true,
-                                              materi.konten);
+                                              materi.konten,
+                                              materi.id,
+                                              widget.id);
                                         } else {
                                           return buildTrainingButton(
                                               context,
                                               materi.judul,
                                               false,
-                                              materi.konten);
+                                              materi.konten,
+                                              materi.id,
+                                              widget.id);
                                         }
                                       },
                                     );
@@ -188,8 +195,8 @@ class _KatalogTrainingState extends State<KatalogTraining> {
   }
 }
 
-Widget buildTrainingButton(
-    BuildContext context, String title, bool isUnlocked, konten) {
+Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
+    konten, idMateri, idPelaksanaanPelatihan) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0),
     child: GestureDetector(
@@ -202,7 +209,41 @@ Widget buildTrainingButton(
                 ),
               );
             }
-          : null,
+          : () {
+              QuickAlert.show(
+                  context: context,
+                  type: QuickAlertType.confirm,
+                  text: 'Absen',
+                  confirmBtnText: 'Ya',
+                  cancelBtnText: 'Tidak',
+                  confirmBtnColor: Colors.green,
+                  confirmBtnTextStyle:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+                  onConfirmBtnTap: () async {
+                    Navigator.of(context).pop();
+                    var res = await absenPeserta(
+                        context, idMateri, idPelaksanaanPelatihan);
+                    if (res == "anda sudah absen") {
+                      showDialog(
+                          // ignore: use_build_context_synchronously
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text('Informasi'),
+                              content: Text('Anda sudah absen.'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Text('OK'),
+                                ),
+                              ],
+                            );
+                          });
+                    }
+                  });
+            },
       child: Container(
         padding: EdgeInsets.all(10),
         decoration: BoxDecoration(

@@ -14,13 +14,14 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                 icon: Image.asset(Assets.icons('arrow_back')),
                 onPressed: () {
-                  // Aksi ketika tombol kembali ditekan
+                  Navigator.pop(context);
                 },
               ),
               const Expanded(

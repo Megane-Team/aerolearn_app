@@ -5,6 +5,7 @@ class Formatted {
   static String formatDate(DateTime date) {
     return FLDateTime.formatWithNames(date, 'DD MMMM YYYY');
   }
+
   static String formatTime(String time) {
     final DateFormat inputFormat = DateFormat('HH:mm:ss');
     final DateFormat outputFormat = DateFormat('HH:mm');
@@ -12,4 +13,3 @@ class Formatted {
     return outputFormat.format(dateTime);
   }
 }
-

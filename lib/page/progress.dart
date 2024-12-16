@@ -12,12 +12,12 @@ class Progress extends StatefulWidget {
 }
 
 class _ProgressState extends State<Progress> {
-  late Future<List<PelaksanaanPelatihan>> futurePelaksanaanPelatihanData;
+  late Future<List<PelaksanaanPelatihan>?> futurePelaksanaanPelatihanData;
 
   @override
   void initState() {
     super.initState();
-    futurePelaksanaanPelatihanData = fetchPelaksanaanTraining();
+    futurePelaksanaanPelatihanData = fetchPelaksanaanTraining(context);
   }
 
   @override
@@ -46,7 +46,7 @@ class _ProgressState extends State<Progress> {
         body: Column(
           children: [
             Expanded(
-              child: FutureBuilder<List<PelaksanaanPelatihan>>(
+              child: FutureBuilder<List<PelaksanaanPelatihan>?>(
                   future: futurePelaksanaanPelatihanData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
