@@ -55,7 +55,7 @@ class _ProgressState extends State<Progress> {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (snapshot.hasData) {
                       List<PelaksanaanPelatihan> training = snapshot.data
-                              ?.where((item) => item.isSelesai != 'Selesai')
+                              ?.where((item) => item.isSelesai != 'selesai')
                               .toList() ??
                           [];
                       if (training.isEmpty) {

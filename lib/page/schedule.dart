@@ -58,8 +58,12 @@ class _ScheduleState extends State<Schedule> {
                       return Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (snapshot.hasData) {
+                    } else {
                       final pelatihanList = snapshot.data!;
+                      final filteredPelatihanList =
+                          pelatihanList.where((pelatihan) {
+                        return pelatihan.tanggal.isAfter(DateTime.now());
+                      });
                       return TableCalendar(
                         firstDay: DateTime.utc(2000, 1, 1),
                         lastDay: DateTime.utc(2100, 12, 31),
@@ -77,38 +81,42 @@ class _ScheduleState extends State<Schedule> {
                             _focusedDay = focusedDay;
                           });
                         },
-                        eventLoader: (day) { return pelatihanList.where((pelatihan) {
-                          return isSameDay(pelatihan.tanggal, day);
-                        }).toList();
-                          },
+                        eventLoader: (day) {
+                          return filteredPelatihanList.where((pelatihan) {
+                            return isSameDay(pelatihan.tanggal, day);
+                          }).toList();
+                        },
                         calendarStyle: const CalendarStyle(
-                          defaultTextStyle: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                          weekendTextStyle: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                          selectedTextStyle: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.white),
-                          todayTextStyle: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.black),
-                          selectedDecoration: BoxDecoration(
-                            color: Color(0xff12395D),
-                            shape: BoxShape.circle,
-                          ),
-                          todayDecoration: BoxDecoration(
-                            color: Color(0xffD0CCCC),
-                            shape: BoxShape.circle,
-                          ),
-                          markerDecoration: BoxDecoration( color: Colors.red, shape: BoxShape.circle)
-                        ),
+                            defaultTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            weekendTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            selectedTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                            todayTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black),
+                            selectedDecoration: BoxDecoration(
+                              color: Color(0xff12395D),
+                              shape: BoxShape.circle,
+                            ),
+                            todayDecoration: BoxDecoration(
+                              color: Color(0xffD0CCCC),
+                              shape: BoxShape.circle,
+                            ),
+                            markerDecoration: BoxDecoration(
+                                color: Colors.red, shape: BoxShape.circle)),
                       );
-                    } else {
-                      return Text('No data Available');
                     }
                   }),
             ),
           ),
           const SizedBox(height: 20),
-          listTraining(context, _selectedDay, _focusedDay, futurePelaksanaanPelatihanData),
+          listTraining(context, _selectedDay, _focusedDay,
+              futurePelaksanaanPelatihanData),
         ],
       ),
     );
@@ -118,113 +126,107 @@ class _ScheduleState extends State<Schedule> {
 Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
   return Expanded(
     child: FutureBuilder<List<PelaksanaanPelatihan>?>(
-      future: futurePelaksanaan,
-      builder: (context, snapshot){
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (snapshot.hasData) {
-          List<PelaksanaanPelatihan>? progress = snapshot.data;
-          return ListView.builder(
-            itemCount: progress!.length,
-            itemBuilder: (context, index) {
-              var trainingList = progress[index];
-              if ((selectedDay != null &&
-                  isSameDay(trainingList.tanggal, selectedDay!)) ||
-                  isSameDay(trainingList.tanggal, focusedDay!)) {
-                return Padding(
-                    padding: const EdgeInsets.only(
-                      left: 20,
-                      right: 20,
-                    ),
-                    child: Column(children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              height: 110,
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.2,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    Formatted.formatTime(trainingList.jam_mulai),
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                  const Dash(
-                                    direction: Axis.vertical,
-                                    length: 50,
-                                    dashLength: 5,
-                                    dashColor: Colors.black,
-                                  ),
-                                  Text(
-                                    Formatted.formatTime(trainingList.jam_selesai),
-                                    style: const TextStyle(fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              padding:
-                              const EdgeInsets.only(top: 10,
-                                  left: 20,
-                                  right: 20),
-                              width: MediaQuery
-                                  .of(context)
-                                  .size
-                                  .width * 0.68,
-                              height: 110,
-                              decoration: BoxDecoration(
-                                color: const Color(0xffEDEDED),
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const Text(
-                                    'Training',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
+        future: futurePelaksanaan,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            List<PelaksanaanPelatihan>? progress = snapshot.data;
+            return ListView.builder(
+              itemCount: progress!.length,
+              itemBuilder: (context, index) {
+                var trainingList = progress[index];
+                if ((selectedDay != null &&
+                        isSameDay(trainingList.tanggal, selectedDay!)) ||
+                    isSameDay(trainingList.tanggal, focusedDay!) &&
+                        trainingList.tanggal.isAfter(DateTime.now())) {
+                  return Padding(
+                      padding: const EdgeInsets.only(
+                        left: 20,
+                        right: 20,
+                      ),
+                      child: Column(children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10.0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                height: 110,
+                                width: MediaQuery.of(context).size.width * 0.2,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      Formatted.formatTime(
+                                          trainingList.jam_mulai),
+                                      style: const TextStyle(fontSize: 16),
                                     ),
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    trainingList.jenis_training,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
+                                    const Dash(
+                                      direction: Axis.vertical,
+                                      length: 50,
+                                      dashLength: 5,
+                                      dashColor: Colors.black,
                                     ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 5),
-                                  Text(
-                                    trainingList.ruangan,
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400,
+                                    Text(
+                                      Formatted.formatTime(
+                                          trainingList.jam_selesai),
+                                      style: const TextStyle(fontSize: 16),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ]));
-              }
-              return Container();
-            },
-          );
-        }else{
-          return Text('No data available');
-        }
-      }),
+                              Container(
+                                padding: const EdgeInsets.only(
+                                    top: 10, left: 20, right: 20),
+                                width: MediaQuery.of(context).size.width * 0.68,
+                                height: 110,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffEDEDED),
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Training',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      trainingList.jenis_training,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      trainingList.ruangan,
+                                      style: const TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w400,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ]));
+                }
+                return Container();
+              },
+            );
+          } else {
+            return Text('No data available');
+          }
+        }),
   );
 }
-

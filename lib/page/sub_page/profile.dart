@@ -83,7 +83,8 @@ class ProfileState extends State<Profile> {
                       children: [
                         buildNonEditableField('E-mail', snapshot.data!.email),
                         buildNonEditableField('Nama', snapshot.data!.nama),
-                        buildNonEditableField('No Telp', snapshot.data!.noTelp),
+                        buildNonEditableField('No Telp',
+                            snapshot.data?.noTelp ?? 'tidak ada nomer telepon'),
                         buildNonEditableField('Tempat, Tanggal Lahir',
                             '${snapshot.data!.tempatLahir}, ${snapshot.data!.tanggalLahir}')
                       ],
