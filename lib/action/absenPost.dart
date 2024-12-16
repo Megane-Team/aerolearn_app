@@ -1,6 +1,5 @@
 // ignore_for_file: file_names
 import 'dart:convert';
-import 'package:aerolearn/utils/connectionError.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'package:aerolearn/constant/variable.dart';
 
@@ -19,7 +18,6 @@ Future<String?> absenPeserta(
       return 'anda sudah absen';
     }
   } catch (e) {
-    showConnectionErrorDialog(context);
     return null;
   }
 }
