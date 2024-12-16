@@ -338,10 +338,11 @@ class LoginState extends State<Login> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   var loginResult = await ApiService.login(
+                                    context,
                                     _emailController.text,
                                     _passwordController.text,
                                   );
-                                  if (loginResult == null) {
+                                  if (loginResult == 'invalid') {
                                     showDialog(
                                         // ignore: use_build_context_synchronously
                                         context: context,
@@ -360,7 +361,8 @@ class LoginState extends State<Login> {
                                             ],
                                           );
                                         });
-                                  } else if (loginResult != "peserta") {
+                                  } else if (loginResult != "peserta" &&
+                                      loginResult != null) {
                                     showDialog(
                                       // ignore: use_build_context_synchronously
                                       context: context, // Add context parameter
@@ -380,7 +382,7 @@ class LoginState extends State<Login> {
                                         );
                                       },
                                     );
-                                  } else {
+                                  } else if (loginResult == "peserta") {
                                     // ignore: use_build_context_synchronously
                                     context.go('/mainpage');
                                   }

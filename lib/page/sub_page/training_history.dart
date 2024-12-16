@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:aerolearn/utils/formatted_date.dart';
+import 'package:aerolearn/utils/formatted.dart';
 import 'package:aerolearn/utils/asset.dart';
 
 class History extends StatefulWidget {
@@ -14,13 +14,14 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                 icon: Image.asset(Assets.icons('arrow_back')),
                 onPressed: () {
-                  // Aksi ketika tombol kembali ditekan
+                  Navigator.pop(context);
                 },
               ),
               const Expanded(
@@ -77,7 +78,7 @@ class _HistoryState extends State<History> {
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),
                               Text(
-                                FormattedDate.formatDate(trainingDate),
+                                Formatted.formatDate(trainingDate),
                                 style: const TextStyle(
                                     fontSize: 14, fontWeight: FontWeight.bold),
                               ),

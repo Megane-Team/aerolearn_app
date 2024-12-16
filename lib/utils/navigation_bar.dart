@@ -1,3 +1,4 @@
+import 'package:aerolearn/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/page/beranda.dart';
 import 'package:aerolearn/page/progress.dart';
@@ -12,6 +13,12 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    NotificationService.fetchAndScheduleNotifications();
+  }
 
   void _onItemTapped(int index) {
     setState(() {
