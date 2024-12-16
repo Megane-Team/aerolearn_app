@@ -14,6 +14,7 @@ class _HistoryState extends State<History> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -56,7 +57,7 @@ class _HistoryState extends State<History> {
                     padding: const EdgeInsets.all(16.0),
                     child: Container(
                       padding:
-                          const EdgeInsets.only(top: 20, left: 20, right: 20),
+                          const EdgeInsets.only(top: 10, left: 20, right: 20),
                       width: MediaQuery.of(context).size.width * 0.7,
                       height: 170,
                       decoration: BoxDecoration(
@@ -93,7 +94,7 @@ class _HistoryState extends State<History> {
                           ),
                           Text(
                             progressTraining['kelas']!,
-                            style: const TextStyle(fontSize: 12),
+                            style: const TextStyle(fontSize: 14),
                           ),
                           const SizedBox(
                             height: 10,
@@ -129,7 +130,7 @@ class _HistoryState extends State<History> {
                                   ),
                                   const Text(
                                     'Instruktur',
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: 14),
                                   ),
                                 ],
                               )
