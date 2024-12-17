@@ -135,6 +135,7 @@ class LoginState extends State<Login> {
                                     fontSize:
                                         MediaQuery.of(context).size.width *
                                             0.08,
+                                    wordSpacing: -5,
                                     fontWeight: FontWeight.bold,
                                     color: const Color(0xff5092FF),
                                     height: 1.2,
@@ -142,7 +143,7 @@ class LoginState extends State<Login> {
                                   ),
                                 ),
                                 TextSpan(
-                                  text: '  Masuk',
+                                  text: ' Masuk',
                                   style: TextStyle(
                                     fontSize:
                                         MediaQuery.of(context).size.width *
