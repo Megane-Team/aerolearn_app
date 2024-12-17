@@ -160,7 +160,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                                   children: [
                                     Text(
                                       Formatted.formatTime(
-                                          trainingList.jam_mulai),
+                                          trainingList.jam_selesai),
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                     const Dash(
@@ -171,7 +171,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                                     ),
                                     Text(
                                       Formatted.formatTime(
-                                          trainingList.jam_selesai),
+                                          trainingList.jam_mulai ),
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ],
@@ -190,7 +190,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Text(
-                                      'Training',
+                                      'Pelatihan',
                                       style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w400,
@@ -225,7 +225,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
               },
             );
           } else {
-            return Text('No data available');
+            return Text('Data tidak tersedia');
           }
         }),
   );

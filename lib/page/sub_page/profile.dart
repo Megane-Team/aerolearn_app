@@ -66,40 +66,46 @@ class ProfileState extends State<Profile> {
           ),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            child: FutureBuilder<UserProfile?>(
-                future: fetchUserProfile(context),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  } else if (snapshot.hasData) {
-                    return Column(
-                      children: [
-                        buildNonEditableField('E-mail', snapshot.data!.email),
-                        buildNonEditableField('Nama', snapshot.data!.nama),
-                        buildNonEditableField('No Telp',
-                            snapshot.data?.noTelp ?? 'tidak ada nomer telepon'),
-                        buildNonEditableField('Tempat, Tanggal Lahir',
-                            '${snapshot.data!.tempatLahir}, ${snapshot.data!.tanggalLahir}')
-                      ],
-                    );
-                  } else {
-                    return Text('No data found');
-                  }
-                }),
-          ),
+      body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                child: FutureBuilder<UserProfile?>(
+                    future: fetchUserProfile(context),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      } else if (snapshot.hasData) {
+                        return Column(
+                          children: [
+                            buildNonEditableField('E-mail', snapshot.data!.email),
+                            buildNonEditableField('Nama', snapshot.data!.nama),
+                            buildNonEditableField('No Telp',
+                                snapshot.data?.noTelp ?? 'tidak ada nomer telepon'),
+                            buildNonEditableField('Tempat, Tanggal Lahir',
+                                '${snapshot.data!.tempatLahir}, ${snapshot.data!.tanggalLahir}')
+                          ],
+                        );
+                      } else {
+                        return Column(
+                          children: [
+                            buildNonEditableField('E-mail', ''),
+                            buildNonEditableField('Nama',''),
+                            buildNonEditableField('No Telp',''),
+                            buildNonEditableField('Tempat, Tanggal Lahir','')
+                          ],
+                        );
+                      }
+                    }),
+              ),
           Container(
             padding: const EdgeInsets.only(
               right: 20.0,
               left: 20.0,
-              bottom: 120.0,
+              bottom: 70.0,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -229,7 +235,7 @@ class ProfileState extends State<Profile> {
               ),
             ),
           ),
-        ],
+    ]),
       ),
     );
   }

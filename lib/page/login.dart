@@ -343,15 +343,15 @@ class LoginState extends State<Login> {
                                     _emailController.text,
                                     _passwordController.text,
                                   );
-                                  if (loginResult == 'invalid') {
+                                  if (loginResult == 'Invalid') {
                                     showDialog(
                                         // ignore: use_build_context_synchronously
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
-                                            title: Text('Login Failed'),
+                                            title: Text('Gagal login'),
                                             content: Text(
-                                                'Invalid Email or password. Please try again.'),
+                                                'Email atau Kata sandi salah. Silahkan coba lagi.'),
                                             actions: [
                                               TextButton(
                                                 onPressed: () {
@@ -369,9 +369,9 @@ class LoginState extends State<Login> {
                                       context: context, // Add context parameter
                                       builder: (BuildContext context) {
                                         return AlertDialog(
-                                          title: Text('Login Failed'),
+                                          title: Text('Gagal login'),
                                           content: Text(
-                                              'Invalid Email or password. Please try again.'),
+                                              'Email atau Kata sandi salah. Silahkan coba lagi.'),
                                           actions: [
                                             TextButton(
                                               onPressed: () {

@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const Beranda();
         break;
       case 2:
-        const Progress();
+        const Progres();
         break;
     }
   }
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: const [
           Schedule(),
           Beranda(),
-          Progress(),
+          Progres(),
         ],
       ),
       bottomNavigationBar: ClipRRect(
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? const Color(0xFF0463CA)
                       : const Color(0xFF74AEFF),
                 ),
-                label: 'Progress',
+                label: 'Progres',
               ),
             ],
             currentIndex: _selectedIndex,

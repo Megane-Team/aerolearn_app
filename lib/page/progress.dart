@@ -4,14 +4,14 @@ import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/formatted.dart';
 import 'package:flutter/material.dart';
 
-class Progress extends StatefulWidget {
-  const Progress({super.key});
+class Progres extends StatefulWidget {
+  const Progres({super.key});
 
   @override
-  State<Progress> createState() => _ProgressState();
+  State<Progres> createState() => _ProgresState();
 }
 
-class _ProgressState extends State<Progress> {
+class _ProgresState extends State<Progres> {
   late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
 
   @override
@@ -59,7 +59,7 @@ class _ProgressState extends State<Progress> {
                               .toList() ??
                           [];
                       if (training.isEmpty) {
-                        return Center(child: Text('No progress'));
+                        return Center(child: Text('Tidak ada progres'));
                       }
                       return ListView.builder(
                         itemCount: training.length,
