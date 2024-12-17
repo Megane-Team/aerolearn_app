@@ -1,7 +1,9 @@
+import 'package:aerolearn/action/pelaksanaan.dart';
+import 'package:aerolearn/page/sub_page/katalog_training.dart';
+import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:flutter/material.dart';
-import 'package:aerolearn/utils/formatted_date.dart';
+import 'package:aerolearn/utils/formatted.dart';
 import 'package:aerolearn/utils/asset.dart';
-import 'package:go_router/go_router.dart';
 
 class History extends StatefulWidget {
   const History({super.key});
@@ -11,17 +13,27 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
+  late Future<List<PelaksanaanPelatihan>?>
+      futurePelaksanaanPelatihanSelesaiData;
+
+  @override
+  void initState() {
+    super.initState();
+    futurePelaksanaanPelatihanSelesaiData = fetchPelaksanaanTraining(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
                 icon: Image.asset(Assets.icons('arrow_back')),
                 onPressed: () {
-                  context.go('/profile');
+                  Navigator.pop(context);
                 },
               ),
               const Expanded(
@@ -47,183 +59,150 @@ class _HistoryState extends State<History> {
               height: 20,
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: training.length,
-                itemBuilder: (context, index) {
-                  var progressTraining = training[index];
-                  DateTime trainingDate =
-                      DateTime.parse(progressTraining['tanggal']!);
-                  return Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      padding:
-                          const EdgeInsets.only(top: 20, left: 20, right: 20),
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      height: 170,
-                      decoration: BoxDecoration(
-                        color: const Color(0xffEDEDED),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const Text(
-                                'Pelatihan',
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                FormattedDate.formatDate(trainingDate),
-                                style: const TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.bold),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            progressTraining['jenis_latihan']!,
-                            style: const TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w900),
-                          ),
-                          Text(
-                            progressTraining['kelas']!,
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  // Add your onPressed code here!
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xff14AE5C),
-                                  foregroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
+                child: FutureBuilder<List<PelaksanaanPelatihan>?>(
+                    future: futurePelaksanaanPelatihanSelesaiData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (snapshot.hasData) {
+                        List<PelaksanaanPelatihan> training = snapshot.data
+                                ?.where((item) => item.isSelesai == 'selesai')
+                                .toList() ??
+                            [];
+                        if (training.isEmpty) {
+                          return Center(
+                              child: Text('Tidak ada pelatihan yang selesai'));
+                        }
+                        return ListView.builder(
+                          itemCount: training.length,
+                          itemBuilder: (context, index) {
+                            var trainingSelesai = training[index];
+                            DateTime trainingDate = DateTime.parse(
+                                trainingSelesai.tanggal.toString());
+                            return Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    top: 20, left: 20, right: 20),
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                height: 170,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffEDEDED),
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                child: const Text('Buka Katalog'),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          'Pelatihan',
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          Formatted.formatDate(trainingDate),
+                                          style: const TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      trainingSelesai.nama_pelatihan,
+                                      style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    Text(
+                                      trainingSelesai.ruangan,
+                                      style: const TextStyle(fontSize: 12),
+                                    ),
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            var id = trainingSelesai.id;
+                                            var idPelatihan = trainingSelesai
+                                                .id_pelatihan
+                                                .toString();
+                                            String instruktur =
+                                                trainingSelesai.nama_intsruktur;
+                                            String training =
+                                                trainingSelesai.nama_pelatihan;
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        KatalogTraining(
+                                                            id: id,
+                                                            instruktur:
+                                                                instruktur,
+                                                            training: training,
+                                                            id_pelatihan:
+                                                                idPelatihan)));
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                const Color(0xff14AE5C),
+                                            foregroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                          ),
+                                          child: const Text('Buka Katalog'),
+                                        ),
+                                        const SizedBox(
+                                          width: 10,
+                                        ),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              trainingSelesai.nama_intsruktur,
+                                              style: const TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            const Text(
+                                              'Instruktur',
+                                              style: TextStyle(fontSize: 12),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
                               ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    progressTraining['instruktur']!,
-                                    style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  const Text(
-                                    'Instruktur',
-                                    style: TextStyle(fontSize: 12),
-                                  ),
-                                ],
-                              )
-                            ],
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            )
+                            );
+                          },
+                        );
+                      } else {
+                        return Text('Tidak ada pelatihan yang selesai');
+                      }
+                    }))
           ],
         ));
   }
 }
-
-String searchQuery = '';
-
-List<Map<String, String>> get filteredTraining {
-  if (searchQuery.isEmpty) {
-    return training;
-  } else {
-    return training.where((item) {
-      DateTime trainingDate = DateTime.parse(item['tanggal']!);
-      return trainingDate.toString().contains(searchQuery);
-    }).toList();
-  }
-}
-
-List<Map<String, String>> training = [
-  {
-    'jenis_latihan': 'Aircraft Painting',
-    'kelas': 'Teori L.47',
-    'jam_mulai': '08.00',
-    'jam_selesai': '12.00',
-    'tanggal': '2024-11-08',
-    'instruktur': 'Muhammad Hafidz',
-  },
-  {
-    'jenis_latihan': 'Aircraft Modification',
-    'kelas': 'Teori K.29',
-    'jam_mulai': '12.00',
-    'jam_selesai': '15.00',
-    'tanggal': '2024-11-09',
-    'instruktur': 'Muhammad Yusuf',
-  },
-  {
-    'jenis_latihan': 'Aircraft Painting',
-    'kelas': 'Teori L.47',
-    'jam_mulai': '08.00',
-    'jam_selesai': '12.00',
-    'tanggal': '2024-11-08',
-    'instruktur': 'Muhammad Hafidz',
-  },
-  {
-    'jenis_latihan': 'Aircraft Modification',
-    'kelas': 'Teori K.29',
-    'jam_mulai': '12.00',
-    'jam_selesai': '15.00',
-    'tanggal': '2024-11-09',
-    'instruktur': 'Muhammad Yusuf',
-  },
-  {
-    'jenis_latihan': 'Aircraft Painting',
-    'kelas': 'Teori L.47',
-    'jam_mulai': '08.00',
-    'jam_selesai': '12.00',
-    'tanggal': '2024-11-08',
-    'instruktur': 'Muhammad Hafidz',
-  },
-  {
-    'jenis_latihan': 'Aircraft Modification',
-    'kelas': 'Teori K.29',
-    'jam_mulai': '12.00',
-    'jam_selesai': '15.00',
-    'tanggal': '2024-11-09',
-    'instruktur': 'Muhammad Yusuf',
-  },
-  {
-    'jenis_latihan': 'Aircraft Painting',
-    'kelas': 'Teori L.47',
-    'jam_mulai': '08.00',
-    'jam_selesai': '12.00',
-    'tanggal': '2024-11-08',
-    'instruktur': 'Muhammad Hafidz',
-  },
-  {
-    'jenis_latihan': 'Aircraft Modification',
-    'kelas': 'Teori K.29',
-    'jam_mulai': '12.00',
-    'jam_selesai': '15.00',
-    'tanggal': '2024-11-09',
-    'instruktur': 'Muhammad Yusuf',
-  },
-];

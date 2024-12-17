@@ -12,16 +12,16 @@ class Login extends StatefulWidget {
 }
 
 class LoginState extends State<Login> {
-  late bool showPass = false;
+  late bool showPass = true;
   late bool _isAtEnd = false;
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final SheetController _slideController = SheetController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _usernameController.dispose();
+    _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -37,7 +37,7 @@ class LoginState extends State<Login> {
           cornerRadius: 50,
           snapSpec: const SnapSpec(
             snap: true,
-            snappings: [40, 350, double.infinity],
+            snappings: [40, double.infinity, double.infinity],
             positioning: SnapPositioning.pixelOffset,
           ),
           openDuration: const Duration(milliseconds: 100),
@@ -51,6 +51,7 @@ class LoginState extends State<Login> {
                 _isAtEnd = false;
               });
             }
+            FocusScope.of(context).unfocus();
           },
           body: Center(
             child: SizedBox(
@@ -238,7 +239,7 @@ class LoginState extends State<Login> {
                             height: MediaQuery.of(context).size.height * 0.1,
                             child: TextFormField(
                               cursorColor: Colors.black,
-                              controller: _usernameController,
+                              controller: _emailController,
                               decoration: InputDecoration(
                                 focusedBorder: const OutlineInputBorder(
                                   borderSide: BorderSide(color: Colors.black),
@@ -250,7 +251,7 @@ class LoginState extends State<Login> {
                                   borderRadius:
                                       BorderRadius.all(Radius.circular(10)),
                                 ),
-                                labelText: 'Username',
+                                labelText: 'Email',
                                 labelStyle: TextStyle(
                                   color: Colors.black,
                                   fontSize: MediaQuery.of(context).size.width *
@@ -263,7 +264,7 @@ class LoginState extends State<Login> {
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Masukkan username';
+                                  return 'Masukkan Email';
                                 }
                                 return null;
                               },
@@ -301,8 +302,8 @@ class LoginState extends State<Login> {
                                 suffixIcon: IconButton(
                                   icon: Icon(
                                     showPass
-                                        ? Icons.visibility
-                                        : Icons.visibility_off,
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
                                     color: const Color(0xff5A5A5A),
                                   ),
                                   iconSize: 25,
@@ -338,10 +339,31 @@ class LoginState extends State<Login> {
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   var loginResult = await ApiService.login(
-                                    _usernameController.text,
+                                    context,
+                                    _emailController.text,
                                     _passwordController.text,
                                   );
-                                  if (loginResult != "peserta") {
+                                  if (loginResult == 'invalid') {
+                                    showDialog(
+                                        // ignore: use_build_context_synchronously
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Text('Login Failed'),
+                                            content: Text(
+                                                'Invalid Email or password. Please try again.'),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                child: Text('OK'),
+                                              ),
+                                            ],
+                                          );
+                                        });
+                                  } else if (loginResult != "peserta" &&
+                                      loginResult != null) {
                                     showDialog(
                                       // ignore: use_build_context_synchronously
                                       context: context, // Add context parameter
@@ -349,7 +371,7 @@ class LoginState extends State<Login> {
                                         return AlertDialog(
                                           title: Text('Login Failed'),
                                           content: Text(
-                                              'Invalid username or password. Please try again.'),
+                                              'Invalid Email or password. Please try again.'),
                                           actions: [
                                             TextButton(
                                               onPressed: () {
@@ -361,7 +383,8 @@ class LoginState extends State<Login> {
                                         );
                                       },
                                     );
-                                  } else {
+                                  } else if (loginResult == "peserta") {
+                                    // ignore: use_build_context_synchronously
                                     context.go('/mainpage');
                                   }
                                 }

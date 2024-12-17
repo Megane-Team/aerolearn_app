@@ -1,7 +1,9 @@
+import 'package:aerolearn/action/jenis_training.dart';
+import 'package:aerolearn/page/sub_page/profile.dart';
+import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
 import 'package:go_router/go_router.dart';
-import 'package:aerolearn/utils/search.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -12,11 +14,27 @@ class Beranda extends StatefulWidget {
 
 class _BerandaState extends State<Beranda> {
   TextEditingController searchController = TextEditingController();
+  late Future<List<Training>?> futureTrainingData;
   String searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    futureTrainingData = fetchTrainingData(context);
+  }
+
+  List<Training> filterTraining(List<Training> training, String query) {
+    if (query.isEmpty) {
+      return training;
+    } else {
+      return training
+          .where((t) => t.nama.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Map<String, String>> filteredTraining =
-        filterTraining(training, searchQuery);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(175.0),
@@ -34,7 +52,8 @@ class _BerandaState extends State<Beranda> {
                 children: [
                   InkWell(
                     onTap: () {
-                      context.go('/profile');
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Profile()));
                     },
                     child: const CircleAvatar(
                       radius: 23,
@@ -69,10 +88,15 @@ class _BerandaState extends State<Beranda> {
                     ],
                   ),
                   const Spacer(),
-                  const Icon(
-                    Icons.notifications,
-                    color: Colors.white,
-                  ),
+                  InkWell(
+                    onTap: () {
+                      context.go('/notification');
+                    },
+                    child: const Icon(
+                      Icons.notifications,
+                      color: Colors.white,
+                    ),
+                  )
                 ],
               ),
             ),
@@ -119,80 +143,91 @@ class _BerandaState extends State<Beranda> {
       body: Column(
         children: [
           Expanded(
-              child: ListView.builder(
-            itemCount: filteredTraining.length,
-            itemBuilder: (context, index) {
-              var detailTraining = filteredTraining[index];
-              return Padding(
-                padding: const EdgeInsets.only(
-                    top: 10, right: 16, left: 16, bottom: 2),
-                child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 10),
-                    width: MediaQuery.of(context).size.width * 0.7,
-                    height: 95,
-                    decoration: BoxDecoration(
-                      color: const Color(0xffEDEDED),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 180,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Pelatihan',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
+              child: FutureBuilder<List<Training>?>(
+                  future: futureTrainingData,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (snapshot.hasData) {
+                      List<Training> trainingData =
+                          filterTraining(snapshot.data!, searchQuery);
+                      if (trainingData.isEmpty) {
+                        return Center(
+                            child: Text('No training data available'));
+                      }
+                      return ListView.builder(
+                        itemCount: trainingData.length,
+                        itemBuilder: (context, index) {
+                          var detailTraining = trainingData[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                top: 10, right: 16, left: 16, bottom: 2),
+                            child: Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 10),
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                height: 95,
+                                decoration: BoxDecoration(
+                                  color: const Color(0xffEDEDED),
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                              ),
-                              Text(
-                                detailTraining['jenis_latihan']!,
-                                style: const TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: () {
-                            context.go('/detail');
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: const Text('Rincian'),
-                        ),
-                      ],
-                    )),
-              );
-            },
-          ))
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: 180,
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text(
+                                            'Pelatihan',
+                                            style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                          Text(
+                                            detailTraining.nama,
+                                            style: const TextStyle(
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.w900,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        context.go('/detail');
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.black,
+                                        foregroundColor: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                        ),
+                                      ),
+                                      child: const Text('Rincian'),
+                                    ),
+                                  ],
+                                )),
+                          );
+                        },
+                      );
+                    } else {
+                      return Center(child: Text('No data available'));
+                    }
+                  }))
         ],
       ),
     );
   }
 }
-
-List<Map<String, String>> training = [
-  {'jenis_latihan': 'Aircraft Painting'},
-  {'jenis_latihan': 'Aircraft Modification'},
-  {'jenis_latihan': 'Aircraft Painting'},
-  {'jenis_latihan': 'Aircraft Modification'},
-  {'jenis_latihan': 'Aircraft Painting'},
-  {'jenis_latihan': 'Aircraft Modification'},
-  {'jenis_latihan': 'Aircraft Painting'},
-  {'jenis_latihan': 'Aircraft Modification'},
-];

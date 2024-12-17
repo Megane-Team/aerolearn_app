@@ -1,7 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:aerolearn/action/profile.dart';
+import 'package:aerolearn/page/sub_page/training_history.dart';
+import 'package:aerolearn/utils/session.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:aerolearn/controller/profile.dart';
+import 'package:aerolearn/variable/profile.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -21,6 +25,7 @@ class ProfileState extends State<Profile> {
             bottom: Radius.circular(25),
           ),
           child: AppBar(
+            automaticallyImplyLeading: false,
             backgroundColor: const Color(0xff12395D),
             elevation: 0,
             title: Row(
@@ -29,7 +34,7 @@ class ProfileState extends State<Profile> {
                   icon:
                       const Icon(Icons.arrow_back_ios_new, color: Colors.white),
                   onPressed: () {
-                    context.go('/mainpage');
+                    Navigator.pop(context);
                   },
                 ),
                 const Text(
@@ -66,8 +71,8 @@ class ProfileState extends State<Profile> {
         children: [
           Container(
             padding: const EdgeInsets.all(20),
-            child: FutureBuilder<UserProfile>(
-                future: fetchUserProfile(),
+            child: FutureBuilder<UserProfile?>(
+                future: fetchUserProfile(context),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();
@@ -76,12 +81,12 @@ class ProfileState extends State<Profile> {
                   } else if (snapshot.hasData) {
                     return Column(
                       children: [
-                        buildNonEditableField(
-                            'Username', snapshot.data!.username),
-                        buildNonEditableField(
-                            'Password', snapshot.data!.password),
-                        buildNonEditableField('Nama', snapshot.data!.nama),
                         buildNonEditableField('E-mail', snapshot.data!.email),
+                        buildNonEditableField('Nama', snapshot.data!.nama),
+                        buildNonEditableField('No Telp',
+                            snapshot.data?.noTelp ?? 'tidak ada nomer telepon'),
+                        buildNonEditableField('Tempat, Tanggal Lahir',
+                            '${snapshot.data!.tempatLahir}, ${snapshot.data!.tanggalLahir}')
                       ],
                     );
                   } else {
@@ -93,7 +98,7 @@ class ProfileState extends State<Profile> {
             padding: const EdgeInsets.only(
               right: 20.0,
               left: 20.0,
-              bottom: 130.0,
+              bottom: 120.0,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -109,13 +114,32 @@ class ProfileState extends State<Profile> {
                       ),
                     ),
                     Expanded(
-                      child: buildButtonRow(
-                          'Riwayat Pelatihan', Icons.chevron_right, () {
+                      child: buildButtonRow('E-Sertifikat', Icons.chevron_right,
+                          () {
                         // Your onPressed code here
                       }),
                     ),
                   ],
-                )
+                ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 4),
+                      child: Container(
+                        width: 4,
+                        height: 24,
+                        color: Color(0xff12395D),
+                      ),
+                    ),
+                    Expanded(
+                      child: buildButtonRow(
+                          'Riwayat Pelatihan', Icons.chevron_right, () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => History()));
+                      }),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -159,7 +183,8 @@ class ProfileState extends State<Profile> {
                                 child: const Text('Batal'),
                               ),
                               TextButton(
-                                onPressed: () {
+                                onPressed: () async {
+                                  await SessionService.logout();
                                   context.go('/login');
                                 },
                                 style: TextButton.styleFrom(
@@ -250,19 +275,19 @@ Widget buildButtonRow(String text, IconData icon, VoidCallback onPressed,
           child: TextButton(
             onPressed: onPressed,
             style: TextButton.styleFrom(
-              foregroundColor: Colors.blue,
               alignment: Alignment.centerLeft,
             ),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
                 text,
-                style: const TextStyle(color: Color(0xff12395D)),
+                style: const TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.w500),
               ),
             ),
           ),
         ),
-        Icon(icon, color: const Color(0xff12395D)),
+        Icon(icon, color: const Color(0xff12395D)), //icon arrow_chevron_right
       ],
     ),
   );

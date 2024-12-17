@@ -5,11 +5,27 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class HttpService {
-  static Future<http.Response> postRequest(
+  static Future<http.Response> loginRequest(
       String url, Map<String, dynamic> body) async {
     final response = await http.post(
       Uri.parse(url),
-      headers: {'Content-Type': 'application/json'},
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(body),
+    );
+    return response;
+  }
+
+  static Future<http.Response> postRequest(
+      String url, Map<String, dynamic> body) async {
+    final token = await SessionService.getToken();
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/json',
+        'authorization': 'Bearer $token',
+      },
       body: jsonEncode(body),
     );
     return response;
@@ -20,6 +36,7 @@ class HttpService {
     final response = await http.get(
       Uri.parse(url),
       headers: {
+        'Content-Type': 'application/json',
         'authorization': 'Bearer $token',
       },
     );
