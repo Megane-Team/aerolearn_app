@@ -58,8 +58,12 @@ class _ScheduleState extends State<Schedule> {
                       return Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
                       return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (snapshot.hasData) {
+                    } else {
                       final pelatihanList = snapshot.data!;
+                      final filteredPelatihanList =
+                          pelatihanList.where((pelatihan) {
+                        return pelatihan.tanggal.isAfter(DateTime.now());
+                      });
                       return TableCalendar(
                         firstDay: DateTime.utc(2000, 1, 1),
                         lastDay: DateTime.utc(2100, 12, 31),
@@ -78,7 +82,7 @@ class _ScheduleState extends State<Schedule> {
                           });
                         },
                         eventLoader: (day) {
-                          return pelatihanList.where((pelatihan) {
+                          return filteredPelatihanList.where((pelatihan) {
                             return isSameDay(pelatihan.tanggal, day);
                           }).toList();
                         },
@@ -106,8 +110,6 @@ class _ScheduleState extends State<Schedule> {
                             markerDecoration: BoxDecoration(
                                 color: Colors.red, shape: BoxShape.circle)),
                       );
-                    } else {
-                      return Text('No data Available');
                     }
                   }),
             ),
@@ -138,7 +140,8 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                 var trainingList = progress[index];
                 if ((selectedDay != null &&
                         isSameDay(trainingList.tanggal, selectedDay!)) ||
-                    isSameDay(trainingList.tanggal, focusedDay!)) {
+                    isSameDay(trainingList.tanggal, focusedDay!) &&
+                        trainingList.tanggal.isAfter(DateTime.now())) {
                   return Padding(
                       padding: const EdgeInsets.only(
                         left: 20,

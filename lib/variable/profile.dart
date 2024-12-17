@@ -1,7 +1,7 @@
 class UserProfile {
   final int id;
   final String nama;
-  final String noTelp;
+  final String? noTelp;
   final String email;
   final String userRole;
   final String tempatLahir;

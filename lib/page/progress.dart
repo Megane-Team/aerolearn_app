@@ -55,7 +55,7 @@ class _ProgressState extends State<Progress> {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (snapshot.hasData) {
                       List<PelaksanaPelatihan> training = snapshot.data
-                              ?.where((item) => item.isSelesai != 'Selesai')
+                              ?.where((item) => item.isSelesai != 'selesai')
                               .toList() ??
                           [];
                       if (training.isEmpty) {
@@ -155,7 +155,7 @@ class _ProgressState extends State<Progress> {
                                                               idPelatihan)));
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Color(0xFF2C2C2C),
+                                          backgroundColor: Colors.black,
                                           foregroundColor: Colors.white,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:

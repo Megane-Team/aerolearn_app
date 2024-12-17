@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final ThemeData mainTheme = ThemeData(
-  textTheme: GoogleFonts.montserratTextTheme(),
+  textTheme: GoogleFonts.poppinsTextTheme(),
   useMaterial3: true,
   colorScheme: const ColorScheme(
       brightness: Brightness.light,
