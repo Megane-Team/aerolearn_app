@@ -171,7 +171,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                                     ),
                                     Text(
                                       Formatted.formatTime(
-                                          trainingList.jam_mulai ),
+                                          trainingList.jam_mulai),
                                       style: const TextStyle(fontSize: 16),
                                     ),
                                   ],

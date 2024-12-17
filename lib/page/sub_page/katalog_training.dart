@@ -181,7 +181,8 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                   },
                                 );
                               } else {
-                                return Center(child: Text('Data tidak tersedia'));
+                                return Center(
+                                    child: Text('Data tidak tersedia'));
                               }
                             })),
                   ),

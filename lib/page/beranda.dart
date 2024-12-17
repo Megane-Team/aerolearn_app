@@ -6,7 +6,6 @@ import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
 
-
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
 
@@ -92,8 +91,10 @@ class _BerandaState extends State<Beranda> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => NotificationPage()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NotificationPage()));
                     },
                     child: const Icon(
                       Icons.notifications,
@@ -208,8 +209,11 @@ class _BerandaState extends State<Beranda> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        Navigator.push(context,
-                                            MaterialPageRoute(builder: (context) => Detail()));
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Detail()));
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Color(0xFF2C2C2C),
