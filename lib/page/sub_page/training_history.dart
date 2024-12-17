@@ -13,8 +13,7 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  late Future<List<PelaksanaPelatihan>?>
-      futurePelaksanaanPelatihanSelesaiData;
+  late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanSelesaiData;
 
   @override
   void initState() {
