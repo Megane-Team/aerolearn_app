@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:aerolearn/action/profile.dart';
+import 'package:aerolearn/page/sub_page/sertifikat_list.dart';
 import 'package:aerolearn/page/sub_page/training_history.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +117,10 @@ class ProfileState extends State<Profile> {
                     Expanded(
                       child: buildButtonRow('E-Sertifikat', Icons.chevron_right,
                           () {
-                        // Your onPressed code here
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SertifikatList()));
                       }),
                     ),
                   ],

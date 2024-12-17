@@ -13,8 +13,7 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  late Future<List<PelaksanaanPelatihan>?>
-      futurePelaksanaanPelatihanSelesaiData;
+  late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanSelesaiData;
 
   @override
   void initState() {
@@ -59,7 +58,7 @@ class _HistoryState extends State<History> {
               height: 20,
             ),
             Expanded(
-                child: FutureBuilder<List<PelaksanaanPelatihan>?>(
+                child: FutureBuilder<List<PelaksanaPelatihan>?>(
                     future: futurePelaksanaanPelatihanSelesaiData,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -67,7 +66,7 @@ class _HistoryState extends State<History> {
                       } else if (snapshot.hasError) {
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else if (snapshot.hasData) {
-                        List<PelaksanaanPelatihan> training = snapshot.data
+                        List<PelaksanaPelatihan> training = snapshot.data
                                 ?.where((item) => item.isSelesai == 'selesai')
                                 .toList() ??
                             [];
@@ -145,7 +144,7 @@ class _HistoryState extends State<History> {
                                                 .id_pelatihan
                                                 .toString();
                                             String instruktur =
-                                                trainingSelesai.nama_intsruktur;
+                                                trainingSelesai.nama_instruktur;
                                             String training =
                                                 trainingSelesai.nama_pelatihan;
                                             Navigator.push(
@@ -179,7 +178,7 @@ class _HistoryState extends State<History> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              trainingSelesai.nama_intsruktur,
+                                              trainingSelesai.nama_instruktur,
                                               style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold),

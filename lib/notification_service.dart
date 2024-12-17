@@ -23,7 +23,7 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  static scheduleNotification(PelaksanaanPelatihan pelatihan) async {
+  static scheduleNotification(PelaksanaPelatihan pelatihan) async {
     final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
       pelatihan.tanggal
           .subtract(Duration(days: 3))
@@ -45,7 +45,7 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       pelatihan.id,
       pelatihan.nama_pelatihan,
-      pelatihan.nama_intsruktur,
+      pelatihan.nama_instruktur,
       scheduledDate,
       platformChannelSpecifics,
       uiLocalNotificationDateInterpretation:
@@ -57,15 +57,13 @@ class NotificationService {
 
   static fetchAndScheduleNotifications() async {
     try {
-      Future<List<PelaksanaanPelatihan>> fetchNotificationsTraining() async {
+      Future<List<PelaksanaPelatihan>> fetchNotificationsTraining() async {
         final url = '$baseURL/peserta/progress';
         final response = await HttpService.getRequest(url);
         if (response.statusCode == 200) {
           Map<String, dynamic> jsonResponse = json.decode(response.body);
           List<dynamic> data = jsonResponse['data'];
-          return data
-              .map((item) => PelaksanaanPelatihan.fromJson(item))
-              .toList();
+          return data.map((item) => PelaksanaPelatihan.fromJson(item)).toList();
         } else {
           throw Exception('Failed to load training data');
         }
@@ -73,7 +71,7 @@ class NotificationService {
 
       var token = await SessionService.getToken();
       if (token != null && token.isNotEmpty) {
-        List<PelaksanaanPelatihan> pelatihanList =
+        List<PelaksanaPelatihan> pelatihanList =
             await fetchNotificationsTraining();
         for (var pelatihan in pelatihanList) {
           scheduleNotification(pelatihan);

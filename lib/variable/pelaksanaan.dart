@@ -1,10 +1,10 @@
 // ignore_for_file: non_constant_identifier_names
 
-class PelaksanaanPelatihan {
+class PelaksanaPelatihan {
   final int id;
   final int id_pelatihan;
   final String nama_pelatihan;
-  final String nama_intsruktur;
+  final String nama_instruktur;
   final DateTime tanggal;
   final String jam_mulai;
   final String jam_selesai;
@@ -12,11 +12,11 @@ class PelaksanaanPelatihan {
   final String isSelesai;
   final String ruangan;
 
-  PelaksanaanPelatihan({
+  PelaksanaPelatihan({
     required this.id,
     required this.id_pelatihan,
     required this.nama_pelatihan,
-    required this.nama_intsruktur,
+    required this.nama_instruktur,
     required this.tanggal,
     required this.jam_mulai,
     required this.jam_selesai,
@@ -25,12 +25,12 @@ class PelaksanaanPelatihan {
     required this.ruangan,
   });
 
-  factory PelaksanaanPelatihan.fromJson(Map<String, dynamic> json) {
-    return PelaksanaanPelatihan(
+  factory PelaksanaPelatihan.fromJson(Map<String, dynamic> json) {
+    return PelaksanaPelatihan(
       id: json['id'],
       id_pelatihan: json['id_pelatihan'],
       nama_pelatihan: json['nama_pelatihan'],
-      nama_intsruktur: json['nama_instruktur'],
+      nama_instruktur: json['nama_instruktur'],
       tanggal: DateTime.parse(json['tanggal']),
       jam_selesai: json['jamMulai'],
       jam_mulai: json['jamSelesai'],

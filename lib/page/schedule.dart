@@ -15,7 +15,7 @@ class Schedule extends StatefulWidget {
 class _ScheduleState extends State<Schedule> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  late Future<List<PelaksanaanPelatihan>?> futurePelaksanaanPelatihanData;
+  late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
 
   @override
   void initState() {
@@ -51,7 +51,7 @@ class _ScheduleState extends State<Schedule> {
                 borderRadius: BorderRadius.circular(15),
               ),
               width: MediaQuery.of(context).size.width * 0.9,
-              child: FutureBuilder<List<PelaksanaanPelatihan>?>(
+              child: FutureBuilder<List<PelaksanaPelatihan>?>(
                   future: futurePelaksanaanPelatihanData,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
@@ -125,7 +125,7 @@ class _ScheduleState extends State<Schedule> {
 
 Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
   return Expanded(
-    child: FutureBuilder<List<PelaksanaanPelatihan>?>(
+    child: FutureBuilder<List<PelaksanaPelatihan>?>(
         future: futurePelaksanaan,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -133,7 +133,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
-            List<PelaksanaanPelatihan>? progress = snapshot.data;
+            List<PelaksanaPelatihan>? progress = snapshot.data;
             return ListView.builder(
               itemCount: progress!.length,
               itemBuilder: (context, index) {
