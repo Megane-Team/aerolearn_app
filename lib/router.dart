@@ -7,7 +7,6 @@ import 'package:aerolearn/utils/session.dart';
 import 'package:go_router/go_router.dart';
 import 'package:aerolearn/page/login.dart';
 import 'package:aerolearn/page/sub_page/detail.dart';
-import 'package:aerolearn/page/sub_page/sertifikat_list.dart';
 
 final getToken = SessionService.getToken();
 late String initialLocation;
