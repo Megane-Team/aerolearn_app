@@ -1,5 +1,9 @@
+import 'package:aerolearn/action/sertifikat.dart';
+import 'package:aerolearn/constant/variable.dart';
+import 'package:aerolearn/variable/e-sertifikat.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class SertifikatList extends StatefulWidget {
   const SertifikatList({super.key});
@@ -9,9 +13,12 @@ class SertifikatList extends StatefulWidget {
 }
 
 class _SertifikatListState extends State<SertifikatList> {
+  late Future<List<eSertifikat>?> futureSertifikatData;
+
   @override
   void initState() {
     super.initState();
+    futureSertifikatData = fetchSertifikat(context);
   }
 
   @override
@@ -46,19 +53,43 @@ class _SertifikatListState extends State<SertifikatList> {
           backgroundColor: const Color(0xff12395D),
         ),
         backgroundColor: Color(0xFFEDEDED),
-        body: Column(
-          children: [
-            SizedBox(height: 14),
-            Center(
-                child: Container(
-              width: MediaQuery.of(context).size.width * 0.92,
-              height: 200,
-              decoration: BoxDecoration(
-                border: Border.all(color: Color(0xFF898989)),
-                borderRadius: BorderRadius.all(Radius.circular(15)),
-              ),
-            )),
-          ],
-        ));
+        body: FutureBuilder(
+            future: futureSertifikatData,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              } else if (snapshot.hasError) {
+                return Center(child: Text('Error: ${snapshot.error}'));
+              } else if (snapshot.hasData) {
+                List<eSertifikat>? sertifikat = snapshot.data;
+                if (sertifikat!.isEmpty) {
+                  return Center(child: Text('No Sertifikat'));
+                }
+                return ListView.builder(
+                    itemCount: sertifikat.length,
+                    itemBuilder: (context, index) {
+                      var eSertifikat = sertifikat[index];
+                      return Column(
+                        children: [
+                          SizedBox(height: 14),
+                          Center(
+                              child: Container(
+                            width: MediaQuery.of(context).size.width * 0.92,
+                            height: 200,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xFF898989)),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(15)),
+                            ),
+                            child: SfPdfViewer.network(
+                                '$baseURL/public/e-sertifikat/${eSertifikat.sertifikasi}'),
+                          )),
+                        ],
+                      );
+                    });
+              } else {
+                return Text('no data');
+              }
+            }));
   }
 }
