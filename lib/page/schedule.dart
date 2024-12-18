@@ -60,6 +60,7 @@ class _ScheduleState extends State<Schedule> {
                       return Center(child: Text('Error: ${snapshot.error}'));
                     } else {
                       final pelatihanList = snapshot.data!;
+
                       final filteredPelatihanList =
                           pelatihanList.where((pelatihan) {
                         return pelatihan.tanggal.isAfter(DateTime.now());

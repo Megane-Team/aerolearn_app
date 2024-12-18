@@ -43,17 +43,17 @@ class NotificationState extends State<NotificationPage> {
       ),
       body: SafeArea(
         minimum: EdgeInsets.symmetric(horizontal: 1),
-          top: false,
-          child: ListView(
-        children: const [
-          NotificationItem(
-            date: '25 Okt 2024',
-            description: 'Pelatihan Aircraft Painting ',
-            description1: 'akan diadakan pada tanggal 01 November 2024.',
-          ),
-          NoNotificationItem(),
-        ],
-      ),
+        top: false,
+        child: ListView(
+          children: const [
+            NotificationItem(
+              date: '25 Okt 2024',
+              description: 'Pelatihan Aircraft Painting ',
+              description1: 'akan diadakan pada tanggal 01 November 2024.',
+            ),
+            NoNotificationItem(),
+          ],
+        ),
       ),
     );
   }
@@ -78,34 +78,33 @@ class NotificationItem extends StatelessWidget {
       child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 1),
           leading: Padding(
-            padding: const EdgeInsets.only(left: 10,bottom: 35),
+              padding: const EdgeInsets.only(left: 10, bottom: 35),
               child: Icon(Icons.info_outline)),
-
           title: Row(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          width: 250,
-                          child: Text(
-                            'info',
-                            style: TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.w400),
-                          ),
-                        ),
-                      ],
-                  ),
-                  Column(
-                    children: [
-                      Text(
-                        date,
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 250,
+                    child: Text(
+                      'info',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
                   ),
                 ],
               ),
+              Column(
+                children: [
+                  Text(
+                    date,
+                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+            ],
+          ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
