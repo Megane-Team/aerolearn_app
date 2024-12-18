@@ -155,7 +155,7 @@ class _ProgresState extends State<Progres> {
                                                               idPelatihan)));
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Colors.black,
+                                          backgroundColor: Color(0xFF2C2C2C),
                                           foregroundColor: Colors.white,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:

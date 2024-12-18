@@ -14,6 +14,7 @@ class NotificationState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -26,7 +27,7 @@ class NotificationState extends State<NotificationPage> {
             const Expanded(
               child: Center(
                 child: Text(
-                  'Riwayat Pelatihan',
+                  'Notifikasi',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -40,7 +41,10 @@ class NotificationState extends State<NotificationPage> {
         ),
         backgroundColor: const Color(0xff12395D),
       ),
-      body: ListView(
+      body: SafeArea(
+        minimum: EdgeInsets.symmetric(horizontal: 1),
+          top: false,
+          child: ListView(
         children: const [
           NotificationItem(
             date: '25 Okt 2024',
@@ -49,6 +53,7 @@ class NotificationState extends State<NotificationPage> {
           ),
           NoNotificationItem(),
         ],
+      ),
       ),
     );
   }
@@ -69,37 +74,38 @@ class NotificationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.lightBlue,
           border: Border(bottom: BorderSide(color: Colors.black, width: 1.0))),
       child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 1),
           leading: Padding(
-            padding: const EdgeInsets.only(bottom: 35),
-            child: Icon(Icons.info_outline),
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
+            padding: const EdgeInsets.only(left: 10,bottom: 35),
+              child: Icon(Icons.info_outline)),
+
+          title: Row(
                 children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          width: 250,
+                          child: Text(
+                            'info',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ],
+                  ),
                   Column(
                     children: [
                       Text(
-                        'info',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400),
+                        date,
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                       ),
                     ],
                   ),
-                  SizedBox(width: 230),
-                  Text(
-                    date,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                  ),
                 ],
               ),
-            ],
-          ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -108,9 +114,13 @@ class NotificationItem extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 4),
-              Text(
-                description1,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              SizedBox(
+                width: 300,
+                child: Text(
+                  description1,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                ),
               ),
             ],
           )),
