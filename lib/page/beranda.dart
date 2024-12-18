@@ -231,7 +231,7 @@ class _BerandaState extends State<Beranda> {
                         },
                       );
                     } else {
-                      return Center(child: Text('No data available'));
+                      return Center(child: Text('Data tidak tersedia'));
                     }
                   }))
         ],

@@ -9,7 +9,7 @@ void showConnectionErrorDialog(BuildContext context) {
       return AlertDialog(
         title: Text('Koneksi gagal'),
         content: Text(
-            'Gagal untuk konek pada server. Tolong cek koneksi internet anda lalu coba lagi.'),
+            'Gagal untuk menyambung pada server. Tolong cek koneksi internet anda lalu coba lagi.'),
         actions: [
           TextButton(
             onPressed: () {

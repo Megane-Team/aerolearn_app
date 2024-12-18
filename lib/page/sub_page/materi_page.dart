@@ -55,7 +55,8 @@ class _MateriState extends State<MateriPage> {
             borderRadius: BorderRadius.all(Radius.circular(15)),
           ),
           padding: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
-          child: SfPdfViewer.network('$baseURL/docs/${widget.konten}'),
+          child:
+              SfPdfViewer.network('$baseURL/public/e-materi/${widget.konten}'),
         ),
       ),
     );

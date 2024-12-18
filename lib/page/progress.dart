@@ -198,7 +198,7 @@ class _ProgresState extends State<Progres> {
                         },
                       );
                     } else {
-                      return Center(child: Text('No data available'));
+                      return Center(child: Text('Data tidak tersedia'));
                     }
                   }),
             )

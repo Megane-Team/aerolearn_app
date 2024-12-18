@@ -214,12 +214,17 @@ Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
               QuickAlert.show(
                   context: context,
                   type: QuickAlertType.confirm,
-                  text: 'Absen',
+                  title: 'Absen',
+                  text: 'Apakah anda hadir hari ini?',
                   confirmBtnText: 'Ya',
                   cancelBtnText: 'Tidak',
                   confirmBtnColor: Colors.green,
-                  confirmBtnTextStyle:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+                  headerBackgroundColor: Colors.purple,
+                  cancelBtnTextStyle: TextStyle(
+                    color: Colors.red,
+                  ),
+                  confirmBtnTextStyle: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w500),
                   onConfirmBtnTap: () async {
                     Navigator.of(context).pop();
                     var res = await absenPeserta(
@@ -231,7 +236,7 @@ Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('Informasi'),
-                              content: Text('Anda sudah absen.'),
+                              content: Text('Absen berhasil.'),
                               actions: [
                                 TextButton(
                                   onPressed: () {
