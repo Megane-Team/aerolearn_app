@@ -3,7 +3,6 @@
 import 'package:aerolearn/utils/asset.dart';
 import 'package:flutter/material.dart';
 
-
 class MateriPage extends StatefulWidget {
   final String konten;
   const MateriPage({
@@ -17,13 +16,18 @@ class MateriPage extends StatefulWidget {
 
 class _MateriState extends State<MateriPage> {
   Future<Widget>? _pdfViewer;
-  @override void initState() {
-    super.initState(); _loadPDF();
+  @override
+  void initState() {
+    super.initState();
+    _loadPDF();
   }
+
   void _loadPDF() {
-    setState(() { _pdfViewer = Assets.files(widget.konten);
+    setState(() {
+      _pdfViewer = Assets.files(widget.konten);
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,7 +78,7 @@ class _MateriState extends State<MateriPage> {
               } else {
                 return Center(child: Text('No data available'));
               }
-              },
+            },
           ),
         ),
       ),

@@ -17,25 +17,22 @@ class Assets {
 
   static Future<Widget> files(String name) async {
     final token = await SessionService.getToken();
-    try{
-      final response = await HttpService.getRequest(
-        '$baseURL/file/e-materi/$name'
-      );
+    try {
+      final response =
+          await HttpService.getRequest('$baseURL/file/e-materi/$name');
 
-      if(response.statusCode == 200){
+      if (response.statusCode == 200) {
         return SfPdfViewer.network(
           '$baseURL/file/e-materi/$name',
           headers: {
             'authorization': 'Bearer $token',
           },
         );
-      }else{
+      } else {
         throw Exception('Failed to load Materi data');
       }
-    }catch(e){
+    } catch (e) {
       return Text('Not Found');
     }
-
   }
-
 }
