@@ -148,6 +148,10 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                       child: Text('Error: ${snapshot.error}'));
                                 } else if (snapshot.hasData) {
                                   List<Materi> materiAll = snapshot.data ?? [];
+                                  if (materiAll.isEmpty) {
+                                    return Center(
+                                        child: Text('Tidak ada Materi'));
+                                  }
                                   return ListView.builder(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
@@ -328,14 +332,14 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                       } else {
                                                         return Center(
                                                             child: Text(
-                                                                'Data tidak tersedia'));
+                                                                'Server error'));
                                                       }
                                                     },
                                                   );
                                                 } else {
                                                   return Center(
-                                                    child: Text('data'),
-                                                  );
+                                                      child:
+                                                          Text('Server error'));
                                                 }
                                               })
                                         ],
@@ -343,8 +347,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                     },
                                   );
                                 } else {
-                                  return Center(
-                                      child: Text('Data tidak tersedia'));
+                                  return Center(child: Text('Server error'));
                                 }
                               },
                             ),

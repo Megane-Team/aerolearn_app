@@ -88,7 +88,7 @@ class _SertifikatListState extends State<SertifikatList> {
                       );
                     });
               } else {
-                return Text('no data');
+                return Center(child: Text('Server error'));
               }
             }));
   }

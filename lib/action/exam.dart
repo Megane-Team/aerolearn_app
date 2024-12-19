@@ -16,7 +16,6 @@ Future<List<Exam>?> fetchExamData(context, id) async {
       throw Exception('Failed to load training data');
     }
   } catch (e) {
-    showConnectionErrorDialog(context);
     return null;
   }
 }

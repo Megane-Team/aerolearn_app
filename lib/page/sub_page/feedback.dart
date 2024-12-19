@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:aerolearn/utils/asset.dart';
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({super.key});
@@ -17,23 +18,30 @@ class _FeedbackState extends State<FeedbackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            IconButton(
+              icon: const Icon(Icons.arrow_back_ios_new,
+                  color: Color(0xFF12395D)),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
             Expanded(
               child: Center(
-                child: Padding(
-                  padding: EdgeInsets.all(1),
-                  child: Text(
-                    'Feedback',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff12395D),
-                      fontSize: 24,
-                    ),
+                child: Text(
+                  'Feedback',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF12395D),
+                    fontSize: 24,
                   ),
                 ),
               ),
             ),
+            SizedBox(width: 48),
           ],
         ),
       ),

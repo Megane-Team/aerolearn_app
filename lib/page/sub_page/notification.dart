@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
-import 'package:go_router/go_router.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -21,7 +20,7 @@ class NotificationState extends State<NotificationPage> {
             IconButton(
               icon: Image.asset(Assets.icons('arrow_back')),
               onPressed: () {
-                context.go('/mainpage');
+                Navigator.pop(context);
               },
             ),
             const Expanded(

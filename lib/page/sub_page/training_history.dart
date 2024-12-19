@@ -198,7 +198,7 @@ class _HistoryState extends State<History> {
                           },
                         );
                       } else {
-                        return Text('Tidak ada pelatihan yang selesai');
+                        return Center(child: Text('Server error'));
                       }
                     }))
           ],
