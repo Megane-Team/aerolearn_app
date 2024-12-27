@@ -1,5 +1,4 @@
 import 'package:aerolearn/constant/variable.dart';
-import 'package:aerolearn/utils/connectionError.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
@@ -16,7 +15,6 @@ Future<List<Materi>?> fetchMateriData(context, id) async {
       throw Exception('Failed to load training data');
     }
   } catch (e) {
-    showConnectionErrorDialog(context);
     return null;
   }
 }

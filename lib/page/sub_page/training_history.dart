@@ -78,8 +78,8 @@ class _HistoryState extends State<History> {
                           itemCount: training.length,
                           itemBuilder: (context, index) {
                             var trainingSelesai = training[index];
-                            DateTime trainingDate = DateTime.parse(
-                                trainingSelesai.tanggal.toString());
+                            DateTime endDate = DateTime.parse(trainingSelesai.tanggal_selesai.toString());
+                            String displayDate =  Formatted.formatDate(endDate);
                             return Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Container(
@@ -108,7 +108,7 @@ class _HistoryState extends State<History> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          Formatted.formatDate(trainingDate),
+                                          displayDate,
                                           style: const TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.bold),
@@ -198,7 +198,9 @@ class _HistoryState extends State<History> {
                           },
                         );
                       } else {
-                        return Text('Tidak ada pelatihan yang selesai');
+                        return Center(
+                          child: Text('Connection error'),
+                        );
                       }
                     }))
           ],
