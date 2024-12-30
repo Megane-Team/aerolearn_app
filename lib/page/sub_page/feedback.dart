@@ -24,12 +24,14 @@ class _FeedbackState extends State<FeedbackPage> {
     super.initState();
   }
 
-  @override void dispose() {
+  @override
+  void dispose() {
     for (var controller in _controllers) {
       controller.dispose();
     }
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +70,8 @@ class _FeedbackState extends State<FeedbackPage> {
                   if (feedbackQuestion.isEmpty) {
                     return Center(child: Text('Tidak ada feedback'));
                   }
-                  _controllers = List.generate(feedbackQuestion.length, (index) => TextEditingController());
+                  _controllers = List.generate(feedbackQuestion.length,
+                      (index) => TextEditingController());
                   return Form(
                     key: _formKey,
                     child: Column(
@@ -175,8 +178,8 @@ class _FeedbackState extends State<FeedbackPage> {
   }
 }
 
-Future<void> sendAllFeedbackAnswers(
-    BuildContext context, Map<int, String> feedbackAnswers, int? idPelaksanaan) async {
+Future<void> sendAllFeedbackAnswers(BuildContext context,
+    Map<int, String> feedbackAnswers, int? idPelaksanaan) async {
   for (var entry in feedbackAnswers.entries) {
     var result = await feedbackAnswer(
       context,
@@ -195,4 +198,3 @@ Future<void> sendAllFeedbackAnswers(
     }
   }
 }
-

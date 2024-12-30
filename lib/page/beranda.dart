@@ -20,20 +20,20 @@ class _BerandaState extends State<Beranda> {
   String searchQuery = '';
   Timer? _timer;
 
-  @override void initState() {
+  @override
+  void initState() {
     super.initState();
     futureTrainingData = fetchTrainingData(context);
     _startAutoRefresh();
   }
 
   void _startAutoRefresh() {
-    _timer = Timer.periodic(Duration(seconds: 10  ), (timer) {
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       setState(() {
         futureTrainingData = fetchTrainingData(context);
       });
     });
   }
-
 
   List<Training> filterTraining(List<Training> training, String query) {
     if (query.isEmpty) {

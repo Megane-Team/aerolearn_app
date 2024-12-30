@@ -5,9 +5,9 @@ import 'package:aerolearn/utils/connectionError.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
 
-Future<bool?> fetchAbsenDataMateri(context, idMateri) async {
+Future<bool?> fetchAbsenDataMateri(context, idMateri, idPelaksanaan) async {
   try {
-    final url = '$baseURL/absensi/materi/$idMateri';
+    final url = '$baseURL/absensi/materi/$idMateri/$idPelaksanaan';
     final response = await HttpService.getRequest(url);
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
@@ -17,5 +17,5 @@ Future<bool?> fetchAbsenDataMateri(context, idMateri) async {
     }
   } catch (e) {
     return false;
-  } 
+  }
 }

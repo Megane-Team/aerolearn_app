@@ -5,6 +5,9 @@ import 'package:aerolearn/page/sub_page/katalog_training.dart';
 import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/formatted.dart';
 import 'package:flutter/material.dart';
+import 'package:aerolearn/variable/profile.dart';
+
+import '../action/profile.dart';
 
 class Progress extends StatefulWidget {
   const Progress({super.key});
@@ -15,19 +18,32 @@ class Progress extends StatefulWidget {
 
 class _ProgressState extends State<Progress> {
   late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
+  UserProfile? userProfile;
   Timer? _timer;
 
   @override
   void initState() {
     super.initState();
-    futurePelaksanaanPelatihanData = fetchPelaksanaanTraining(context);
-    _startAutoRefresh();
+    futurePelaksanaanPelatihanData = Future.value(null);
+    _fetchUserProfile();
+  }
+
+  void _fetchUserProfile() async {
+    userProfile = await fetchUserProfile(context);
+    if (userProfile != null) {
+      setState(() {
+        futurePelaksanaanPelatihanData =
+            fetchPelaksanaanTraining(context, userProfile!.id);
+        _startAutoRefresh();
+      });
+    }
   }
 
   void _startAutoRefresh() {
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       setState(() {
-        futurePelaksanaanPelatihanData = fetchPelaksanaanTraining(context);
+        futurePelaksanaanPelatihanData =
+            fetchPelaksanaanTraining(context, userProfile!.id);
       });
     });
   }
@@ -83,12 +99,15 @@ class _ProgressState extends State<Progress> {
                         itemCount: training.length,
                         itemBuilder: (context, index) {
                           var progressTraining = training[index];
-                          DateTime startDate = DateTime.parse(progressTraining.tanggal_mulai.toString());
-                          DateTime endDate = DateTime.parse(progressTraining.tanggal_selesai.toString());
+                          DateTime startDate = DateTime.parse(
+                              progressTraining.tanggal_mulai.toString());
+                          DateTime endDate = DateTime.parse(
+                              progressTraining.tanggal_selesai.toString());
                           DateTime currentDate = DateTime.now();
 
                           String displayDate;
-                          if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
+                          if (currentDate.isAfter(startDate) &&
+                              currentDate.isBefore(endDate)) {
                             displayDate = 'Today';
                           } else {
                             displayDate = Formatted.formatDate(startDate);
@@ -113,8 +132,10 @@ class _ProgressState extends State<Progress> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
                                       const Text(
                                         'Pelatihan',
@@ -172,6 +193,7 @@ class _ProgressState extends State<Progress> {
                                               progressTraining.nama_instruktur;
                                           String training =
                                               progressTraining.nama_pelatihan;
+                                          bool isSelesai = true;
                                           Navigator.push(
                                               context,
                                               MaterialPageRoute(
@@ -182,7 +204,9 @@ class _ProgressState extends State<Progress> {
                                                               instruktur,
                                                           training: training,
                                                           id_pelatihan:
-                                                              idPelatihan)));
+                                                              idPelatihan,
+                                                          isSelesai:
+                                                              isSelesai)));
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: Colors.black,

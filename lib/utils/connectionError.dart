@@ -10,7 +10,8 @@ void showConnectionErrorDialog(BuildContext context) {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Connection Error'),
-          content: Text('Failed to connect to the server. Please check your internet connection and try again.'),
+          content: Text(
+              'Failed to connect to the server. Please check your internet connection and try again.'),
           actions: [
             TextButton(
               onPressed: () {
