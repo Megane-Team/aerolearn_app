@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:aerolearn/action/jenis_training.dart';
-import 'package:aerolearn/page/sub_page/detail.dart';
-import 'package:aerolearn/page/sub_page/notification.dart';
 import 'package:aerolearn/page/sub_page/profile.dart';
 import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
+import 'package:go_router/go_router.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -17,12 +18,22 @@ class _BerandaState extends State<Beranda> {
   TextEditingController searchController = TextEditingController();
   late Future<List<Training>?> futureTrainingData;
   String searchQuery = '';
+  Timer? _timer;
 
-  @override
-  void initState() {
+  @override void initState() {
     super.initState();
     futureTrainingData = fetchTrainingData(context);
+    _startAutoRefresh();
   }
+
+  void _startAutoRefresh() {
+    _timer = Timer.periodic(Duration(seconds: 10  ), (timer) {
+      setState(() {
+        futureTrainingData = fetchTrainingData(context);
+      });
+    });
+  }
+
 
   List<Training> filterTraining(List<Training> training, String query) {
     if (query.isEmpty) {
@@ -91,10 +102,7 @@ class _BerandaState extends State<Beranda> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NotificationPage()));
+                      context.go('/notification');
                     },
                     child: const Icon(
                       Icons.notifications,
@@ -209,11 +217,7 @@ class _BerandaState extends State<Beranda> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Detail()));
+                                        context.go('/detail');
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Color(0xFF2C2C2C),
@@ -231,7 +235,7 @@ class _BerandaState extends State<Beranda> {
                         },
                       );
                     } else {
-                      return Center(child: Text('Data tidak tersedia'));
+                      return Center(child: Text('Connection error'));
                     }
                   }))
         ],

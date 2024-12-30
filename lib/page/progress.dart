@@ -1,23 +1,41 @@
+import 'dart:async';
+
 import 'package:aerolearn/action/pelaksanaan.dart';
 import 'package:aerolearn/page/sub_page/katalog_training.dart';
 import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/formatted.dart';
 import 'package:flutter/material.dart';
 
-class Progres extends StatefulWidget {
-  const Progres({super.key});
+class Progress extends StatefulWidget {
+  const Progress({super.key});
 
   @override
-  State<Progres> createState() => _ProgresState();
+  State<Progress> createState() => _ProgressState();
 }
 
-class _ProgresState extends State<Progres> {
+class _ProgressState extends State<Progress> {
   late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
+  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     futurePelaksanaanPelatihanData = fetchPelaksanaanTraining(context);
+    _startAutoRefresh();
+  }
+
+  void _startAutoRefresh() {
+    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+      setState(() {
+        futurePelaksanaanPelatihanData = fetchPelaksanaanTraining(context);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -59,14 +77,22 @@ class _ProgresState extends State<Progres> {
                               .toList() ??
                           [];
                       if (training.isEmpty) {
-                        return Center(child: Text('Tidak ada progres'));
+                        return Center(child: Text('No progress'));
                       }
                       return ListView.builder(
                         itemCount: training.length,
                         itemBuilder: (context, index) {
                           var progressTraining = training[index];
-                          DateTime trainingDate = DateTime.parse(
-                              progressTraining.tanggal.toString());
+                          DateTime startDate = DateTime.parse(progressTraining.tanggal_mulai.toString());
+                          DateTime endDate = DateTime.parse(progressTraining.tanggal_selesai.toString());
+                          DateTime currentDate = DateTime.now();
+
+                          String displayDate;
+                          if (currentDate.isAfter(startDate) && currentDate.isBefore(endDate)) {
+                            displayDate = 'Today';
+                          } else {
+                            displayDate = Formatted.formatDate(startDate);
+                          }
                           return Padding(
                             padding: const EdgeInsets.only(
                               top: 10,
@@ -87,22 +113,26 @@ class _ProgresState extends State<Progres> {
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       const Text(
                                         'Pelatihan',
                                         style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold),
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      Text(
-                                        Formatted.formatDate(trainingDate),
-                                        style: const TextStyle(
+                                      Flexible(
+                                        child: Text(
+                                          displayDate,
+                                          style: const TextStyle(
                                             fontSize: 14,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -155,7 +185,7 @@ class _ProgresState extends State<Progres> {
                                                               idPelatihan)));
                                         },
                                         style: ElevatedButton.styleFrom(
-                                          backgroundColor: Color(0xFF2C2C2C),
+                                          backgroundColor: Colors.black,
                                           foregroundColor: Colors.white,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
@@ -198,7 +228,7 @@ class _ProgresState extends State<Progres> {
                         },
                       );
                     } else {
-                      return Center(child: Text('Data tidak tersedia'));
+                      return Center(child: Text('Connection error'));
                     }
                   }),
             )

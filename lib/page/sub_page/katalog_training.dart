@@ -6,8 +6,8 @@ import 'package:aerolearn/action/absenPost.dart';
 import 'package:aerolearn/action/exam.dart';
 import 'package:aerolearn/action/materi.dart';
 import 'package:aerolearn/page/sub_page/feedback.dart';
-import 'package:aerolearn/page/sub_page/ujian_page.dart';
 import 'package:aerolearn/utils/asset.dart';
+import 'package:aerolearn/utils/navigation_bar.dart';
 import 'package:aerolearn/variable/exam.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:flutter/material.dart';
@@ -139,47 +139,31 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                             FutureBuilder<List<Materi>?>(
                               future: futureMateri,
                               builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return Center(
-                                      child: CircularProgressIndicator());
+                                if (snapshot.connectionState == ConnectionState.waiting) {
+                                  return Center(child: CircularProgressIndicator());
                                 } else if (snapshot.hasError) {
-                                  return Center(
-                                      child: Text('Error: ${snapshot.error}'));
+                                  return Center(child: Text('Error: ${snapshot.error}'));
                                 } else if (snapshot.hasData) {
                                   List<Materi> materiAll = snapshot.data ?? [];
                                   if (materiAll.isEmpty) {
-                                    return Center(
-                                        child: Text('Tidak ada Materi'));
+                                    return Center(child: Text('Tidak ada materi'));
                                   }
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: materiAll.length,
-                                    itemBuilder: (context, index) {
-                                      var materi = materiAll[index];
-                                      return Column(
-                                        children: [
-                                          FutureBuilder<bool?>(
-                                            future: fetchAbsenDataMateri(
-                                                context, materi.id),
-                                            builder:
-                                                (context, attendanceSnapshot) {
-                                              if (attendanceSnapshot
-                                                      .connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return Center(
-                                                    child:
-                                                        CircularProgressIndicator());
-                                              } else if (attendanceSnapshot
-                                                  .hasError) {
-                                                return Center(
-                                                    child: Text(
-                                                        'Error: ${attendanceSnapshot.error}'));
-                                              } else if (attendanceSnapshot
-                                                      .hasData &&
-                                                  attendanceSnapshot.data ==
-                                                      true) {
+                                  return Column(
+                                    children: [
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: materiAll.length,
+                                        itemBuilder: (context, index) {
+                                          var materi = materiAll[index];
+                                          return FutureBuilder<bool?>(
+                                            future: fetchAbsenDataMateri(context, materi.id),
+                                            builder: (context, attendanceSnapshot) {
+                                              if (attendanceSnapshot.connectionState == ConnectionState.waiting) {
+                                                return Center(child: CircularProgressIndicator());
+                                              } else if (attendanceSnapshot.hasError) {
+                                                return Center(child: Text('Error: ${attendanceSnapshot.error}'));
+                                              } else if (attendanceSnapshot.hasData && attendanceSnapshot.data == true) {
                                                 return buildTrainingButton(
                                                   context,
                                                   materi.judul,
@@ -199,155 +183,85 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                 );
                                               }
                                             },
-                                          ),
-                                          FutureBuilder(
-                                              future: checkAllAttendanceMateri(
-                                                  materiAll, context),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.connectionState ==
-                                                    ConnectionState.waiting) {
-                                                  return Center(
-                                                      child:
-                                                          CircularProgressIndicator());
-                                                } else if (snapshot.hasError) {
-                                                  return Center(
-                                                      child: Text(
-                                                          'Error: ${snapshot.error}'));
-                                                } else if (snapshot.hasData) {
-                                                  bool res =
-                                                      snapshot.data == true;
-                                                  return FutureBuilder<
-                                                      List<Exam>?>(
-                                                    future: futureExam,
-                                                    builder:
-                                                        (context, snapshot) {
-                                                      if (snapshot
-                                                              .connectionState ==
-                                                          ConnectionState
-                                                              .waiting) {
-                                                        return Center(
-                                                            child:
-                                                                CircularProgressIndicator());
-                                                      } else if (snapshot
-                                                          .hasError) {
-                                                        return Center(
-                                                            child: Text(
-                                                                'Error: ${snapshot.error}'));
-                                                      } else if (snapshot
-                                                          .hasData) {
-                                                        List<Exam> examAll =
-                                                            snapshot.data ?? [];
-                                                        return ListView.builder(
-                                                          shrinkWrap: true,
-                                                          physics:
-                                                              NeverScrollableScrollPhysics(),
-                                                          itemCount:
-                                                              examAll.length,
-                                                          itemBuilder:
-                                                              (context, index) {
-                                                            var exam =
-                                                                examAll[index];
-                                                            return Column(
-                                                              children: [
-                                                                FutureBuilder<
-                                                                    bool?>(
-                                                                  future: fetchAbsenDataExam(
-                                                                      context,
-                                                                      exam.id),
-                                                                  builder: (context,
-                                                                      attendanceSnapshot) {
-                                                                    if (attendanceSnapshot
-                                                                            .connectionState ==
-                                                                        ConnectionState
-                                                                            .waiting) {
-                                                                      return Center(
-                                                                          child:
-                                                                              CircularProgressIndicator());
-                                                                    } else if (attendanceSnapshot
-                                                                        .hasError) {
-                                                                      return Center(
-                                                                          child:
-                                                                              Text('Error: ${attendanceSnapshot.error}'));
-                                                                    } else if (attendanceSnapshot
-                                                                            .hasData &&
-                                                                        attendanceSnapshot.data ==
-                                                                            true) {
-                                                                      return buildTrainingButtonExam(
-                                                                        context,
-                                                                        true,
-                                                                        widget
-                                                                            .id,
-                                                                        exam.id,
-                                                                        res,
-                                                                      );
-                                                                    } else {
-                                                                      return buildTrainingButtonExam(
-                                                                        context,
-                                                                        false,
-                                                                        widget
-                                                                            .id,
-                                                                        exam.id,
-                                                                        res,
-                                                                      );
-                                                                    }
-                                                                  },
-                                                                ),
-                                                                FutureBuilder<
-                                                                    bool>(
-                                                                  future: checkAllAttendance(
-                                                                      examAll,
-                                                                      context),
-                                                                  builder: (context,
-                                                                      snapshot) {
-                                                                    if (snapshot
-                                                                            .connectionState ==
-                                                                        ConnectionState
-                                                                            .waiting) {
-                                                                      return Center(
-                                                                          child:
-                                                                              CircularProgressIndicator());
-                                                                    } else if (snapshot
-                                                                        .hasError) {
-                                                                      return Center(
-                                                                          child:
-                                                                              Text('Error: ${snapshot.error}'));
-                                                                    } else if (snapshot
-                                                                            .hasData &&
-                                                                        snapshot.data ==
-                                                                            true) {
-                                                                      return FeedbackButton(
-                                                                          context,
-                                                                          true);
-                                                                    } else {
-                                                                      return FeedbackButton(
-                                                                          context,
-                                                                          false);
-                                                                    }
-                                                                  },
-                                                                ),
-                                                              ],
-                                                            );
+                                          );
+                                        },
+                                      ),
+                                      FutureBuilder<bool>(
+                                        future: checkAllAttendanceMateri(materiAll, context),
+                                        builder: (context, snapshot) {
+                                          bool allMaterialsAttended = snapshot.hasData && snapshot.data == true;
+                                          return FutureBuilder<List<Exam>?>(
+                                            future: futureExam,
+                                            builder: (context, snapshot) {
+                                              if (snapshot.connectionState == ConnectionState.waiting) {
+                                                return Center(child: CircularProgressIndicator());
+                                              } else if (snapshot.hasError) {
+                                                return Center(child: Text('Connection error'));
+                                              } else if (snapshot.hasData) {
+                                                List<Exam> examAll = snapshot.data ?? [];
+                                                return Column(
+                                                  children: [
+                                                    ListView.builder(
+                                                      shrinkWrap: true,
+                                                      physics: NeverScrollableScrollPhysics(),
+                                                      itemCount: examAll.length,
+                                                      itemBuilder: (context, index) {
+                                                        var exam = examAll[index];
+                                                        return FutureBuilder<bool?>(
+                                                          future: fetchAbsenDataExam(context, exam.id),
+                                                          builder: (context, attendanceSnapshot) {
+                                                            if (attendanceSnapshot.connectionState == ConnectionState.waiting) {
+                                                              return Center(child: CircularProgressIndicator());
+                                                            } else if (attendanceSnapshot.hasError) {
+                                                              return Center(child: Text('Connection error'));
+                                                            } else if (attendanceSnapshot.hasData && attendanceSnapshot.data == true) {
+                                                              return buildTrainingButtonExam(
+                                                                context,
+                                                                true,
+                                                                widget.id,
+                                                                exam.id,
+                                                                allMaterialsAttended,
+                                                              );
+                                                            } else {
+                                                              return buildTrainingButtonExam(
+                                                                context,
+                                                                false,
+                                                                widget.id,
+                                                                exam.id,
+                                                                allMaterialsAttended,
+                                                              );
+                                                            }
                                                           },
                                                         );
-                                                      } else {
-                                                        return Center(
-                                                            child: Text(
-                                                                'Server error'));
-                                                      }
-                                                    },
-                                                  );
-                                                } else {
-                                                  return Center(
-                                                      child:
-                                                          Text('Server error'));
-                                                }
-                                              })
-                                        ],
-                                      );
-                                    },
+                                                      },
+                                                    ),
+                                                    FutureBuilder<bool>(
+                                                      future: checkAllAttendance(examAll, context),
+                                                      builder: (context, snapshot) {
+                                                        if (snapshot.connectionState == ConnectionState.waiting) {
+                                                          return Center(child: CircularProgressIndicator());
+                                                        } else if (snapshot.hasError) {
+                                                          return Center(child: Text('Connection error'));
+                                                        } else if (snapshot.hasData && snapshot.data == true) {
+                                                          return FeedbackButton(context, true, widget.id);
+                                                        } else {
+                                                          return FeedbackButton(context, false, widget.id);
+                                                        }
+                                                      },
+                                                    ),
+                                                  ],
+                                                );
+                                              } else {
+                                                return Center(child: Text('Connection error'));
+                                              }
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ],
                                   );
                                 } else {
-                                  return Center(child: Text('Server error'));
+                                  return Center(child: Text('Connection error'));
                                 }
                               },
                             ),
@@ -358,7 +272,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                   ),
                 ],
               ),
-            ),
+            )
           ],
         ));
   }
@@ -382,17 +296,12 @@ Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
               QuickAlert.show(
                   context: context,
                   type: QuickAlertType.confirm,
-                  title: 'Absen',
-                  text: 'Apakah anda hadir hari ini?',
+                  text: 'Absen',
                   confirmBtnText: 'Ya',
                   cancelBtnText: 'Tidak',
                   confirmBtnColor: Colors.green,
-                  headerBackgroundColor: Colors.purple,
-                  cancelBtnTextStyle: TextStyle(
-                    color: Colors.red,
-                  ),
-                  confirmBtnTextStyle: TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w500),
+                  confirmBtnTextStyle:
+                      TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
                   onConfirmBtnTap: () async {
                     Navigator.of(context).pop();
                     var res = await absenPeserta(
@@ -404,7 +313,7 @@ Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text('Informasi'),
-                              content: Text('Absen berhasil.'),
+                              content: Text('Anda sudah absen.'),
                               actions: [
                                 TextButton(
                                   onPressed: () {
@@ -450,7 +359,8 @@ Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
   );
 }
 
-Widget FeedbackButton(BuildContext context, bool isUnLocked) {
+Widget FeedbackButton(
+    BuildContext context, bool isUnLocked, idPelaksanaanPelatihan) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0),
     child: GestureDetector(
@@ -459,7 +369,8 @@ Widget FeedbackButton(BuildContext context, bool isUnLocked) {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const FeedbackPage(),
+                  builder: (context) =>
+                      FeedbackPage(idPelaksanaan: idPelaksanaanPelatihan),
                 ),
               );
             }
@@ -508,7 +419,7 @@ Widget buildTrainingButtonExam(BuildContext context, bool isUnlocked,
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UjianPage(),
+                          builder: (context) => HomeScreen(),
                         ),
                       )
                     }

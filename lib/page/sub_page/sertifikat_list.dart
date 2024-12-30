@@ -88,7 +88,9 @@ class _SertifikatListState extends State<SertifikatList> {
                       );
                     });
               } else {
-                return Center(child: Text('Server error'));
+                return Center(
+                  child: Text('connection error'),
+                );
               }
             }));
   }

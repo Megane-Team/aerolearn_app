@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
         const Beranda();
         break;
       case 2:
-        const Progres();
+        const Progress();
         break;
     }
   }
@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: const [
           Schedule(),
           Beranda(),
-          Progres(),
+          Progress(),
         ],
       ),
       bottomNavigationBar: ClipRRect(

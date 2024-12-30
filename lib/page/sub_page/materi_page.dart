@@ -76,7 +76,7 @@ class _MateriState extends State<MateriPage> {
               } else if (snapshot.hasData) {
                 return snapshot.data!;
               } else {
-                return Center(child: Text('Server error'));
+                return Center(child: Text('Connection error'));
               }
             },
           ),

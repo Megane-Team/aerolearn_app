@@ -25,7 +25,7 @@ class NotificationService {
 
   static scheduleNotification(PelaksanaPelatihan pelatihan) async {
     final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
-      pelatihan.tanggal
+      pelatihan.tanggal_mulai
           .subtract(Duration(days: 3))
           .add(Duration(hours: 10, minutes: 30)),
       tz.local,
