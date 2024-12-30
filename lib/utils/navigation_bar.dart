@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ? const Color(0xFF0463CA)
                       : const Color(0xFF74AEFF),
                 ),
-                label: 'Progress',
+                label: 'Progres',
               ),
             ],
             currentIndex: _selectedIndex,

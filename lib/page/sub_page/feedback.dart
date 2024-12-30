@@ -36,6 +36,7 @@ class _FeedbackState extends State<FeedbackPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Row(
             children: [
               Expanded(
@@ -140,28 +141,31 @@ class _FeedbackState extends State<FeedbackPage> {
                           ),
                         ),
                         SizedBox(
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (_formKey.currentState!.validate()) {
-                                await sendAllFeedbackAnswers(
-                                  context,
-                                  feedbackAnswers,
-                                  widget.idPelaksanaan as int?,
-                                );
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFF1D5C96),
-                              foregroundColor: Colors.white,
-                              minimumSize: Size(230, 60),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  await sendAllFeedbackAnswers(
+                                    context,
+                                    feedbackAnswers,
+                                    widget.idPelaksanaan as int?,
+                                  );
+                                }
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Color(0xFF1D5C96),
+                                foregroundColor: Colors.white,
+                                minimumSize: Size(230, 60),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              'Kirim Semua',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w500),
+                              child: Text(
+                                'Kirim Semua',
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.w500),
+                              ),
                             ),
                           ),
                         ),

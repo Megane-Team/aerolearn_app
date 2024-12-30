@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
-import 'package:go_router/go_router.dart';
 
 class NotificationPage extends StatefulWidget {
   const NotificationPage({super.key});
@@ -14,19 +13,20 @@ class NotificationState extends State<NotificationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             IconButton(
               icon: Image.asset(Assets.icons('arrow_back')),
               onPressed: () {
-                context.go('/mainpage');
+                Navigator.pop(context);
               },
             ),
             const Expanded(
               child: Center(
                 child: Text(
-                  'Riwayat Pelatihan',
+                  'Notifikasi',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -40,15 +40,19 @@ class NotificationState extends State<NotificationPage> {
         ),
         backgroundColor: const Color(0xff12395D),
       ),
-      body: ListView(
-        children: const [
-          NotificationItem(
-            date: '25 Okt 2024',
-            description: 'Pelatihan Aircraft Painting ',
-            description1: 'akan diadakan pada tanggal 01 November 2024.',
-          ),
-          NoNotificationItem(),
-        ],
+      body: SafeArea(
+        minimum: EdgeInsets.symmetric(horizontal: 1),
+        top: false,
+        child: ListView(
+          children: const [
+            NotificationItem(
+              date: '25 Okt 2024',
+              description: 'Pelatihan Aircraft Painting ',
+              description1: 'akan diadakan pada tanggal 01 November 2024.',
+            ),
+            NoNotificationItem(),
+          ],
+        ),
       ),
     );
   }
@@ -69,29 +73,29 @@ class NotificationItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: Colors.lightBlue,
           border: Border(bottom: BorderSide(color: Colors.black, width: 1.0))),
       child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 1),
           leading: Padding(
-            padding: const EdgeInsets.only(bottom: 35),
-            child: Icon(Icons.info_outline),
-          ),
-          title: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+              padding: const EdgeInsets.only(left: 10, bottom: 35),
+              child: Icon(Icons.info_outline)),
+          title: Row(
             children: [
-              Row(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    children: [
-                      Text(
-                        'info',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400),
-                      ),
-                    ],
+                  SizedBox(
+                    width: 250,
+                    child: Text(
+                      'info',
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
                   ),
-                  SizedBox(width: 230),
+                ],
+              ),
+              Column(
+                children: [
                   Text(
                     date,
                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
@@ -108,9 +112,13 @@ class NotificationItem extends StatelessWidget {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 4),
-              Text(
-                description1,
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              SizedBox(
+                width: 300,
+                child: Text(
+                  description1,
+                  overflow: TextOverflow.clip,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                ),
               ),
             ],
           )),

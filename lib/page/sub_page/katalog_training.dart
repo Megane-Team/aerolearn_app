@@ -384,10 +384,23 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                 } else if (snapshot.hasData) {
                                   var nilaiData = snapshot.data;
                                   return ListTile(
-                                    title: Text(
-                                      'Nilai: ${nilaiData?.score}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
+                                    title: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.92,
+                                      decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: Colors.black),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: Padding(
+                                        padding:
+                                            const EdgeInsets.only(left: 10),
+                                        child: Text(
+                                          'Nilai anda: ${nilaiData?.score}',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
                                       ),
                                     ),
                                   );
@@ -427,12 +440,13 @@ Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
               QuickAlert.show(
                   context: context,
                   type: QuickAlertType.confirm,
-                  text: 'Absen',
+                  title: 'Apakah anda hadir?',
+                  text: 'Tekan ya untuk absen',
                   confirmBtnText: 'Ya',
                   cancelBtnText: 'Tidak',
                   confirmBtnColor: Colors.green,
-                  confirmBtnTextStyle:
-                      TextStyle(color: Colors.red, fontWeight: FontWeight.w500),
+                  confirmBtnTextStyle: TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.w500),
                   onConfirmBtnTap: () async {
                     Navigator.of(context).pop();
                     var res = await absenPeserta(
