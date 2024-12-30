@@ -34,13 +34,6 @@ class AppRouter {
           ),
         ),
         GoRoute(
-          path: "/history",
-          pageBuilder: (context, state) => NoTransitionPage(
-            key: state.pageKey,
-            child: const History(),
-          ),
-        ),
-        GoRoute(
           path: "/mainpage",
           pageBuilder: (context, state) => NoTransitionPage(
             key: state.pageKey,

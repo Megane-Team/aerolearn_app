@@ -6,7 +6,8 @@ import 'package:aerolearn/utils/formatted.dart';
 import 'package:aerolearn/utils/asset.dart';
 
 class History extends StatefulWidget {
-  const History({super.key});
+  final String id;
+  const History({super.key, required this.id});
 
   @override
   State<History> createState() => _HistoryState();
@@ -18,7 +19,7 @@ class _HistoryState extends State<History> {
   @override
   void initState() {
     super.initState();
-    futurePelaksanaanPelatihanSelesaiData = fetchPelaksanaanTraining(context);
+    futurePelaksanaanPelatihanSelesaiData = fetchPelaksanaanTraining(context, widget.id);
   }
 
   @override
@@ -78,8 +79,9 @@ class _HistoryState extends State<History> {
                           itemCount: training.length,
                           itemBuilder: (context, index) {
                             var trainingSelesai = training[index];
-                            DateTime endDate = DateTime.parse(trainingSelesai.tanggal_selesai.toString());
-                            String displayDate =  Formatted.formatDate(endDate);
+                            DateTime endDate = DateTime.parse(
+                                trainingSelesai.tanggal_selesai.toString());
+                            String displayDate = Formatted.formatDate(endDate);
                             return Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Container(
@@ -147,17 +149,20 @@ class _HistoryState extends State<History> {
                                                 trainingSelesai.nama_instruktur;
                                             String training =
                                                 trainingSelesai.nama_pelatihan;
+                                            bool isSelesai = false;
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
                                                         KatalogTraining(
-                                                            id: id,
-                                                            instruktur:
-                                                                instruktur,
-                                                            training: training,
-                                                            id_pelatihan:
-                                                                idPelatihan)));
+                                                          id: id,
+                                                          instruktur:
+                                                              instruktur,
+                                                          training: training,
+                                                          id_pelatihan:
+                                                              idPelatihan,
+                                                          isSelesai: isSelesai,
+                                                        )));
                                           },
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:

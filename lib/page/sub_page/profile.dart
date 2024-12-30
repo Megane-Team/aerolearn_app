@@ -14,6 +14,19 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileState extends State<Profile> {
+  late Future<UserProfile?> userProfile;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserProfile();
+  }
+
+  void _fetchUserProfile() {
+    userProfile = fetchUserProfile(context);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +44,7 @@ class ProfileState extends State<Profile> {
               children: [
                 IconButton(
                   icon:
-                  const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+                      const Icon(Icons.arrow_back_ios_new, color: Colors.white),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -70,7 +83,7 @@ class ProfileState extends State<Profile> {
             Container(
               padding: const EdgeInsets.all(20),
               child: FutureBuilder<UserProfile?>(
-                  future: fetchUserProfile(context),
+                  future: userProfile,
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return CircularProgressIndicator();
@@ -81,10 +94,31 @@ class ProfileState extends State<Profile> {
                         children: [
                           buildNonEditableField('E-mail', snapshot.data!.email),
                           buildNonEditableField('Nama', snapshot.data!.nama),
-                          buildNonEditableField('No Telp',
-                              snapshot.data?.noTelp ?? 'tidak ada nomer telepon'),
+                          buildNonEditableField(
+                              'No Telp',
+                              snapshot.data?.noTelp ??
+                                  'tidak ada nomer telepon'),
                           buildNonEditableField('Tempat, Tanggal Lahir',
-                              '${snapshot.data!.tempatLahir}, ${snapshot.data!.tanggalLahir}')
+                              '${snapshot.data!.tempatLahir}, ${snapshot.data!.tanggalLahir}'),
+                          buildButtonRow('E-Sertifikat', Icons.chevron_right,
+                              () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SertifikatList()),
+                            );
+                          }),
+                          buildButtonRow(
+                              'Riwayat Pelatihan', Icons.chevron_right, () {
+                            if (snapshot.hasData) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => History(
+                                        id: snapshot.data!.id.toString())),
+                              );
+                            }
+                          }),
                         ],
                       );
                     } else {
@@ -93,35 +127,11 @@ class ProfileState extends State<Profile> {
                           buildNonEditableField('E-mail', ''),
                           buildNonEditableField('Nama', ''),
                           buildNonEditableField('No Telp', ''),
-                          buildNonEditableField('Tempat, Tanggal Lahir', '')
+                          buildNonEditableField('Tempat, Tanggal Lahir', ''),
                         ],
                       );
                     }
                   }),
-            ),
-            Container(
-              padding: const EdgeInsets.only(
-                right: 20.0,
-                left: 20.0,
-                bottom: 20.0,
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildButtonRow('E-Sertifikat', Icons.chevron_right, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SertifikatList()),
-                    );
-                  }),
-                  buildButtonRow('Riwayat Pelatihan', Icons.chevron_right, () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => History()),
-                    );
-                  }),
-                ],
-              ),
             ),
           ],
         ),
@@ -239,35 +249,35 @@ class ProfileState extends State<Profile> {
       ),
     );
   }
-}
 
-Widget buildButtonRow(String text, IconData icon, VoidCallback onPressed,
-    {Color? backgroundColor}) {
-  return Container(
-    color: backgroundColor,
-    child: TextButton(
-      onPressed: onPressed,
-      style: TextButton.styleFrom(
-        alignment: Alignment.centerLeft,
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 4,
-            height: 24,
-            color: Color(0xff12395D),
-          ),
-          SizedBox(width: 8), // Add some space between the line and text
-          Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(
-                  color: Colors.black, fontWeight: FontWeight.w500),
+  Widget buildButtonRow(String text, IconData icon, VoidCallback onPressed,
+      {Color? backgroundColor}) {
+    return Container(
+      color: backgroundColor,
+      child: TextButton(
+        onPressed: onPressed,
+        style: TextButton.styleFrom(
+          alignment: Alignment.centerLeft,
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 4,
+              height: 24,
+              color: Color(0xff12395D),
             ),
-          ),
-          Icon(icon, color: const Color(0xff12395D)),
-        ],
+            SizedBox(width: 8), // Add some space between the line and text
+            Expanded(
+              child: Text(
+                text,
+                style: const TextStyle(
+                    color: Colors.black, fontWeight: FontWeight.w500),
+              ),
+            ),
+            Icon(icon, color: const Color(0xff12395D)),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
