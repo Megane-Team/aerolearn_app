@@ -176,6 +176,7 @@ class ProfileState extends State<Profile> {
                         TextButton(
                           onPressed: () async {
                             await SessionService.logout();
+                            // ignore: use_build_context_synchronously
                             context.go('/login');
                           },
                           style: TextButton.styleFrom(

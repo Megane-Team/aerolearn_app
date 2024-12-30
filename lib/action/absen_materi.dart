@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 import 'package:aerolearn/constant/variable.dart';
-import 'package:aerolearn/utils/connectionError.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
 
