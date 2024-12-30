@@ -1,5 +1,5 @@
 import 'package:aerolearn/constant/variable.dart';
-import 'package:aerolearn/utils/connectionError.dart';
+import 'package:aerolearn/utils/connection_error.dart';
 import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';

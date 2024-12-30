@@ -1,8 +1,8 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:aerolearn/action/absenExam.dart';
-import 'package:aerolearn/action/absenMateri.dart';
-import 'package:aerolearn/action/absenPost.dart';
+import 'package:aerolearn/action/absen_exam.dart';
+import 'package:aerolearn/action/absen_materi.dart';
+import 'package:aerolearn/action/absen_post.dart';
 import 'package:aerolearn/action/exam.dart';
 import 'package:aerolearn/action/materi.dart';
 import 'package:aerolearn/action/nilai.dart';
