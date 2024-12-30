@@ -19,7 +19,8 @@ class _HistoryState extends State<History> {
   @override
   void initState() {
     super.initState();
-    futurePelaksanaanPelatihanSelesaiData = fetchPelaksanaanTraining(context, widget.id);
+    futurePelaksanaanPelatihanSelesaiData =
+        fetchPelaksanaanTraining(context, widget.id);
   }
 
   @override

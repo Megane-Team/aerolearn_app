@@ -58,8 +58,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
     userProfile = await fetchUserProfile(context);
     if (userProfile != null) {
       setState(() {
-        futureNilai =
-            fetchNilai(context, userProfile!.id, widget.id);
+        futureNilai = fetchNilai(context, userProfile!.id, widget.id);
       });
     }
   }
@@ -228,7 +227,9 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                       widget.isSelesai
                                           ? FutureBuilder<bool>(
                                               future: checkAllAttendanceMateri(
-                                                  materiAll, context, widget.id),
+                                                  materiAll,
+                                                  context,
+                                                  widget.id),
                                               builder: (context, snapshot) {
                                                 bool allMaterialsAttended =
                                                     snapshot.hasData &&
@@ -373,10 +374,13 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                             FutureBuilder<nilai?>(
                               future: futureNilai,
                               builder: (context, snapshot) {
-                                if (snapshot.connectionState == ConnectionState.waiting) {
-                                  return Center(child: CircularProgressIndicator());
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                      child: CircularProgressIndicator());
                                 } else if (snapshot.hasError) {
-                                  return Center(child: Text('Error: ${snapshot.error}'));
+                                  return Center(
+                                      child: Text('Error: ${snapshot.error}'));
                                 } else if (snapshot.hasData) {
                                   var nilaiData = snapshot.data;
                                   return ListTile(
@@ -632,7 +636,8 @@ Future<bool> checkAllAttendance(
   return true;
 }
 
-Future<bool> checkAllAttendanceMateri(List<Materi> materiAll, context, id) async {
+Future<bool> checkAllAttendanceMateri(
+    List<Materi> materiAll, context, id) async {
   for (var exam in materiAll) {
     final isAbsen = await fetchAbsenDataMateri(context, exam.id, id);
     if (!isAbsen!) {
