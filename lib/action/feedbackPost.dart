@@ -4,8 +4,8 @@ import 'package:aerolearn/utils/connectionError.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'package:aerolearn/constant/variable.dart';
 
-Future<String?> feedbackAnswer(
-    context, String text, int idFeedbackQuestion, int idPelaksanaanPelatihan) async {
+Future<String?> feedbackAnswer(context, String text, int idFeedbackQuestion,
+    int idPelaksanaanPelatihan) async {
   try {
     final url = '$baseURL/feedback/+';
     final response = await HttpService.postRequest(url, {
@@ -24,4 +24,3 @@ Future<String?> feedbackAnswer(
     return null;
   }
 }
-

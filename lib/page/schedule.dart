@@ -7,6 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_dash/flutter_dash.dart';
 
+import '../action/profile.dart';
+import '../variable/profile.dart';
+
 class Schedule extends StatefulWidget {
   const Schedule({super.key});
 
@@ -19,18 +22,31 @@ class _ScheduleState extends State<Schedule> {
   DateTime? _selectedDay;
   late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
   Timer? _timer;
+  UserProfile? userProfile;
 
   @override
   void initState() {
     super.initState();
-    futurePelaksanaanPelatihanData = fetchPelaksanaanTraining(context);
-    _startAutoRefresh();
+    futurePelaksanaanPelatihanData = Future.value(null);
+    _fetchUserProfile();
+  }
+
+  void _fetchUserProfile() async {
+    userProfile = await fetchUserProfile(context);
+    if (userProfile != null) {
+      setState(() {
+        futurePelaksanaanPelatihanData =
+            fetchPelaksanaanTraining(context, userProfile!.id);
+        _startAutoRefresh();
+      });
+    }
   }
 
   void _startAutoRefresh() {
     _timer = Timer.periodic(Duration(seconds: 10), (timer) {
       setState(() {
-        futurePelaksanaanPelatihanData = fetchPelaksanaanTraining(context);
+        futurePelaksanaanPelatihanData =
+            fetchPelaksanaanTraining(context, userProfile!.id);
       });
     });
   }
@@ -104,9 +120,12 @@ class _ScheduleState extends State<Schedule> {
                       return filteredPelatihanList.where((pelatihan) {
                         DateTime startDate = pelatihan.tanggal_mulai;
                         DateTime endDate = pelatihan.tanggal_selesai;
-                        return (day.isAfter(DateTime.now()) || isSameDay(day, DateTime.now())) &&
-                            (isSameDay(day, startDate) || isSameDay(day, endDate) ||
-                                (day.isAfter(startDate) && day.isBefore(endDate)));
+                        return (day.isAfter(DateTime.now()) ||
+                                isSameDay(day, DateTime.now())) &&
+                            (isSameDay(day, startDate) ||
+                                isSameDay(day, endDate) ||
+                                (day.isAfter(startDate) &&
+                                    day.isBefore(endDate)));
                       }).toList();
                     },
                     calendarStyle: const CalendarStyle(
@@ -164,20 +183,25 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
             List<PelaksanaPelatihan>? progress = snapshot.data;
-            List<PelaksanaPelatihan> filteredList = progress!.where((trainingList) {
+            List<PelaksanaPelatihan> filteredList =
+                progress!.where((trainingList) {
               DateTime now = DateTime.now();
               if (selectedDay != null) {
                 if ((isSameDay(selectedDay, trainingList.tanggal_mulai) ||
-                    isSameDay(selectedDay, trainingList.tanggal_selesai) ||
-                    (selectedDay.isAfter(trainingList.tanggal_mulai) && selectedDay.isBefore(trainingList.tanggal_selesai))) &&
+                        isSameDay(selectedDay, trainingList.tanggal_selesai) ||
+                        (selectedDay.isAfter(trainingList.tanggal_mulai) &&
+                            selectedDay
+                                .isBefore(trainingList.tanggal_selesai))) &&
                     (selectedDay.isAfter(now) || isSameDay(selectedDay, now))) {
                   return true;
                 }
               }
               if (focusedDay != null) {
                 if ((isSameDay(focusedDay, trainingList.tanggal_mulai) ||
-                    isSameDay(focusedDay, trainingList.tanggal_selesai) ||
-                    (focusedDay.isAfter(trainingList.tanggal_mulai) && focusedDay.isBefore(trainingList.tanggal_selesai))) &&
+                        isSameDay(focusedDay, trainingList.tanggal_selesai) ||
+                        (focusedDay.isAfter(trainingList.tanggal_mulai) &&
+                            focusedDay
+                                .isBefore(trainingList.tanggal_selesai))) &&
                     (focusedDay.isAfter(now) || isSameDay(focusedDay, now))) {
                   return true;
                 }
@@ -213,14 +237,16 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                                   dashColor: Colors.black,
                                 ),
                                 Text(
-                                  Formatted.formatTime(trainingList.jam_selesai),
+                                  Formatted.formatTime(
+                                      trainingList.jam_selesai),
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                            padding: const EdgeInsets.only(
+                                top: 10, left: 20, right: 20),
                             width: MediaQuery.of(context).size.width * 0.68,
                             height: 110,
                             decoration: BoxDecoration(
@@ -232,18 +258,24 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                               children: [
                                 const Text(
                                   'Training',
-                                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
                                   trainingList.nama_pelatihan,
-                                  style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
                                   trainingList.ruangan,
-                                  style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w400),
                                 ),
                               ],
                             ),

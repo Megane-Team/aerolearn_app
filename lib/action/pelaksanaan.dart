@@ -3,9 +3,9 @@ import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
 
-Future<List<PelaksanaPelatihan>?> fetchPelaksanaanTraining(context) async {
+Future<List<PelaksanaPelatihan>?> fetchPelaksanaanTraining(context, id) async {
   try {
-    final url = '$baseURL/peserta/progress';
+    final url = '$baseURL/peserta/progress/$id';
     final response = await HttpService.getRequest(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
