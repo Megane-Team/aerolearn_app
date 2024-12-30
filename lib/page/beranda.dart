@@ -26,8 +26,7 @@ class _BerandaState extends State<Beranda> {
     _startAutoRefresh();
   }
 
-  void _startAutoRefresh() {
-  }
+  void _startAutoRefresh() {}
 
   List<Training> filterTraining(List<Training> training, String query) {
     if (query.isEmpty) {
