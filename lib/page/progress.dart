@@ -110,7 +110,8 @@ class _ProgressState extends State<Progress> {
                               currentDate.isBefore(endDate)) {
                             displayDate = 'Today';
                           } else {
-                            displayDate = Formatted.formatDate(DateTime(2024, 1, 2));
+                            displayDate =
+                                Formatted.formatDate(DateTime(2024, 1, 2));
                           }
                           return Padding(
                             padding: const EdgeInsets.only(
