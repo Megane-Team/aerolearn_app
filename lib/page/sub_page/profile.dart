@@ -128,6 +128,22 @@ class ProfileState extends State<Profile> {
                           buildNonEditableField('Nama', ''),
                           buildNonEditableField('No Telp', ''),
                           buildNonEditableField('Tempat, Tanggal Lahir', ''),
+                          buildButtonRow('E-Sertifikat', Icons.chevron_right,
+                              () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SertifikatList()),
+                            );
+                          }),
+                          buildButtonRow(
+                              'Riwayat Pelatihan', Icons.chevron_right, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => History(id: null)),
+                            );
+                          }),
                         ],
                       );
                     }
@@ -143,7 +159,7 @@ class ProfileState extends State<Profile> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Color(0xff12395D).withOpacity(0.5), // Shadow color
+              color: const Color.fromRGBO(18, 57, 93, 0.5),
               spreadRadius: 1, // Spread radius
               blurRadius: 5, // Blur radius
               offset: const Offset(0, 0), // Offset in x and y direction

@@ -6,7 +6,7 @@ import 'package:aerolearn/utils/formatted.dart';
 import 'package:aerolearn/utils/asset.dart';
 
 class History extends StatefulWidget {
-  final String id;
+  final String? id;
   const History({super.key, required this.id});
 
   @override

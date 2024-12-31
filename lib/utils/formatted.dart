@@ -1,9 +1,9 @@
-import 'package:flutter_datetime_format/flutter_datetime_format.dart';
 import 'package:intl/intl.dart';
 
 class Formatted {
   static String formatDate(DateTime date) {
-    return FLDateTime.formatWithNames(date, 'DD MMMM YYYY');
+    final DateFormat formatter = DateFormat('dd MMMM yyyy');
+    return formatter.format(date);
   }
 
   static String formatTime(String time) {

@@ -8,7 +8,7 @@ import 'notification_service.dart';
 
 Future<void> requestExactAlarmPermission() async {
   if (await Permission.scheduleExactAlarm.request().isGranted) {
-    print('permission granted');
+    // print('permission granted');
   } else {
     await Permission.scheduleExactAlarm.request();
   }

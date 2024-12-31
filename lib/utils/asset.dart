@@ -29,10 +29,10 @@ class Assets {
           },
         );
       } else {
-        throw Exception('Failed to load Materi data');
+        return Text('file not found');
       }
     } catch (e) {
-      return Text('Not Found');
+      return Text('Connection Error');
     }
   }
 }
