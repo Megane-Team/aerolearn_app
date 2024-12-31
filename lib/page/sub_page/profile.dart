@@ -128,6 +128,23 @@ class ProfileState extends State<Profile> {
                           buildNonEditableField('Nama', ''),
                           buildNonEditableField('No Telp', ''),
                           buildNonEditableField('Tempat, Tanggal Lahir', ''),
+                          buildButtonRow('E-Sertifikat', Icons.chevron_right,
+                                  () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SertifikatList()),
+                                );
+                              }),
+                          buildButtonRow(
+                              'Riwayat Pelatihan', Icons.chevron_right, () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => History(
+                                        id: null)),
+                              );
+                          }),
                         ],
                       );
                     }
