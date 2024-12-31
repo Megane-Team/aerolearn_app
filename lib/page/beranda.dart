@@ -35,6 +35,12 @@ class _BerandaState extends State<Beranda> {
     });
   }
 
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
   List<Training> filterTraining(List<Training> training, String query) {
     if (query.isEmpty) {
       return training;

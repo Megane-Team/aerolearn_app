@@ -159,7 +159,7 @@ class ProfileState extends State<Profile> {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Color(0xff12395D).withOpacity(0.5), // Shadow color
+              color: const Color.fromRGBO(18, 57, 93, 0.5),
               spreadRadius: 1, // Spread radius
               blurRadius: 5, // Blur radius
               offset: const Offset(0, 0), // Offset in x and y direction

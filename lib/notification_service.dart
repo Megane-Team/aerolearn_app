@@ -47,7 +47,7 @@ class NotificationService {
           UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
-    print('Notification scheduled successfully');
+    // print('Notification scheduled successfully');
   }
 
   static fetchAndScheduleNotifications() async {
