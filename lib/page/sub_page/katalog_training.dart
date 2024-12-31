@@ -7,8 +7,8 @@ import 'package:aerolearn/action/exam.dart';
 import 'package:aerolearn/action/materi.dart';
 import 'package:aerolearn/action/nilai.dart';
 import 'package:aerolearn/page/sub_page/feedback.dart';
+import 'package:aerolearn/page/sub_page/ujian_page.dart';
 import 'package:aerolearn/utils/asset.dart';
-import 'package:aerolearn/utils/navigation_bar.dart';
 import 'package:aerolearn/variable/exam.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:flutter/material.dart';
@@ -564,7 +564,7 @@ Widget buildTrainingButtonExam(BuildContext context, bool isUnlocked,
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => HomeScreen(),
+                          builder: (context) => UjianPage(),
                         ),
                       )
                     }
