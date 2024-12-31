@@ -93,7 +93,7 @@ class _ProgressState extends State<Progress> {
                               .toList() ??
                           [];
                       if (training.isEmpty) {
-                        return Center(child: Text('No progress'));
+                        return Center(child: Text('Tidak ada progres'));
                       }
                       return ListView.builder(
                         itemCount: training.length,

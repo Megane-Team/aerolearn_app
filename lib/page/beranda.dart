@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:aerolearn/action/jenis_training.dart';
+import 'package:aerolearn/page/sub_page/detail.dart';
 import 'package:aerolearn/page/sub_page/profile.dart';
 import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:flutter/material.dart';
@@ -166,8 +167,7 @@ class _BerandaState extends State<Beranda> {
                       List<Training> trainingData =
                           filterTraining(snapshot.data!, searchQuery);
                       if (trainingData.isEmpty) {
-                        return Center(
-                            child: Text('No training data available'));
+                        return Center(child: Text('Tidak ada pelatihan'));
                       }
                       return ListView.builder(
                         itemCount: trainingData.length,
@@ -217,7 +217,11 @@ class _BerandaState extends State<Beranda> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        context.go('/detail');
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    Detail()));
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: Color(0xFF2C2C2C),
@@ -235,7 +239,7 @@ class _BerandaState extends State<Beranda> {
                         },
                       );
                     } else {
-                      return Center(child: Text('Connection error'));
+                      return Center(child: Text('Koneksi eror'));
                     }
                   }))
         ],
