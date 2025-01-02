@@ -580,7 +580,7 @@ Widget buildTrainingButtonExam(BuildContext context, bool isUnlocked,
                       cancelBtnText: 'Tidak',
                       confirmBtnColor: Colors.green,
                       confirmBtnTextStyle: TextStyle(
-                          color: Colors.red, fontWeight: FontWeight.w500),
+                          color: Colors.white, fontWeight: FontWeight.w500),
                       onConfirmBtnTap: () async {
                         Navigator.of(context).pop();
                         var res = await absenPeserta(
