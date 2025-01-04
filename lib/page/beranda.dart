@@ -2,11 +2,19 @@ import 'dart:async';
 
 import 'package:aerolearn/action/jenis_training.dart';
 import 'package:aerolearn/page/sub_page/detail.dart';
+import 'package:aerolearn/page/sub_page/notification.dart';
 import 'package:aerolearn/page/sub_page/profile.dart';
 import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
-import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../action/notifications.dart';
+import '../action/profile.dart';
+import '../utils/notifications_icon.dart';
+import '../variable/notifications.dart';
+import '../variable/profile.dart';
 
 class Beranda extends StatefulWidget {
   const Beranda({super.key});
@@ -18,28 +26,31 @@ class Beranda extends StatefulWidget {
 class _BerandaState extends State<Beranda> {
   TextEditingController searchController = TextEditingController();
   late Future<List<Training>?> futureTrainingData;
+  late Future<List<Notifications>?> futureNotificationData;
+  UserProfile? userProfile;
   String searchQuery = '';
-  Timer? _timer;
 
   @override
   void initState() {
     super.initState();
     futureTrainingData = fetchTrainingData(context);
-    _startAutoRefresh();
+    futureNotificationData = Future.value(null);
+    _fetchUserProfile();
   }
 
-  void _startAutoRefresh() {
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
+  void _fetchUserProfile() async {
+    userProfile = await fetchUserProfile(context);
+    if (userProfile != null) {
       setState(() {
-        futureTrainingData = fetchTrainingData(context);
+        futureNotificationData = fetchNotifications(context, userProfile!.id);
       });
-    });
+    }
   }
 
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
+  Future<void> _refreshTrainingData() async {
+    setState(() {
+      futureTrainingData = fetchTrainingData(context);
+    });
   }
 
   List<Training> filterTraining(List<Training> training, String query) {
@@ -109,12 +120,57 @@ class _BerandaState extends State<Beranda> {
                   const Spacer(),
                   InkWell(
                     onTap: () {
-                      context.go('/notification');
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NotificationPage())
+                      ).then((_) {
+                      _refreshTrainingData();
+                      });
                     },
-                    child: const Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    ),
+                    child: FutureBuilder<List<Notifications>?>(
+                  future: futureNotificationData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (snapshot.hasData) {
+                        List<Notifications> notifications = snapshot.data!;
+                        DateTime now = DateTime.now();
+                        notifications = notifications.where((notification) {
+                          DateTime notificationDate = DateFormat('yyyy-MM-dd').parse(notification.tanggal.toString());
+                          return notificationDate.isBefore(now) || notificationDate.isAtSameMomentAs(now);
+                        }).toList();
+                        return FutureBuilder<SharedPreferences>(
+                          future: SharedPreferences.getInstance(),
+                          builder: (context, prefsSnapshot) {
+                            if (prefsSnapshot.connectionState == ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (prefsSnapshot.hasError) {
+                              return Center(child: Text('Error: ${prefsSnapshot.error}'));
+                            } else if (prefsSnapshot.hasData) {
+                              final prefs = prefsSnapshot.data!;
+                              bool hasUnread = notifications.any((notification) {
+                                return !(prefs.getBool('notification_${notification.id}') ?? false);
+                              });
+                              return NotificationIconWithDot(hasUnreadNotifications: hasUnread);
+                            } else {
+                              return const Icon(
+                                Icons.notifications,
+                                color: Colors.white,
+                              );
+                            }
+                          },
+                        );
+                      } else {
+                        return const Icon(
+                          Icons.notifications,
+                          color: Colors.white,
+                        );
+                      }
+                    },
+                  ),
                   )
                 ],
               ),
@@ -159,97 +215,117 @@ class _BerandaState extends State<Beranda> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          Expanded(
-              child: FutureBuilder<List<Training>?>(
-                  future: futureTrainingData,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
-                    } else if (snapshot.hasData) {
-                      List<Training> trainingData =
-                          filterTraining(snapshot.data!, searchQuery);
-                      if (trainingData.isEmpty) {
-                        return Center(child: Text('Tidak ada pelatihan'));
-                      }
-                      return ListView.builder(
-                        itemCount: trainingData.length,
-                        itemBuilder: (context, index) {
-                          var detailTraining = trainingData[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(
-                                top: 10, right: 16, left: 16, bottom: 2),
-                            child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 20, vertical: 10),
-                                width: MediaQuery.of(context).size.width * 0.7,
-                                height: 95,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xffEDEDED),
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    SizedBox(
-                                      width: 180,
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            'Pelatihan',
-                                            style: TextStyle(
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
+      body: RefreshIndicator(
+        onRefresh: _refreshTrainingData,
+        child: Column(
+          children: [
+            Expanded(
+                child: FutureBuilder<List<Training>?>(
+                    future: futureTrainingData,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (snapshot.hasData) {
+                        List<Training> trainingData =
+                            filterTraining(snapshot.data!, searchQuery);
+                        if (trainingData.isEmpty) {
+                          return Center(child: Text('Tidak ada pelatihan'));
+                        }
+                        return ListView.builder(
+                          itemCount: trainingData.length,
+                          itemBuilder: (context, index) {
+                            var detailTraining = trainingData[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 10, right: 16, left: 16, bottom: 2),
+                              child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                  height: 95,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xffEDEDED),
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      SizedBox(
+                                        width: 180,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              'Pelatihan',
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            detailTraining.nama,
-                                            style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.w900,
+                                            Text(
+                                              detailTraining.nama,
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.w900,
+                                              ),
+                                              overflow: TextOverflow.ellipsis,
                                             ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    Detail()));
-                                      },
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xFF2C2C2C),
-                                        foregroundColor: Colors.white,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(8),
+                                          ],
                                         ),
                                       ),
-                                      child: const Text('Rincian'),
-                                    ),
-                                  ],
-                                )),
-                          );
-                        },
-                      );
-                    } else {
-                      return Center(child: Text('Koneksi eror'));
-                    }
-                  }))
-        ],
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          var id = detailTraining.id.toString();
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      Detail(id: id)));
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Color(0xFF2C2C2C),
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                          ),
+                                        ),
+                                        child: const Text('Rincian'),
+                                      ),
+                                    ],
+                                  )),
+                            );
+                          },
+                        );
+                      } else {
+                        return Center(child: Text('Koneksi eror'));
+                      }
+                    }))
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class NotificationIcon extends StatelessWidget {
+  final bool hasUnreadNotifications;
+
+  const NotificationIcon({Key? key, required this.hasUnreadNotifications})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Icon(
+      hasUnreadNotifications ? Icons.notifications_active : Icons.notifications,
+      color: Colors.white,
     );
   }
 }

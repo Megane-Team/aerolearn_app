@@ -20,3 +20,19 @@ Future<List<Training>?> fetchTrainingData(context) async {
     return null;
   }
 }
+
+Future<Training?> fetchTrainingDetail(context, id) async {
+  try {
+    final url = '$baseURL/training/$id';
+    final response = await HttpService.getRequest(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      return Training.fromJson(jsonResponse['data']);
+    } else {
+      throw Exception('Failed to load training data');
+    }
+  } catch (e) {
+    showConnectionErrorDialog(context);
+    return null;
+  }
+}

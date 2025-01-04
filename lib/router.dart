@@ -5,7 +5,6 @@ import 'package:aerolearn/utils/navigation_bar.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'package:go_router/go_router.dart';
 import 'package:aerolearn/page/login.dart';
-import 'package:aerolearn/page/sub_page/detail.dart';
 
 final getToken = SessionService.getToken();
 late String initialLocation;
@@ -37,13 +36,6 @@ class AppRouter {
           pageBuilder: (context, state) => NoTransitionPage(
             key: state.pageKey,
             child: const HomeScreen(),
-          ),
-        ),
-        GoRoute(
-          path: "/detail",
-          pageBuilder: (context, state) => NoTransitionPage(
-            key: state.pageKey,
-            child: const Detail(),
           ),
         ),
       ],

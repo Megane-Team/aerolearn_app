@@ -143,6 +143,8 @@ class _HistoryState extends State<History> {
                                         ElevatedButton(
                                           onPressed: () {
                                             var id = trainingSelesai.id;
+                                            var kategori =
+                                                trainingSelesai.jenis_training;
                                             var idPelatihan = trainingSelesai
                                                 .id_pelatihan
                                                 .toString();
@@ -163,6 +165,7 @@ class _HistoryState extends State<History> {
                                                           id_pelatihan:
                                                               idPelatihan,
                                                           isSelesai: isSelesai,
+                                                          kategori: kategori,
                                                         )));
                                           },
                                           style: ElevatedButton.styleFrom(

@@ -6,7 +6,6 @@ import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:flutter_dash/flutter_dash.dart';
-
 import '../action/profile.dart';
 import '../variable/profile.dart';
 
@@ -21,7 +20,6 @@ class _ScheduleState extends State<Schedule> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
-  Timer? _timer;
   UserProfile? userProfile;
 
   @override
@@ -37,24 +35,15 @@ class _ScheduleState extends State<Schedule> {
       setState(() {
         futurePelaksanaanPelatihanData =
             fetchPelaksanaanTraining(context, userProfile!.id);
-        _startAutoRefresh();
       });
     }
   }
 
-  void _startAutoRefresh() {
-    _timer = Timer.periodic(Duration(seconds: 10), (timer) {
-      setState(() {
-        futurePelaksanaanPelatihanData =
-            fetchPelaksanaanTraining(context, userProfile!.id);
-      });
+  Future<void> _refreshPelaksanaanPelatihanData() async {
+    setState(() {
+      futurePelaksanaanPelatihanData =
+          fetchPelaksanaanTraining(context, userProfile!.id);
     });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   @override
@@ -73,100 +62,102 @@ class _ScheduleState extends State<Schedule> {
           ),
         ),
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          Center(
-            child: Container(
-              decoration: BoxDecoration(
-                color: const Color(0xffEDEDED),
-                borderRadius: BorderRadius.circular(15),
-              ),
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: FutureBuilder<List<PelaksanaPelatihan>?>(
-                future: futurePelaksanaanPelatihanData,
-                builder: (context, snapshot) {
-                  List<PelaksanaPelatihan> pelatihanList = [];
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (snapshot.hasData) {
-                    pelatihanList = snapshot.data!;
-                  }
+      body: RefreshIndicator(
+        onRefresh: _refreshPelaksanaanPelatihanData,
+        child: Column(
+          children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: const Color(0xffEDEDED),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: FutureBuilder<List<PelaksanaPelatihan>?>(
+                  future: futurePelaksanaanPelatihanData,
+                  builder: (context, snapshot) {
+                    List<PelaksanaPelatihan> pelatihanList = [];
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return Center(child: Text('Error: ${snapshot.error}'));
+                    } else if (snapshot.hasData) {
+                      pelatihanList = snapshot.data!;
+                    }
 
-                  final filteredPelatihanList = pelatihanList.toList();
+                    final filteredPelatihanList = pelatihanList.toList();
 
-                  return TableCalendar(
-                    firstDay: DateTime.utc(2000, 1, 1),
-                    lastDay: DateTime.utc(2100, 12, 31),
-                    focusedDay: _focusedDay,
-                    headerStyle: const HeaderStyle(
-                      formatButtonVisible: false,
-                    ),
-                    calendarFormat: CalendarFormat.month,
-                    selectedDayPredicate: (day) {
-                      return isSameDay(_selectedDay, day);
-                    },
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        _selectedDay = selectedDay;
-                        _focusedDay = focusedDay;
-                      });
-                    },
-                    eventLoader: (day) {
-                      return filteredPelatihanList.where((pelatihan) {
-                        DateTime startDate = pelatihan.tanggal_mulai;
-                        DateTime endDate = pelatihan.tanggal_selesai;
-                        return (day.isAfter(DateTime.now()) ||
-                                isSameDay(day, DateTime.now())) &&
-                            (isSameDay(day, startDate) ||
-                                isSameDay(day, endDate) ||
-                                (day.isAfter(startDate) &&
-                                    day.isBefore(endDate)));
-                      }).toList();
-                    },
-                    calendarStyle: const CalendarStyle(
-                      defaultTextStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                    return TableCalendar(
+                      firstDay: DateTime.utc(2000, 1, 1),
+                      lastDay: DateTime.utc(2100, 12, 31),
+                      focusedDay: _focusedDay,
+                      headerStyle: const HeaderStyle(
+                        formatButtonVisible: false,
                       ),
-                      weekendTextStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
+                      calendarFormat: CalendarFormat.month,
+                      selectedDayPredicate: (day) {
+                        return isSameDay(_selectedDay, day);
+                      },
+                      onDaySelected: (selectedDay, focusedDay) {
+                        setState(() {
+                          _selectedDay = selectedDay;
+                          _focusedDay = focusedDay;
+                        });
+                      },
+                      eventLoader: (day) {
+                        DateTime now = DateTime.now();
+                        return filteredPelatihanList.where((pelatihan) {
+                          DateTime startDate = pelatihan.tanggal_mulai;
+                          DateTime endDate = pelatihan.tanggal_selesai;
+                          return (isSameDay(day, startDate) ||
+                              isSameDay(day, endDate) ||
+                              (day.isAfter(startDate) && day.isBefore(endDate))) &&
+                              endDate.isAfter(now) && day.isAfter(now.subtract(Duration(days: 1)));
+                        }).toList();
+                      },
+                      calendarStyle: const CalendarStyle(
+                        defaultTextStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        weekendTextStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        selectedTextStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        todayTextStyle: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                        ),
+                        selectedDecoration: BoxDecoration(
+                          color: Color(0xff12395D),
+                          shape: BoxShape.circle,
+                        ),
+                        todayDecoration: BoxDecoration(
+                          color: Color(0xffD0CCCC),
+                          shape: BoxShape.circle,
+                        ),
+                        markerDecoration: BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
                       ),
-                      selectedTextStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                      todayTextStyle: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black,
-                      ),
-                      selectedDecoration: BoxDecoration(
-                        color: Color(0xff12395D),
-                        shape: BoxShape.circle,
-                      ),
-                      todayDecoration: BoxDecoration(
-                        color: Color(0xffD0CCCC),
-                        shape: BoxShape.circle,
-                      ),
-                      markerDecoration: BoxDecoration(
-                        color: Colors.red,
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-          const SizedBox(height: 20),
-          listTraining(context, _selectedDay, _focusedDay,
-              futurePelaksanaanPelatihanData),
-        ],
+            const SizedBox(height: 20),
+            listTraining(context, _selectedDay, _focusedDay,
+                futurePelaksanaanPelatihanData),
+          ],
+        ),
       ),
     );
   }
