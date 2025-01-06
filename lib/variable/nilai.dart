@@ -1,25 +1,23 @@
-// ignore_for_file: non_constant_identifier_names, camel_case_types, file_names
-
-class nilai {
+class Nilai {
   final int id;
-  final int id_peserta;
-  final int id_pelaksanaan_pelatihan;
+  final int idPeserta;
+  final int idPelaksanaanPelatihan;
   final int score;
   final String createdAt;
 
-  nilai({
+  Nilai({
     required this.id,
-    required this.id_peserta,
-    required this.id_pelaksanaan_pelatihan,
+    required this.idPeserta,
+    required this.idPelaksanaanPelatihan,
     required this.score,
     required this.createdAt,
   });
 
-  factory nilai.fromJson(Map<String, dynamic> json) {
-    return nilai(
+  factory Nilai.fromJson(Map<String, dynamic> json) {
+    return Nilai(
       id: json['id'],
-      id_peserta: json['id_peserta'],
-      id_pelaksanaan_pelatihan: json['id_pelaksanaan_pelatihan'],
+      idPeserta: json['id_peserta'],
+      idPelaksanaanPelatihan: json['id_pelaksanaan_pelatihan'],
       score: json['score'],
       createdAt: json['createdAt'],
     );

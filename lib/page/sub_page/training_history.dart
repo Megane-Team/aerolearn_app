@@ -14,7 +14,8 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanSelesaiData;
+  late Future<List<PelaksanaanPelatihan>?>
+      futurePelaksanaanPelatihanSelesaiData;
 
   @override
   void initState() {
@@ -60,7 +61,7 @@ class _HistoryState extends State<History> {
               height: 20,
             ),
             Expanded(
-                child: FutureBuilder<List<PelaksanaPelatihan>?>(
+                child: FutureBuilder<List<PelaksanaanPelatihan>?>(
                     future: futurePelaksanaanPelatihanSelesaiData,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -68,7 +69,7 @@ class _HistoryState extends State<History> {
                       } else if (snapshot.hasError) {
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else if (snapshot.hasData) {
-                        List<PelaksanaPelatihan> training = snapshot.data
+                        List<PelaksanaanPelatihan> training = snapshot.data
                                 ?.where((item) => item.isSelesai == 'selesai')
                                 .toList() ??
                             [];
@@ -81,7 +82,7 @@ class _HistoryState extends State<History> {
                           itemBuilder: (context, index) {
                             var trainingSelesai = training[index];
                             DateTime endDate = DateTime.parse(
-                                trainingSelesai.tanggal_selesai.toString());
+                                trainingSelesai.tanggalSelesai.toString());
                             String displayDate = Formatted.formatDate(endDate);
                             return Padding(
                               padding: const EdgeInsets.all(16.0),
@@ -122,7 +123,7 @@ class _HistoryState extends State<History> {
                                       height: 10,
                                     ),
                                     Text(
-                                      trainingSelesai.nama_pelatihan,
+                                      trainingSelesai.namaPelatihan,
                                       style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w900),
@@ -144,14 +145,14 @@ class _HistoryState extends State<History> {
                                           onPressed: () {
                                             var id = trainingSelesai.id;
                                             var kategori =
-                                                trainingSelesai.jenis_training;
+                                                trainingSelesai.jenisTraining;
                                             var idPelatihan = trainingSelesai
-                                                .id_pelatihan
+                                                .idPelatihan
                                                 .toString();
                                             String instruktur =
-                                                trainingSelesai.nama_instruktur;
+                                                trainingSelesai.namaInstruktur;
                                             String training =
-                                                trainingSelesai.nama_pelatihan;
+                                                trainingSelesai.namaPelatihan;
                                             bool isSelesai = false;
                                             Navigator.push(
                                                 context,
@@ -162,7 +163,7 @@ class _HistoryState extends State<History> {
                                                           instruktur:
                                                               instruktur,
                                                           training: training,
-                                                          id_pelatihan:
+                                                          idPelatihan:
                                                               idPelatihan,
                                                           isSelesai: isSelesai,
                                                           kategori: kategori,
@@ -187,7 +188,7 @@ class _HistoryState extends State<History> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              trainingSelesai.nama_instruktur,
+                                              trainingSelesai.namaInstruktur,
                                               style: const TextStyle(
                                                   fontSize: 16,
                                                   fontWeight: FontWeight.bold),

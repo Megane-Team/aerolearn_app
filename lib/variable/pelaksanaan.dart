@@ -1,43 +1,41 @@
-// ignore_for_file: non_constant_identifier_names
-
-class PelaksanaPelatihan {
+class PelaksanaanPelatihan {
   final int id;
-  final int id_pelatihan;
-  final String nama_pelatihan;
-  final String nama_instruktur;
-  final DateTime tanggal_mulai;
-  final DateTime tanggal_selesai;
-  final String jam_mulai;
-  final String jam_selesai;
-  final String jenis_training;
+  final int idPelatihan;
+  final String namaPelatihan;
+  final String namaInstruktur;
+  final DateTime tanggalMulai;
+  final DateTime tanggalSelesai;
+  final String jamMulai;
+  final String jamSelesai;
+  final String jenisTraining;
   final String isSelesai;
   final String ruangan;
 
-  PelaksanaPelatihan({
+  PelaksanaanPelatihan({
     required this.id,
-    required this.id_pelatihan,
-    required this.nama_pelatihan,
-    required this.nama_instruktur,
-    required this.tanggal_mulai,
-    required this.tanggal_selesai,
-    required this.jam_mulai,
-    required this.jam_selesai,
-    required this.jenis_training,
+    required this.idPelatihan,
+    required this.namaPelatihan,
+    required this.namaInstruktur,
+    required this.tanggalMulai,
+    required this.tanggalSelesai,
+    required this.jamMulai,
+    required this.jamSelesai,
+    required this.jenisTraining,
     required this.isSelesai,
     required this.ruangan,
   });
 
-  factory PelaksanaPelatihan.fromJson(Map<String, dynamic> json) {
-    return PelaksanaPelatihan(
+  factory PelaksanaanPelatihan.fromJson(Map<String, dynamic> json) {
+    return PelaksanaanPelatihan(
       id: json['id'],
-      id_pelatihan: json['id_pelatihan'],
-      nama_pelatihan: json['nama_pelatihan'],
-      nama_instruktur: json['nama_instruktur'],
-      tanggal_mulai: DateTime.parse(json['tanggal_mulai']),
-      tanggal_selesai: DateTime.parse(json['tanggal_selesai']),
-      jam_selesai: json['jamMulai'],
-      jam_mulai: json['jamSelesai'],
-      jenis_training: json['jenis_training'],
+      idPelatihan: json['id_pelatihan'],
+      namaPelatihan: json['nama_pelatihan'],
+      namaInstruktur: json['nama_instruktur'],
+      tanggalMulai: DateTime.parse(json['tanggal_mulai']),
+      tanggalSelesai: DateTime.parse(json['tanggal_selesai']),
+      jamMulai: json['jam_mulai'],
+      jamSelesai: json['jam_selesai'],
+      jenisTraining: json['jenis_training'],
       isSelesai: json['isSelesai'],
       ruangan: json['ruangan'],
     );

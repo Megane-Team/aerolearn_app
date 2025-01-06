@@ -17,7 +17,7 @@ class Progress extends StatefulWidget {
 }
 
 class _ProgressState extends State<Progress> {
-  late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
+  late Future<List<PelaksanaanPelatihan>?> futurePelaksanaanPelatihanData;
   UserProfile? userProfile;
   Timer? _timer;
 
@@ -79,7 +79,7 @@ class _ProgressState extends State<Progress> {
           child: Column(
             children: [
               Expanded(
-                child: FutureBuilder<List<PelaksanaPelatihan>?>(
+                child: FutureBuilder<List<PelaksanaanPelatihan>?>(
                     future: futurePelaksanaanPelatihanData,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -87,7 +87,7 @@ class _ProgressState extends State<Progress> {
                       } else if (snapshot.hasError) {
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else if (snapshot.hasData) {
-                        List<PelaksanaPelatihan> training = snapshot.data
+                        List<PelaksanaanPelatihan> training = snapshot.data
                                 ?.where((item) => item.isSelesai != 'selesai')
                                 .toList() ??
                             [];
@@ -99,9 +99,9 @@ class _ProgressState extends State<Progress> {
                           itemBuilder: (context, index) {
                             var progressTraining = training[index];
                             DateTime startDate = DateTime.parse(
-                                progressTraining.tanggal_mulai.toString());
+                                progressTraining.tanggalMulai.toString());
                             DateTime endDate = DateTime.parse(
-                                progressTraining.tanggal_selesai.toString());
+                                progressTraining.tanggalSelesai.toString());
                             DateTime currentDate = DateTime.now();
 
                             String displayDate;
@@ -159,12 +159,12 @@ class _ProgressState extends State<Progress> {
                                     Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${Formatted.formatTime(progressTraining.jam_mulai)} - ${Formatted.formatTime(progressTraining.jam_selesai)}',
+                                        '${Formatted.formatTime(progressTraining.jamMulai)} - ${Formatted.formatTime(progressTraining.jamSelesai)}',
                                         style: const TextStyle(fontSize: 14),
                                       ),
                                     ),
                                     Text(
-                                      progressTraining.nama_pelatihan,
+                                      progressTraining.namaPelatihan,
                                       style: const TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w900),
@@ -186,14 +186,14 @@ class _ProgressState extends State<Progress> {
                                           onPressed: () {
                                             var id = progressTraining.id;
                                             var kategori =
-                                                progressTraining.jenis_training;
+                                                progressTraining.jenisTraining;
                                             var idPelatihan = progressTraining
-                                                .id_pelatihan
+                                                .idPelatihan
                                                 .toString();
-                                            String instruktur = progressTraining
-                                                .nama_instruktur;
+                                            String instruktur =
+                                                progressTraining.namaInstruktur;
                                             String training =
-                                                progressTraining.nama_pelatihan;
+                                                progressTraining.namaPelatihan;
                                             bool isSelesai = true;
                                             Navigator.push(
                                                 context,
@@ -204,7 +204,7 @@ class _ProgressState extends State<Progress> {
                                                           instruktur:
                                                               instruktur,
                                                           training: training,
-                                                          id_pelatihan:
+                                                          idPelatihan:
                                                               idPelatihan,
                                                           isSelesai: isSelesai,
                                                           kategori: kategori,
@@ -233,8 +233,7 @@ class _ProgressState extends State<Progress> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                progressTraining
-                                                    .nama_instruktur,
+                                                progressTraining.namaInstruktur,
                                                 style: const TextStyle(
                                                     fontSize: 16,
                                                     fontWeight:

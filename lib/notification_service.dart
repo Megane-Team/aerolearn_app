@@ -12,43 +12,37 @@ import 'constant/variable.dart';
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin
-      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   static final Set<int> _scheduledNotificationIds = {};
 
   static init() async {
-    print('Initializing NotificationService');
     tz.initializeTimeZones();
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/launcher_icon');
+    AndroidInitializationSettings('@mipmap/launcher_icon');
 
     const InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
+    InitializationSettings(android: initializationSettingsAndroid);
 
-    await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
-    print('NotificationService initialized');
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
-  static scheduleNotification(int userId, PelaksanaPelatihan pelatihan) async {
+  static scheduleNotification(int userId,
+      PelaksanaanPelatihan pelatihan) async {
     if (_scheduledNotificationIds.contains(pelatihan.id)) {
-      print('Notification already scheduled for id: ${pelatihan.id}');
       return;
     }
 
     final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
-      pelatihan.tanggal_mulai.subtract(Duration(days: 3)),
+      pelatihan.tanggalMulai.subtract(Duration(days: 3)),
       tz.local,
     );
 
     if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) {
-      print(
-          'Scheduled date must be in the future: ${scheduledDate.toString()}');
       return;
     }
 
     const AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
+    AndroidNotificationDetails(
       '1',
       'scheduled_channel',
       channelDescription: 'Channel for scheduled notifications',
@@ -57,23 +51,27 @@ class NotificationService {
     );
 
     var platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       pelatihan.id,
-      pelatihan.nama_pelatihan,
-      'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
+      pelatihan.namaPelatihan,
+      'pelatihan ${pelatihan
+          .namaPelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan
+          .tanggalMulai}',
       scheduledDate,
       platformChannelSpecifics,
       uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
+      UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: jsonEncode({
         'userId': userId,
         'pelatihanId': pelatihan.id,
-        'title': pelatihan.nama_pelatihan,
+        'title': pelatihan.namaPelatihan,
         'detail':
-            'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
+        'pelatihan ${pelatihan
+            .namaPelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan
+            .tanggalMulai}',
         'tanggal': scheduledDate.toString(),
       }),
     );
@@ -82,17 +80,17 @@ class NotificationService {
     await addNotificationHistory(jsonEncode({
       'userId': userId,
       'pelatihanId': pelatihan.id,
-      'title': pelatihan.nama_pelatihan,
+      'title': pelatihan.namaPelatihan,
       'detail':
-          'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
+      'pelatihan ${pelatihan
+          .namaPelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan
+          .tanggalMulai}',
       'tanggal': scheduledDate.toString(),
     }));
-    print('Notification scheduled for id: ${pelatihan.id}');
   }
 
   static Future<void> addNotificationHistory(String? payload) async {
     if (payload != null) {
-      print('Processing notification payload: $payload');
       final data = jsonDecode(payload);
       final userId = data['userId'].toString();
       final pelatihanId = data['pelatihanId'].toString();
@@ -100,17 +98,8 @@ class NotificationService {
       final detail = data['detail'];
       final tanggal = data['tanggal'];
 
-      print(
-          'Sending post request with userId: $userId, title: $title, detail: $detail, tanggal: $tanggal, pelatihanId: $pelatihanId');
-      String? response = await addNotification(
+      await addNotification(
           int.parse(userId), title, detail, tanggal, int.parse(pelatihanId));
-      if (response != 'notification berhasil dibuat') {
-        print('Notification already created or failed to create: $response');
-      } else {
-        print('Notification created successfully');
-      }
-    } else {
-      print('No payload received');
     }
   }
 
@@ -124,21 +113,22 @@ class NotificationService {
         throw Exception('Failed to load user profile');
       }
     } catch (e) {
-      print('Error fetching user profile: $e');
       return null;
     }
   }
 
   static fetchAndScheduleNotifications() async {
     try {
-      Future<List<PelaksanaPelatihan>> fetchNotificationsTraining(
+      Future<List<PelaksanaanPelatihan>> fetchNotificationsTraining(
           String id) async {
         final url = '$baseURL/peserta/progress/$id';
         final response = await HttpService.getRequest(url);
         if (response.statusCode == 200) {
           Map<String, dynamic> jsonResponse = json.decode(response.body);
           List<dynamic> data = jsonResponse['data'];
-          return data.map((item) => PelaksanaPelatihan.fromJson(item)).toList();
+          return data
+              .map((item) => PelaksanaanPelatihan.fromJson(item))
+              .toList();
         } else {
           throw Exception('Failed to load training data');
         }
@@ -147,19 +137,17 @@ class NotificationService {
       var token = await SessionService.getToken();
       if (token != null && token.isNotEmpty) {
         UserProfile? userProfile = await fetchUserProfile();
-        if (userProfile != null) {
-          int userId = userProfile.id;
-          List<PelaksanaPelatihan> pelatihanList =
-              await fetchNotificationsTraining(userId.toString());
+        if (userProfile != null && userProfile.id != null) {
+          String userId = userProfile.id.toString();
+          List<PelaksanaanPelatihan> pelatihanList =
+          await fetchNotificationsTraining(userId);
           for (var pelatihan in pelatihanList) {
-            if (pelatihan.tanggal_mulai.isAfter(DateTime.now())) {
+            if (pelatihan.tanggalMulai.isAfter(DateTime.now())) {
               try {
-                scheduleNotification(userId, pelatihan);
+                scheduleNotification(int.parse(userId), pelatihan);
               } catch (e) {
-                print('Error scheduling notification: $e');
+                // Handle the exception, e.g. log it
               }
-            } else {
-              print('Skipping past event: ${pelatihan.nama_pelatihan}');
             }
           }
         } else {
@@ -167,7 +155,6 @@ class NotificationService {
         }
       }
     } catch (e) {
-      print('Error fetching and scheduling notifications: $e');
       throw ('Error fetching and scheduling notifications: $e');
     }
   }

@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../action/profile.dart';
 import '../../variable/profile.dart';
 
@@ -41,7 +40,6 @@ class NotificationState extends State<NotificationPage> {
 
   Future<bool> isRead(int notificationId) async {
     final prefs = await SharedPreferences.getInstance();
-    print(prefs.getBool('notification_$notificationId') ?? false);
     return prefs.getBool('notification_$notificationId') ?? false;
   }
 

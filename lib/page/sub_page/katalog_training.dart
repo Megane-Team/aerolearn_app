@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:aerolearn/action/absen_exam.dart';
 import 'package:aerolearn/action/absen_materi.dart';
 import 'package:aerolearn/action/absen_post.dart';
@@ -23,7 +21,7 @@ class KatalogTraining extends StatefulWidget {
   final int id;
   final String instruktur;
   final String training;
-  final String? id_pelatihan;
+  final String? idPelatihan;
   final bool isSelesai;
   final String kategori;
 
@@ -32,7 +30,7 @@ class KatalogTraining extends StatefulWidget {
       required this.id,
       required this.instruktur,
       required this.training,
-      required this.id_pelatihan,
+      required this.idPelatihan,
       required this.isSelesai,
       required this.kategori});
 
@@ -43,15 +41,15 @@ class KatalogTraining extends StatefulWidget {
 class _KatalogTrainingState extends State<KatalogTraining> {
   late Future<List<Materi>?> futureMateri;
   late Future<List<Exam>?> futureExam;
-  late Future<nilai?> futureNilai;
+  late Future<Nilai?> futureNilai;
   UserProfile? userProfile;
   bool isLocked = false;
 
   @override
   void initState() {
     super.initState();
-    futureMateri = fetchMateriData(context, widget.id_pelatihan);
-    futureExam = fetchExamData(context, widget.id_pelatihan);
+    futureMateri = fetchMateriData(context, widget.idPelatihan);
+    futureExam = fetchExamData(context, widget.idPelatihan);
     _fetchUserProfile();
     futureNilai = Future.value(null);
   }
@@ -99,8 +97,8 @@ class _KatalogTrainingState extends State<KatalogTraining> {
         body: RefreshIndicator(
           onRefresh: () async {
             setState(() {
-              futureMateri = fetchMateriData(context, widget.id_pelatihan);
-              futureExam = fetchExamData(context, widget.id_pelatihan);
+              futureMateri = fetchMateriData(context, widget.idPelatihan);
+              futureExam = fetchExamData(context, widget.idPelatihan);
               _fetchUserProfile();
             });
           },
@@ -358,12 +356,12 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                                         } else if (snapshot.hasData &&
                                                                             snapshot.data ==
                                                                                 true) {
-                                                                          return FeedbackButton(
+                                                                          return feedbackButton(
                                                                               context,
                                                                               true,
                                                                               widget.id);
                                                                         } else {
-                                                                          return FeedbackButton(
+                                                                          return feedbackButton(
                                                                               context,
                                                                               false,
                                                                               widget.id);
@@ -488,12 +486,12 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                                 .hasData &&
                                                             snapshot.data ==
                                                                 true) {
-                                                          return FeedbackButton(
+                                                          return feedbackButton(
                                                               context,
                                                               true,
                                                               widget.id);
                                                         } else {
-                                                          return FeedbackButton(
+                                                          return feedbackButton(
                                                               context,
                                                               false,
                                                               widget.id);
@@ -510,7 +508,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                             },
                                           )
                                         : Container(),
-                                FutureBuilder<nilai?>(
+                                FutureBuilder<Nilai?>(
                                   future: futureNilai,
                                   builder: (context, snapshot) {
                                     if (snapshot.connectionState ==
@@ -648,7 +646,7 @@ Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
   );
 }
 
-Widget FeedbackButton(
+Widget feedbackButton(
     BuildContext context, bool isUnLocked, idPelaksanaanPelatihan) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0),

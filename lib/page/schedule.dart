@@ -19,7 +19,7 @@ class Schedule extends StatefulWidget {
 class _ScheduleState extends State<Schedule> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  late Future<List<PelaksanaPelatihan>?> futurePelaksanaanPelatihanData;
+  late Future<List<PelaksanaanPelatihan>?> futurePelaksanaanPelatihanData;
   UserProfile? userProfile;
 
   @override
@@ -76,10 +76,10 @@ class _ScheduleState extends State<Schedule> {
                   borderRadius: BorderRadius.circular(15),
                 ),
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: FutureBuilder<List<PelaksanaPelatihan>?>(
+                child: FutureBuilder<List<PelaksanaanPelatihan>?>(
                   future: futurePelaksanaanPelatihanData,
                   builder: (context, snapshot) {
-                    List<PelaksanaPelatihan> pelatihanList = [];
+                    List<PelaksanaanPelatihan> pelatihanList = [];
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
                     } else if (snapshot.hasError) {
@@ -110,8 +110,8 @@ class _ScheduleState extends State<Schedule> {
                       eventLoader: (day) {
                         DateTime now = DateTime.now();
                         return filteredPelatihanList.where((pelatihan) {
-                          DateTime startDate = pelatihan.tanggal_mulai;
-                          DateTime endDate = pelatihan.tanggal_selesai;
+                          DateTime startDate = pelatihan.tanggalMulai;
+                          DateTime endDate = pelatihan.tanggalSelesai;
                           return (isSameDay(day, startDate) ||
                                   isSameDay(day, endDate) ||
                                   (day.isAfter(startDate) &&
@@ -167,7 +167,7 @@ class _ScheduleState extends State<Schedule> {
 
 Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
   return Expanded(
-    child: FutureBuilder<List<PelaksanaPelatihan>?>(
+    child: FutureBuilder<List<PelaksanaanPelatihan>?>(
         future: futurePelaksanaan,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -175,26 +175,26 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
-            List<PelaksanaPelatihan>? progress = snapshot.data;
-            List<PelaksanaPelatihan> filteredList =
+            List<PelaksanaanPelatihan>? progress = snapshot.data;
+            List<PelaksanaanPelatihan> filteredList =
                 progress!.where((trainingList) {
               DateTime now = DateTime.now();
               if (selectedDay != null) {
-                if ((isSameDay(selectedDay, trainingList.tanggal_mulai) ||
-                        isSameDay(selectedDay, trainingList.tanggal_selesai) ||
-                        (selectedDay.isAfter(trainingList.tanggal_mulai) &&
+                if ((isSameDay(selectedDay, trainingList.tanggalMulai) ||
+                        isSameDay(selectedDay, trainingList.tanggalSelesai) ||
+                        (selectedDay.isAfter(trainingList.tanggalMulai) &&
                             selectedDay
-                                .isBefore(trainingList.tanggal_selesai))) &&
+                                .isBefore(trainingList.tanggalSelesai))) &&
                     (selectedDay.isAfter(now) || isSameDay(selectedDay, now))) {
                   return true;
                 }
               }
               if (focusedDay != null) {
-                if ((isSameDay(focusedDay, trainingList.tanggal_mulai) ||
-                        isSameDay(focusedDay, trainingList.tanggal_selesai) ||
-                        (focusedDay.isAfter(trainingList.tanggal_mulai) &&
+                if ((isSameDay(focusedDay, trainingList.tanggalMulai) ||
+                        isSameDay(focusedDay, trainingList.tanggalSelesai) ||
+                        (focusedDay.isAfter(trainingList.tanggalMulai) &&
                             focusedDay
-                                .isBefore(trainingList.tanggal_selesai))) &&
+                                .isBefore(trainingList.tanggalSelesai))) &&
                     (focusedDay.isAfter(now) || isSameDay(focusedDay, now))) {
                   return true;
                 }
@@ -220,7 +220,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  Formatted.formatTime(trainingList.jam_mulai),
+                                  Formatted.formatTime(trainingList.jamMulai),
                                   style: const TextStyle(fontSize: 16),
                                 ),
                                 const Dash(
@@ -230,8 +230,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                                   dashColor: Colors.black,
                                 ),
                                 Text(
-                                  Formatted.formatTime(
-                                      trainingList.jam_selesai),
+                                  Formatted.formatTime(trainingList.jamSelesai),
                                   style: const TextStyle(fontSize: 16),
                                 ),
                               ],
@@ -257,7 +256,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                                 ),
                                 const SizedBox(height: 5),
                                 Text(
-                                  trainingList.nama_pelatihan,
+                                  trainingList.namaPelatihan,
                                   style: const TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),

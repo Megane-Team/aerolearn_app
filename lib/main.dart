@@ -1,8 +1,7 @@
-// ignore_for_file: depend_on_referenced_packages, implementation_imports
 import 'package:flutter/material.dart';
 import 'package:aerolearn/router.dart';
 import 'package:aerolearn/constant/themes.dart';
-import 'package:go_router/src/router.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'notification_service.dart';
 

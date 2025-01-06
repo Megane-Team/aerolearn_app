@@ -1,6 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
-import 'package:aerolearn/page/sub_page/notification.dart';
 import 'package:aerolearn/utils/navigation_bar.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'package:go_router/go_router.dart';
