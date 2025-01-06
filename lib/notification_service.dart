@@ -35,8 +35,7 @@ class NotificationService {
 
     final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
       pelatihan.tanggal_mulai
-          .subtract(Duration(days: 2))
-          .add(Duration(hours: 16, minutes: 39)),
+          .subtract(Duration(days: 3)),
       tz.local,
     );
 
@@ -58,7 +57,7 @@ class NotificationService {
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       pelatihan.id,
       pelatihan.nama_pelatihan,
-      pelatihan.nama_instruktur,
+      'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
       scheduledDate,
       platformChannelSpecifics,
       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
@@ -67,7 +66,7 @@ class NotificationService {
         'userId': userId,
         'pelatihanId': pelatihan.id,
         'title': pelatihan.nama_pelatihan,
-        'detail': pelatihan.nama_instruktur,
+        'detail': 'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
         'tanggal': scheduledDate.toString(),
       }),
     );
@@ -77,7 +76,7 @@ class NotificationService {
       'userId': userId,
       'pelatihanId': pelatihan.id,
       'title': pelatihan.nama_pelatihan,
-      'detail': pelatihan.nama_instruktur,
+      'detail': 'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
       'tanggal': scheduledDate.toString(),
     }));
     print('Notification scheduled for id: ${pelatihan.id}');
@@ -137,7 +136,7 @@ class NotificationService {
       var token = await SessionService.getToken();
       if (token != null && token.isNotEmpty) {
         UserProfile? userProfile = await fetchUserProfile();
-        if (userProfile != null && userProfile.id != null) {
+        if (userProfile != null) {
           int userId = userProfile.id;
           List<PelaksanaPelatihan> pelatihanList = await fetchNotificationsTraining(userId.toString());
           for (var pelatihan in pelatihanList) {

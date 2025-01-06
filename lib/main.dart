@@ -6,6 +6,14 @@ import 'package:go_router/src/router.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'notification_service.dart';
 
+Future<void> requestNotificationPermission() async {
+  if (await Permission.notification.request().isGranted) {
+    // Notification permission granted
+  } else {
+    // Notification permission denied
+  }
+}
+
 Future<void> requestExactAlarmPermission() async {
   if (await Permission.scheduleExactAlarm.request().isGranted) {
     // print('permission granted');
@@ -18,6 +26,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.init();
   await requestExactAlarmPermission();
+  await requestNotificationPermission();
   final router = await AppRouter.createRouter();
   runApp(MyApp(router: router));
 }

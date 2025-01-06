@@ -318,8 +318,7 @@ class _BerandaState extends State<Beranda> {
 class NotificationIcon extends StatelessWidget {
   final bool hasUnreadNotifications;
 
-  const NotificationIcon({Key? key, required this.hasUnreadNotifications})
-      : super(key: key);
+  const NotificationIcon({super.key, required this.hasUnreadNotifications});
 
   @override
   Widget build(BuildContext context) {
