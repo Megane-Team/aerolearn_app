@@ -113,9 +113,11 @@ class _ScheduleState extends State<Schedule> {
                           DateTime startDate = pelatihan.tanggal_mulai;
                           DateTime endDate = pelatihan.tanggal_selesai;
                           return (isSameDay(day, startDate) ||
-                              isSameDay(day, endDate) ||
-                              (day.isAfter(startDate) && day.isBefore(endDate))) &&
-                              endDate.isAfter(now) && day.isAfter(now.subtract(Duration(days: 1)));
+                                  isSameDay(day, endDate) ||
+                                  (day.isAfter(startDate) &&
+                                      day.isBefore(endDate))) &&
+                              endDate.isAfter(now) &&
+                              day.isAfter(now.subtract(Duration(days: 1)));
                         }).toList();
                       },
                       calendarStyle: const CalendarStyle(

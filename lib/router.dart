@@ -25,13 +25,6 @@ class AppRouter {
           ),
         ),
         GoRoute(
-          path: "/notification",
-          pageBuilder: (context, state) => NoTransitionPage(
-            key: state.pageKey,
-            child: const NotificationPage(),
-          ),
-        ),
-        GoRoute(
           path: "/mainpage",
           pageBuilder: (context, state) => NoTransitionPage(
             key: state.pageKey,

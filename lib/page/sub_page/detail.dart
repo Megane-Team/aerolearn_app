@@ -1,8 +1,7 @@
 import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
-
-import '../../action/jenis_training.dart';
+import 'package:aerolearn/action/jenis_training.dart';
 
 class Detail extends StatefulWidget {
   final String id;

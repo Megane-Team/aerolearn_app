@@ -90,8 +90,10 @@ class NotificationState extends State<NotificationPage> {
               List<Notifications> notifications = snapshot.data!;
               DateTime now = DateTime.now();
               notifications = notifications.where((notification) {
-                DateTime notificationDate = DateFormat('yyyy-MM-dd').parse(notification.tanggal.toString());
-                return notificationDate.isBefore(now) || notificationDate.isAtSameMomentAs(now);
+                DateTime notificationDate = DateFormat('yyyy-MM-dd')
+                    .parse(notification.tanggal.toString());
+                return notificationDate.isBefore(now) ||
+                    notificationDate.isAtSameMomentAs(now);
               }).toList();
               if (notifications.isEmpty) {
                 return Center(child: NoNotificationItem());

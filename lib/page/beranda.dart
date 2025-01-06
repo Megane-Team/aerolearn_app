@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:aerolearn/action/jenis_training.dart';
 import 'package:aerolearn/page/sub_page/detail.dart';
 import 'package:aerolearn/page/sub_page/notification.dart';
@@ -9,7 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/greetings.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../action/notifications.dart';
 import '../action/profile.dart';
 import '../utils/notifications_icon.dart';
@@ -121,56 +119,68 @@ class _BerandaState extends State<Beranda> {
                   InkWell(
                     onTap: () {
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => NotificationPage())
-                      ).then((_) {
-                      _refreshTrainingData();
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NotificationPage()))
+                          .then((_) {
+                        _refreshTrainingData();
                       });
                     },
                     child: FutureBuilder<List<Notifications>?>(
-                  future: futureNotificationData,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
-                      } else if (snapshot.hasData) {
-                        List<Notifications> notifications = snapshot.data!;
-                        DateTime now = DateTime.now();
-                        notifications = notifications.where((notification) {
-                          DateTime notificationDate = DateFormat('yyyy-MM-dd').parse(notification.tanggal.toString());
-                          return notificationDate.isBefore(now) || notificationDate.isAtSameMomentAs(now);
-                        }).toList();
-                        return FutureBuilder<SharedPreferences>(
-                          future: SharedPreferences.getInstance(),
-                          builder: (context, prefsSnapshot) {
-                            if (prefsSnapshot.connectionState == ConnectionState.waiting) {
-                              return Center(child: CircularProgressIndicator());
-                            } else if (prefsSnapshot.hasError) {
-                              return Center(child: Text('Error: ${prefsSnapshot.error}'));
-                            } else if (prefsSnapshot.hasData) {
-                              final prefs = prefsSnapshot.data!;
-                              bool hasUnread = notifications.any((notification) {
-                                return !(prefs.getBool('notification_${notification.id}') ?? false);
-                              });
-                              return NotificationIconWithDot(hasUnreadNotifications: hasUnread);
-                            } else {
-                              return const Icon(
-                                Icons.notifications,
-                                color: Colors.white,
-                              );
-                            }
-                          },
-                        );
-                      } else {
-                        return const Icon(
-                          Icons.notifications,
-                          color: Colors.white,
-                        );
-                      }
-                    },
-                  ),
+                      future: futureNotificationData,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (snapshot.hasError) {
+                          return Center(
+                              child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.hasData) {
+                          List<Notifications> notifications = snapshot.data!;
+                          DateTime now = DateTime.now();
+                          notifications = notifications.where((notification) {
+                            DateTime notificationDate = DateFormat('yyyy-MM-dd')
+                                .parse(notification.tanggal.toString());
+                            return notificationDate.isBefore(now) ||
+                                notificationDate.isAtSameMomentAs(now);
+                          }).toList();
+                          return FutureBuilder<SharedPreferences>(
+                            future: SharedPreferences.getInstance(),
+                            builder: (context, prefsSnapshot) {
+                              if (prefsSnapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (prefsSnapshot.hasError) {
+                                return Center(
+                                    child:
+                                        Text('Error: ${prefsSnapshot.error}'));
+                              } else if (prefsSnapshot.hasData) {
+                                final prefs = prefsSnapshot.data!;
+                                bool hasUnread =
+                                    notifications.any((notification) {
+                                  return !(prefs.getBool(
+                                          'notification_${notification.id}') ??
+                                      false);
+                                });
+                                return NotificationIconWithDot(
+                                    hasUnreadNotifications: hasUnread);
+                              } else {
+                                return const Icon(
+                                  Icons.notifications,
+                                  color: Colors.white,
+                                );
+                              }
+                            },
+                          );
+                        } else {
+                          return const Icon(
+                            Icons.notifications,
+                            color: Colors.white,
+                          );
+                        }
+                      },
+                    ),
                   )
                 ],
               ),

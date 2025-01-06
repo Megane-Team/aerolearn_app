@@ -11,15 +11,18 @@ import 'action/notification_post.dart';
 import 'constant/variable.dart';
 
 class NotificationService {
-  static final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  static final FlutterLocalNotificationsPlugin
+      _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   static final Set<int> _scheduledNotificationIds = {};
 
   static init() async {
     print('Initializing NotificationService');
     tz.initializeTimeZones();
-    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('@mipmap/launcher_icon');
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/launcher_icon');
 
-    const InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid);
+    const InitializationSettings initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
 
     await _flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
@@ -34,17 +37,18 @@ class NotificationService {
     }
 
     final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
-      pelatihan.tanggal_mulai
-          .subtract(Duration(days: 3)),
+      pelatihan.tanggal_mulai.subtract(Duration(days: 3)),
       tz.local,
     );
 
     if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) {
-      print('Scheduled date must be in the future: ${scheduledDate.toString()}');
+      print(
+          'Scheduled date must be in the future: ${scheduledDate.toString()}');
       return;
     }
 
-    const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
       '1',
       'scheduled_channel',
       channelDescription: 'Channel for scheduled notifications',
@@ -52,7 +56,8 @@ class NotificationService {
       priority: Priority.high,
     );
 
-    var platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
+    var platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
 
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       pelatihan.id,
@@ -60,13 +65,15 @@ class NotificationService {
       'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
       scheduledDate,
       platformChannelSpecifics,
-      uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.absoluteTime,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       payload: jsonEncode({
         'userId': userId,
         'pelatihanId': pelatihan.id,
         'title': pelatihan.nama_pelatihan,
-        'detail': 'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
+        'detail':
+            'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
         'tanggal': scheduledDate.toString(),
       }),
     );
@@ -76,7 +83,8 @@ class NotificationService {
       'userId': userId,
       'pelatihanId': pelatihan.id,
       'title': pelatihan.nama_pelatihan,
-      'detail': 'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
+      'detail':
+          'pelatihan ${pelatihan.nama_pelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${pelatihan.tanggal_mulai}',
       'tanggal': scheduledDate.toString(),
     }));
     print('Notification scheduled for id: ${pelatihan.id}');
@@ -92,8 +100,10 @@ class NotificationService {
       final detail = data['detail'];
       final tanggal = data['tanggal'];
 
-      print('Sending post request with userId: $userId, title: $title, detail: $detail, tanggal: $tanggal, pelatihanId: $pelatihanId');
-      String? response = await addNotification(int.parse(userId), title, detail, tanggal, int.parse(pelatihanId));
+      print(
+          'Sending post request with userId: $userId, title: $title, detail: $detail, tanggal: $tanggal, pelatihanId: $pelatihanId');
+      String? response = await addNotification(
+          int.parse(userId), title, detail, tanggal, int.parse(pelatihanId));
       if (response != 'notification berhasil dibuat') {
         print('Notification already created or failed to create: $response');
       } else {
@@ -121,7 +131,8 @@ class NotificationService {
 
   static fetchAndScheduleNotifications() async {
     try {
-      Future<List<PelaksanaPelatihan>> fetchNotificationsTraining(String id) async {
+      Future<List<PelaksanaPelatihan>> fetchNotificationsTraining(
+          String id) async {
         final url = '$baseURL/peserta/progress/$id';
         final response = await HttpService.getRequest(url);
         if (response.statusCode == 200) {
@@ -138,7 +149,8 @@ class NotificationService {
         UserProfile? userProfile = await fetchUserProfile();
         if (userProfile != null) {
           int userId = userProfile.id;
-          List<PelaksanaPelatihan> pelatihanList = await fetchNotificationsTraining(userId.toString());
+          List<PelaksanaPelatihan> pelatihanList =
+              await fetchNotificationsTraining(userId.toString());
           for (var pelatihan in pelatihanList) {
             if (pelatihan.tanggal_mulai.isAfter(DateTime.now())) {
               try {
