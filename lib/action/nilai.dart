@@ -2,7 +2,6 @@ import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
 import '../variable/nilai.dart';
-import 'package:http/http.dart' as http;
 
 Future<Nilai?> fetchNilai(context, id, idPelaksanaan) async {
   final url = '$baseURL/nilai/$id/$idPelaksanaan';

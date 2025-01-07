@@ -3,6 +3,7 @@
 import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 Future<bool?> fetchAbsenDataMateri(context, idMateri, idPelaksanaan) async {
@@ -21,7 +22,7 @@ Future<bool?> fetchAbsenDataMateri(context, idMateri, idPelaksanaan) async {
     } else {
       return false;
     }
-  } on http.ClientException catch (e) {
+  } on http.ClientException {
     return false;
   } catch (e) {
     return false;

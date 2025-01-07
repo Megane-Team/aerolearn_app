@@ -2,7 +2,6 @@ import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
 import 'package:aerolearn/variable/feedback.dart';
-import 'package:http/http.dart' as http;
 
 Future<List<Feedback>?> fetchFeedbackData(context) async {
   final url = '$baseURL/feedback/';

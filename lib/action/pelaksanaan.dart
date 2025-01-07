@@ -2,7 +2,6 @@ import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 Future<List<PelaksanaanPelatihan>?> fetchPelaksanaanTraining(
     context, id) async {

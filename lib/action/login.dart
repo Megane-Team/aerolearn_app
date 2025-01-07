@@ -3,6 +3,7 @@ import 'package:aerolearn/utils/http.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'dart:convert';
 import 'package:aerolearn/constant/variable.dart';
+// ignore: depend_on_referenced_packages
 import 'package:http/http.dart' as http;
 
 class ApiService {
@@ -26,10 +27,11 @@ class ApiService {
       } else {
         throw 'koneksi error';
       }
-    } on http.ClientException catch (e) {
+    } on http.ClientException {
       showConnectionErrorDialog(context);
     } catch (e) {
       showConnectionErrorDialog(context);
     }
+    return null;
   }
 }

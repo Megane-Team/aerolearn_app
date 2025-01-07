@@ -2,7 +2,6 @@ import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/utils/connection_error.dart';
 import 'package:aerolearn/variable/jenis_training.dart';
 import 'package:aerolearn/utils/http.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<List<Training>?> fetchTrainingData(context) async {
