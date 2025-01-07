@@ -170,9 +170,9 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            if(snapshot.error == 'tidak ada pelatihan'){
+            if (snapshot.error == 'tidak ada pelatihan') {
               return Center(child: Text('tidak ada jadwal pelatihan'));
-            }else{
+            } else {
               return Center(child: Text(snapshot.error.toString()));
             }
           } else if (snapshot.hasData) {

@@ -12,7 +12,7 @@ Future<bool?> fetchAbsenDataMateri(context, idMateri, idPelaksanaan) async {
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       return jsonResponse['status_absen'] == "Validasi";
-    }  else if (response.statusCode == 401) {
+    } else if (response.statusCode == 401) {
       return false;
     } else if (response.statusCode == 400) {
       return false;

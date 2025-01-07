@@ -84,7 +84,7 @@ class _ProgressState extends State<Progress> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        if(snapshot.error == 'tidak ada pelatihan') {
+                        if (snapshot.error == 'tidak ada pelatihan') {
                           return Center(child: Text('tidak ada progress'));
                         } else {
                           return Center(child: Text(snapshot.error.toString()));
@@ -209,7 +209,8 @@ class _ProgressState extends State<Progress> {
                                                           training: training,
                                                           idPelatihan:
                                                               idPelatihan,
-                                                          isProgress: isProgress,
+                                                          isProgress:
+                                                              isProgress,
                                                           kategori: kategori,
                                                         )));
                                           },

@@ -178,12 +178,15 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                 child:
                                                     CircularProgressIndicator());
                                           } else if (snapshot.hasError) {
-                                            if(snapshot.error == "materi tidak ada"){
+                                            if (snapshot.error ==
+                                                "materi tidak ada") {
                                               return Center(
-                                                  child: Text('tidak ada materi'));
+                                                  child:
+                                                      Text('tidak ada materi'));
                                             } else {
                                               return Center(
-                                                  child: Text(snapshot.error.toString()));
+                                                  child: Text(snapshot.error
+                                                      .toString()));
                                             }
                                           } else if (snapshot.hasData) {
                                             List<Materi> materiAll =
@@ -275,7 +278,8 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                                 return Center(
                                                                     child:
                                                                         CircularProgressIndicator());
-                                                              } else if (snapshot.hasError) {
+                                                              } else if (snapshot
+                                                                  .hasError) {
                                                                 return Container();
                                                               } else if (snapshot
                                                                   .hasData) {
@@ -375,8 +379,8 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                             );
                                           } else {
                                             return Center(
-                                                child:
-                                                    Text('gagal koneksi ke server'));
+                                                child: Text(
+                                                    'gagal koneksi ke server'));
                                           }
                                         },
                                       )
@@ -390,12 +394,15 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                     child:
                                                         CircularProgressIndicator());
                                               } else if (snapshot.hasError) {
-                                                if(snapshot.error == "ujian tidak ada"){
+                                                if (snapshot.error ==
+                                                    "ujian tidak ada") {
                                                   return Center(
-                                                      child: Text('tidak ada ujian'));
+                                                      child: Text(
+                                                          'tidak ada ujian'));
                                                 } else {
                                                   return Center(
-                                                      child: Text(snapshot.error.toString()));
+                                                      child: Text(snapshot.error
+                                                          .toString()));
                                                 }
                                               } else if (snapshot.hasData) {
                                                 List<Exam> examAll =
@@ -498,7 +505,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                         ConnectionState.waiting) {
                                       return Center(
                                           child: CircularProgressIndicator());
-                                    } else if (snapshot.hasError){
+                                    } else if (snapshot.hasError) {
                                       return Container();
                                     } else if (snapshot.hasData) {
                                       var nilaiData = snapshot.data;

@@ -56,7 +56,8 @@ class NotificationService {
     var platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
-    var detail = 'pelatihan ${pelatihan.namaPelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${Formatted.formatDate(pelatihan.tanggalMulai)}';
+    var detail =
+        'pelatihan ${pelatihan.namaPelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${Formatted.formatDate(pelatihan.tanggalMulai)}';
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       pelatihan.id,
       pelatihan.namaPelatihan,

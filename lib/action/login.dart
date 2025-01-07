@@ -17,7 +17,7 @@ class ApiService {
         final userRole = responseBody['user_role'];
         await SessionService.storeToken(token);
         return userRole;
-      }else if (response.statusCode == 401) {
+      } else if (response.statusCode == 401) {
         return 'invalid';
       } else if (response.statusCode == 400) {
         throw 'unauthorized';

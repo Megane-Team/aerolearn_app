@@ -84,7 +84,7 @@ class NotificationState extends State<NotificationPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              if(snapshot.error.toString() == 'notifikasi tidak ada') {
+              if (snapshot.error.toString() == 'notifikasi tidak ada') {
                 return Center(child: NoNotificationItem());
               } else {
                 return Center(child: Text(snapshot.error.toString()));

@@ -173,7 +173,8 @@ class _HistoryState extends State<History> {
                                                           training: training,
                                                           idPelatihan:
                                                               idPelatihan,
-                                                          isProgress: isProgress,
+                                                          isProgress:
+                                                              isProgress,
                                                           kategori: kategori,
                                                         )));
                                           },

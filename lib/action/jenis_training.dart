@@ -6,22 +6,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 Future<List<Training>?> fetchTrainingData(context) async {
-    final url = '$baseURL/training/';
-    final response = await HttpService.getRequest(url);
-    if (response.statusCode == 200) {
-      Map<String, dynamic> jsonResponse = json.decode(response.body);
-      List<dynamic> data = jsonResponse['data'];
-      return data.map((item) => Training.fromJson(item)).toList();
-    } else if (response.statusCode == 401) {
-      throw 'tidak ada pelatihan';
-    } else if (response.statusCode == 400) {
-      throw 'unauthorized';
-    } else if (response.statusCode == 500) {
-      throw 'server error';
-    } else {
-      showConnectionErrorDialog(context);
-      return null;
-    }
+  final url = '$baseURL/training/';
+  final response = await HttpService.getRequest(url);
+  if (response.statusCode == 200) {
+    Map<String, dynamic> jsonResponse = json.decode(response.body);
+    List<dynamic> data = jsonResponse['data'];
+    return data.map((item) => Training.fromJson(item)).toList();
+  } else if (response.statusCode == 401) {
+    throw 'tidak ada pelatihan';
+  } else if (response.statusCode == 400) {
+    throw 'unauthorized';
+  } else if (response.statusCode == 500) {
+    throw 'server error';
+  } else {
+    showConnectionErrorDialog(context);
+    return null;
+  }
 }
 
 Future<Training?> fetchTrainingDetail(context, id) async {

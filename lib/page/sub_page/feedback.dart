@@ -64,7 +64,7 @@ class _FeedbackState extends State<FeedbackPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  if(snapshot.error == 'feedback tidak ada'){
+                  if (snapshot.error == 'feedback tidak ada') {
                     return Center(child: Text('Tidak ada feedback'));
                   } else {
                     return Center(child: Text(snapshot.error.toString()));
