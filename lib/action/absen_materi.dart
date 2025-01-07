@@ -3,6 +3,7 @@
 import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 Future<bool?> fetchAbsenDataMateri(context, idMateri, idPelaksanaan) async {
   try {
@@ -11,9 +12,17 @@ Future<bool?> fetchAbsenDataMateri(context, idMateri, idPelaksanaan) async {
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
       return jsonResponse['status_absen'] == "Validasi";
+    }  else if (response.statusCode == 401) {
+      return false;
+    } else if (response.statusCode == 400) {
+      return false;
+    } else if (response.statusCode == 500) {
+      return false;
     } else {
-      throw Exception('Failed to load absensi data');
+      return false;
     }
+  } on http.ClientException catch (e) {
+    return false;
   } catch (e) {
     return false;
   }

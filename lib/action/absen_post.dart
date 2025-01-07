@@ -16,8 +16,10 @@ Future<String?> absenPeserta(
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
       return responseBody['message'];
-    } else {
+    } else if (response.statusCode == 401) {
       return 'anda sudah absen';
+    } else {
+      throw Exception('Failed to absen');
     }
   } catch (e) {
     showConnectionErrorDialog(context);

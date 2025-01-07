@@ -236,7 +236,11 @@ class _BerandaState extends State<Beranda> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
+                        if(snapshot.error == 'tidak ada pelatihan') {
+                          return Center(child: Text('tidak ada pelatihan'));
+                        } else {
+                          return Center(child: Text(snapshot.error.toString()));
+                        }
                       } else if (snapshot.hasData) {
                         List<Training> trainingData =
                             filterTraining(snapshot.data!, searchQuery);
@@ -315,7 +319,7 @@ class _BerandaState extends State<Beranda> {
                           },
                         );
                       } else {
-                        return Center(child: Text('Koneksi eror'));
+                        return Center(child: Text('gagal koneksi ke server'));
                       }
                     }))
           ],

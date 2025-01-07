@@ -22,7 +22,7 @@ class KatalogTraining extends StatefulWidget {
   final String instruktur;
   final String training;
   final String? idPelatihan;
-  final bool isSelesai;
+  final bool isProgress;
   final String kategori;
 
   const KatalogTraining(
@@ -31,7 +31,7 @@ class KatalogTraining extends StatefulWidget {
       required this.instruktur,
       required this.training,
       required this.idPelatihan,
-      required this.isSelesai,
+      required this.isProgress,
       required this.kategori});
 
   @override
@@ -178,9 +178,13 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                 child:
                                                     CircularProgressIndicator());
                                           } else if (snapshot.hasError) {
-                                            return Center(
-                                                child: Text(
-                                                    'Error: ${snapshot.error}'));
+                                            if(snapshot.error == "materi tidak ada"){
+                                              return Center(
+                                                  child: Text('tidak ada materi'));
+                                            } else {
+                                              return Center(
+                                                  child: Text(snapshot.error.toString()));
+                                            }
                                           } else if (snapshot.hasData) {
                                             List<Materi> materiAll =
                                                 snapshot.data ?? [];
@@ -217,9 +221,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                                   CircularProgressIndicator());
                                                         } else if (attendanceSnapshot
                                                             .hasError) {
-                                                          return Center(
-                                                              child: Text(
-                                                                  'Error: ${attendanceSnapshot.error}'));
+                                                          return Container();
                                                         } else if (attendanceSnapshot
                                                                 .hasData &&
                                                             attendanceSnapshot
@@ -247,7 +249,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                     );
                                                   },
                                                 ),
-                                                widget.isSelesai
+                                                widget.isProgress
                                                     ? FutureBuilder<bool>(
                                                         future:
                                                             checkAllAttendanceMateri(
@@ -273,11 +275,8 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                                 return Center(
                                                                     child:
                                                                         CircularProgressIndicator());
-                                                              } else if (snapshot
-                                                                  .hasError) {
-                                                                return Center(
-                                                                    child: Text(
-                                                                        'Connection error'));
+                                                              } else if (snapshot.hasError) {
+                                                                return Container();
                                                               } else if (snapshot
                                                                   .hasData) {
                                                                 List<Exam>
@@ -311,8 +310,6 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                                             if (attendanceSnapshot.connectionState ==
                                                                                 ConnectionState.waiting) {
                                                                               return Center(child: CircularProgressIndicator());
-                                                                            } else if (attendanceSnapshot.hasError) {
-                                                                              return Center(child: Text('Connection error'));
                                                                             } else if (attendanceSnapshot.hasData && attendanceSnapshot.data == true) {
                                                                               return buildTrainingButtonExam(
                                                                                 context,
@@ -349,10 +346,6 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                                                 .waiting) {
                                                                           return Center(
                                                                               child: CircularProgressIndicator());
-                                                                        } else if (snapshot
-                                                                            .hasError) {
-                                                                          return Center(
-                                                                              child: Text('Connection error'));
                                                                         } else if (snapshot.hasData &&
                                                                             snapshot.data ==
                                                                                 true) {
@@ -371,9 +364,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                                   ],
                                                                 );
                                                               } else {
-                                                                return Center(
-                                                                    child: Text(
-                                                                        'Connection error'));
+                                                                return Container();
                                                               }
                                                             },
                                                           );
@@ -385,11 +376,11 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                           } else {
                                             return Center(
                                                 child:
-                                                    Text('Connection error'));
+                                                    Text('gagal koneksi ke server'));
                                           }
                                         },
                                       )
-                                    : widget.isSelesai
+                                    : widget.isProgress
                                         ? FutureBuilder<List<Exam>?>(
                                             future: futureExam,
                                             builder: (context, snapshot) {
@@ -399,9 +390,13 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                     child:
                                                         CircularProgressIndicator());
                                               } else if (snapshot.hasError) {
-                                                return Center(
-                                                    child: Text(
-                                                        'Connection error'));
+                                                if(snapshot.error == "ujian tidak ada"){
+                                                  return Center(
+                                                      child: Text('tidak ada ujian'));
+                                                } else {
+                                                  return Center(
+                                                      child: Text(snapshot.error.toString()));
+                                                }
                                               } else if (snapshot.hasData) {
                                                 List<Exam> examAll =
                                                     snapshot.data ?? [];
@@ -432,11 +427,6 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                               return Center(
                                                                   child:
                                                                       CircularProgressIndicator());
-                                                            } else if (attendanceSnapshot
-                                                                .hasError) {
-                                                              return Center(
-                                                                  child: Text(
-                                                                      'Connection error'));
                                                             } else if (attendanceSnapshot
                                                                     .hasData &&
                                                                 attendanceSnapshot
@@ -478,11 +468,6 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                               child:
                                                                   CircularProgressIndicator());
                                                         } else if (snapshot
-                                                            .hasError) {
-                                                          return Center(
-                                                              child: Text(
-                                                                  'Connection error'));
-                                                        } else if (snapshot
                                                                 .hasData &&
                                                             snapshot.data ==
                                                                 true) {
@@ -501,9 +486,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                                   ],
                                                 );
                                               } else {
-                                                return Center(
-                                                    child: Text(
-                                                        'Connection error'));
+                                                return Container();
                                               }
                                             },
                                           )
@@ -515,10 +498,8 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                         ConnectionState.waiting) {
                                       return Center(
                                           child: CircularProgressIndicator());
-                                    } else if (snapshot.hasError) {
-                                      return Center(
-                                          child:
-                                              Text('Error: ${snapshot.error}'));
+                                    } else if (snapshot.hasError){
+                                      return Container();
                                     } else if (snapshot.hasData) {
                                       var nilaiData = snapshot.data;
                                       return ListTile(

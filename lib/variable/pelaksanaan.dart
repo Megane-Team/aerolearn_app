@@ -36,7 +36,7 @@ class PelaksanaanPelatihan {
       jamMulai: json['jam_mulai'],
       jamSelesai: json['jam_selesai'],
       jenisTraining: json['jenis_training'],
-      isSelesai: json['isSelesai'],
+      isSelesai: json['is_selesai'],
       ruangan: json['ruangan'],
     );
   }

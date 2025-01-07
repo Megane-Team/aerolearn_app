@@ -1,4 +1,5 @@
 import 'package:aerolearn/action/notifications.dart';
+import 'package:aerolearn/utils/formatted.dart';
 import 'package:aerolearn/variable/notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
@@ -83,7 +84,11 @@ class NotificationState extends State<NotificationPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              return Center(child: Text('Error: ${snapshot.error}'));
+              if(snapshot.error.toString() == 'notifikasi tidak ada') {
+                return Center(child: NoNotificationItem());
+              } else {
+                return Center(child: Text(snapshot.error.toString()));
+              }
             } else if (snapshot.hasData) {
               List<Notifications> notifications = snapshot.data!;
               DateTime now = DateTime.now();
@@ -108,9 +113,9 @@ class NotificationState extends State<NotificationPage> {
                       } else {
                         bool isRead = snapshot.data ?? false;
                         return NotificationItem(
-                          date: notification.tanggal.toString(),
-                          description: notification.title,
-                          description1: notification.detail,
+                          date: notification.tanggal,
+                          title: notification.title,
+                          detail: notification.detail,
                           isRead: isRead,
                           onTap: () async {
                             await markAsRead(notification.id);
@@ -123,7 +128,7 @@ class NotificationState extends State<NotificationPage> {
                 },
               );
             } else {
-              return Center(child: Text('Koneksi eror'));
+              return Center(child: Text('gagal koneksi ke server'));
             }
           },
         ),
@@ -133,17 +138,17 @@ class NotificationState extends State<NotificationPage> {
 }
 
 class NotificationItem extends StatelessWidget {
-  final String date;
-  final String description;
-  final String description1;
+  final DateTime date;
+  final String title;
+  final String detail;
   final bool isRead;
   final VoidCallback onTap;
 
   const NotificationItem({
     super.key,
     required this.date,
-    required this.description,
-    required this.description1,
+    required this.title,
+    required this.detail,
     required this.isRead,
     required this.onTap,
   });
@@ -154,7 +159,7 @@ class NotificationItem extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: isRead ? Colors.grey[300] : Colors.white,
+          color: isRead ? Colors.white : Colors.grey[300],
           border: Border(bottom: BorderSide(color: Colors.black, width: 1.0)),
         ),
         child: ListTile(
@@ -164,27 +169,15 @@ class NotificationItem extends StatelessWidget {
             child: Icon(Icons.info_outline),
           ),
           title: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 250,
-                    child: Text(
-                      'info',
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ],
+              Text(
+                'info',
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
-              Column(
-                children: [
-                  Text(
-                    date,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
-                  ),
-                ],
+              Text(
+                Formatted.formatDate(date),
+                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
             ],
           ),
@@ -192,14 +185,14 @@ class NotificationItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                description,
+                title,
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 4),
               SizedBox(
                 width: 300,
                 child: Text(
-                  description1,
+                  detail,
                   overflow: TextOverflow.clip,
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
@@ -235,12 +228,3 @@ class NoNotificationItem extends StatelessWidget {
     );
   }
 }
-
-List<Map<String, String>> training = [
-  {
-    'tanggal': '2024-11-08',
-  },
-  {
-    'tanggal': '2024-11-09',
-  },
-];

@@ -3,6 +3,7 @@ import 'package:aerolearn/utils/http.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'dart:convert';
 import 'package:aerolearn/constant/variable.dart';
+import 'package:http/http.dart' as http;
 
 class ApiService {
   static Future<String?> login(context, String email, String password) async {
@@ -16,12 +17,19 @@ class ApiService {
         final userRole = responseBody['user_role'];
         await SessionService.storeToken(token);
         return userRole;
-      } else {
+      }else if (response.statusCode == 401) {
         return 'invalid';
+      } else if (response.statusCode == 400) {
+        throw 'unauthorized';
+      } else if (response.statusCode == 500) {
+        throw 'server error';
+      } else {
+        throw 'koneksi error';
       }
+    } on http.ClientException catch (e) {
+      showConnectionErrorDialog(context);
     } catch (e) {
       showConnectionErrorDialog(context);
-      return null;
     }
   }
 }

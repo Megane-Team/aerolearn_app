@@ -22,7 +22,7 @@ class Notifications {
       id: json['id'],
       idPeserta: json['id_peserta'],
       title: json['title'],
-      detail: json['title'],
+      detail: json['detail'],
       tanggal: DateTime.parse(json['tanggal']),
       idPelaksanaanPelatihan: json['id_pelaksanaan_pelatihan'],
       createdAt: json['createdAt'],

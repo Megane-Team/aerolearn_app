@@ -82,12 +82,9 @@ class _ScheduleState extends State<Schedule> {
                     List<PelaksanaanPelatihan> pelatihanList = [];
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasError) {
-                      return Center(child: Text('Error: ${snapshot.error}'));
                     } else if (snapshot.hasData) {
                       pelatihanList = snapshot.data!;
                     }
-
                     final filteredPelatihanList = pelatihanList.toList();
 
                     return TableCalendar(
@@ -173,7 +170,11 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            if(snapshot.error == 'tidak ada pelatihan'){
+              return Center(child: Text('tidak ada jadwal pelatihan'));
+            }else{
+              return Center(child: Text(snapshot.error.toString()));
+            }
           } else if (snapshot.hasData) {
             List<PelaksanaanPelatihan>? progress = snapshot.data;
             List<PelaksanaanPelatihan> filteredList =
@@ -280,7 +281,7 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
               },
             );
           } else {
-            return Text('Connection error');
+            return Center(child: Text('gagal koneksi ke server'));
           }
         }),
   );

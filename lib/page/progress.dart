@@ -6,7 +6,6 @@ import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/formatted.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/variable/profile.dart';
-
 import '../action/profile.dart';
 
 class Progress extends StatefulWidget {
@@ -85,7 +84,11 @@ class _ProgressState extends State<Progress> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
+                        if(snapshot.error == 'tidak ada pelatihan') {
+                          return Center(child: Text('tidak ada progress'));
+                        } else {
+                          return Center(child: Text(snapshot.error.toString()));
+                        }
                       } else if (snapshot.hasData) {
                         List<PelaksanaanPelatihan> training = snapshot.data
                                 ?.where((item) => item.isSelesai != 'selesai')
@@ -194,7 +197,7 @@ class _ProgressState extends State<Progress> {
                                                 progressTraining.namaInstruktur;
                                             String training =
                                                 progressTraining.namaPelatihan;
-                                            bool isSelesai = true;
+                                            bool isProgress = true;
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -206,7 +209,7 @@ class _ProgressState extends State<Progress> {
                                                           training: training,
                                                           idPelatihan:
                                                               idPelatihan,
-                                                          isSelesai: isSelesai,
+                                                          isProgress: isProgress,
                                                           kategori: kategori,
                                                         )));
                                           },
@@ -256,7 +259,7 @@ class _ProgressState extends State<Progress> {
                           },
                         );
                       } else {
-                        return Center(child: Text('Connection error'));
+                        return Center(child: Text('gagal koneksi ke server'));
                       }
                     }),
               )

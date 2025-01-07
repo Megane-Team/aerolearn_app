@@ -59,7 +59,7 @@ class _SertifikatListState extends State<SertifikatList> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
+                return Center(child: Text(snapshot.error.toString()));
               } else if (snapshot.hasData) {
                 List<Esertifikat>? sertifikat = snapshot.data;
                 if (sertifikat!.isEmpty) {
@@ -89,7 +89,7 @@ class _SertifikatListState extends State<SertifikatList> {
                     });
               } else {
                 return Center(
-                  child: Text('connection error'),
+                  child: Text('gagal koneksi ke server'),
                 );
               }
             }));

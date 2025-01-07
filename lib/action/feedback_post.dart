@@ -15,8 +15,10 @@ Future<String?> feedbackAnswer(context, String text, int idFeedbackQuestion,
     if (response.statusCode == 200) {
       final responseBody = jsonDecode(response.body);
       return responseBody['message'];
-    } else {
+    } else if (response.statusCode == 401) {
       return 'anda sudah melakukan feedback';
+    } else {
+      throw Exception('Failed to feedback');
     }
   } catch (e) {
     showConnectionErrorDialog(context);

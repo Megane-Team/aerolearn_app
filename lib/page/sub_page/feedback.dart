@@ -64,7 +64,11 @@ class _FeedbackState extends State<FeedbackPage> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  if(snapshot.error == 'feedback tidak ada'){
+                    return Center(child: Text('Tidak ada feedback'));
+                  } else {
+                    return Center(child: Text(snapshot.error.toString()));
+                  }
                 } else if (snapshot.hasData) {
                   List<feedback.Feedback> feedbackQuestion =
                       snapshot.data ?? [];
@@ -174,7 +178,7 @@ class _FeedbackState extends State<FeedbackPage> {
                   );
                 } else {
                   return Center(
-                    child: Text('Connection Error'),
+                    child: Text('gagal koneksi ke server'),
                   );
                 }
               }),

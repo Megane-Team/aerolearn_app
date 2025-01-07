@@ -67,7 +67,15 @@ class _HistoryState extends State<History> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}'));
+                        if (snapshot.error == 'tidak ada pelatihan') {
+                          return Center(
+                            child: Text('tidak ada pelatihan yang selesai'),
+                          );
+                        } else {
+                          return Center(
+                            child: Text(snapshot.error.toString()),
+                          );
+                        }
                       } else if (snapshot.hasData) {
                         List<PelaksanaanPelatihan> training = snapshot.data
                                 ?.where((item) => item.isSelesai == 'selesai')
@@ -153,7 +161,7 @@ class _HistoryState extends State<History> {
                                                 trainingSelesai.namaInstruktur;
                                             String training =
                                                 trainingSelesai.namaPelatihan;
-                                            bool isSelesai = false;
+                                            bool isProgress = false;
                                             Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
@@ -165,7 +173,7 @@ class _HistoryState extends State<History> {
                                                           training: training,
                                                           idPelatihan:
                                                               idPelatihan,
-                                                          isSelesai: isSelesai,
+                                                          isProgress: isProgress,
                                                           kategori: kategori,
                                                         )));
                                           },
@@ -209,7 +217,7 @@ class _HistoryState extends State<History> {
                         );
                       } else {
                         return Center(
-                          child: Text('Connection error'),
+                          child: Text('gagal koneksi ke server'),
                         );
                       }
                     }))
