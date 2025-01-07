@@ -1,10 +1,7 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:aerolearn/action/feedback.dart';
 import 'package:aerolearn/action/feedback_post.dart';
 import 'package:flutter/material.dart';
-
-import '../../variable/feedback.dart';
+import '../../variable/feedback.dart' as feedback;
 
 class FeedbackPage extends StatefulWidget {
   final int idPelaksanaan;
@@ -16,7 +13,7 @@ class FeedbackPage extends StatefulWidget {
 
 class _FeedbackState extends State<FeedbackPage> {
   Map<int, String> feedbackAnswers = {};
-  late Future<List<feedback>?> futureFeedback;
+  late Future<List<feedback.Feedback>?> futureFeedback;
   final _formKey = GlobalKey<FormState>();
   List<TextEditingController> _controllers = [];
 
@@ -61,15 +58,20 @@ class _FeedbackState extends State<FeedbackPage> {
         ),
         body: Container(
           color: Color(0xFFEDEDED),
-          child: FutureBuilder<List<feedback>?>(
+          child: FutureBuilder<List<feedback.Feedback>?>(
               future: futureFeedback,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                  if (snapshot.error == 'feedback tidak ada') {
+                    return Center(child: Text('Tidak ada feedback'));
+                  } else {
+                    return Center(child: Text(snapshot.error.toString()));
+                  }
                 } else if (snapshot.hasData) {
-                  List<feedback> feedbackQuestion = snapshot.data ?? [];
+                  List<feedback.Feedback> feedbackQuestion =
+                      snapshot.data ?? [];
                   if (feedbackQuestion.isEmpty) {
                     return Center(child: Text('Tidak ada feedback'));
                   }
@@ -176,7 +178,7 @@ class _FeedbackState extends State<FeedbackPage> {
                   );
                 } else {
                   return Center(
-                    child: Text('Connection Error'),
+                    child: Text('gagal koneksi ke server'),
                   );
                 }
               }),
@@ -186,19 +188,24 @@ class _FeedbackState extends State<FeedbackPage> {
 
 Future<void> sendAllFeedbackAnswers(BuildContext context,
     Map<int, String> feedbackAnswers, int? idPelaksanaan) async {
+  final currentContext = context;
+
   for (var entry in feedbackAnswers.entries) {
     var result = await feedbackAnswer(
-      context,
+      currentContext,
       entry.value,
       entry.key,
       idPelaksanaan!,
     );
+
     if (result != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (!currentContext.mounted) return;
+      ScaffoldMessenger.of(currentContext).showSnackBar(
         SnackBar(content: Text(result)),
       );
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
+      if (!currentContext.mounted) return;
+      ScaffoldMessenger.of(currentContext).showSnackBar(
         SnackBar(content: Text('Error sending feedback')),
       );
     }

@@ -1,16 +1,14 @@
-// ignore_for_file: non_constant_identifier_names
-
 class Materi {
   final int id;
   final String judul;
   final String konten;
-  final int id_pelatihan;
+  final int idPelatihan;
 
   Materi({
     required this.id,
     required this.judul,
     required this.konten,
-    required this.id_pelatihan,
+    required this.idPelatihan,
   });
 
   factory Materi.fromJson(Map<String, dynamic> json) {
@@ -18,7 +16,7 @@ class Materi {
       id: json['id'],
       judul: json['judul'],
       konten: json['konten'],
-      id_pelatihan: json['id_pelatihan'],
+      idPelatihan: json['id_pelatihan'],
     );
   }
 }

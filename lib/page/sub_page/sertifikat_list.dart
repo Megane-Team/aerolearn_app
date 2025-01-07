@@ -1,6 +1,6 @@
 import 'package:aerolearn/action/sertifikat.dart';
 import 'package:aerolearn/constant/variable.dart';
-import 'package:aerolearn/variable/e-sertifikat.dart';
+import 'package:aerolearn/variable/e_sertifikat.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -13,7 +13,7 @@ class SertifikatList extends StatefulWidget {
 }
 
 class _SertifikatListState extends State<SertifikatList> {
-  late Future<List<eSertifikat>?> futureSertifikatData;
+  late Future<List<Esertifikat>?> futureSertifikatData;
 
   @override
   void initState() {
@@ -59,9 +59,9 @@ class _SertifikatListState extends State<SertifikatList> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
+                return Center(child: Text(snapshot.error.toString()));
               } else if (snapshot.hasData) {
-                List<eSertifikat>? sertifikat = snapshot.data;
+                List<Esertifikat>? sertifikat = snapshot.data;
                 if (sertifikat!.isEmpty) {
                   return Center(child: Text('No Sertifikat'));
                 }
@@ -89,7 +89,7 @@ class _SertifikatListState extends State<SertifikatList> {
                     });
               } else {
                 return Center(
-                  child: Text('connection error'),
+                  child: Text('gagal koneksi ke server'),
                 );
               }
             }));

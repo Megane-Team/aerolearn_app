@@ -32,7 +32,7 @@ class Assets {
         return Text('file not found');
       }
     } catch (e) {
-      return Text('Connection Error');
+      return Text('Koneksi Error');
     }
   }
 }

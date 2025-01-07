@@ -1,18 +1,16 @@
-// ignore_for_file: non_constant_identifier_names
-
 class Exam {
   final int id;
-  final int id_pelatihan;
+  final int idPelatihan;
 
   Exam({
     required this.id,
-    required this.id_pelatihan,
+    required this.idPelatihan,
   });
 
   factory Exam.fromJson(Map<String, dynamic> json) {
     return Exam(
       id: json['id'],
-      id_pelatihan: json['id_pelatihan'],
+      idPelatihan: json['id_pelatihan'],
     );
   }
 }

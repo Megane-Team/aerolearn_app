@@ -1,24 +1,30 @@
-class Nilai {
+class Notifications {
   final int id;
   final int idPeserta;
+  final String title;
+  final String detail;
+  final DateTime tanggal;
   final int idPelaksanaanPelatihan;
-  final int score;
   final String createdAt;
 
-  Nilai({
+  Notifications({
     required this.id,
     required this.idPeserta,
+    required this.title,
+    required this.detail,
+    required this.tanggal,
     required this.idPelaksanaanPelatihan,
-    required this.score,
     required this.createdAt,
   });
 
-  factory Nilai.fromJson(Map<String, dynamic> json) {
-    return Nilai(
+  factory Notifications.fromJson(Map<String, dynamic> json) {
+    return Notifications(
       id: json['id'],
       idPeserta: json['id_peserta'],
+      title: json['title'],
+      detail: json['detail'],
+      tanggal: DateTime.parse(json['tanggal']),
       idPelaksanaanPelatihan: json['id_pelaksanaan_pelatihan'],
-      score: json['score'],
       createdAt: json['createdAt'],
     );
   }

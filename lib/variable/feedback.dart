@@ -1,18 +1,16 @@
-// ignore_for_file: non_constant_identifier_names, camel_case_types, file_names
-
-class feedback {
+class Feedback {
   final int id;
   final String text;
   final String createdAt;
 
-  feedback({
+  Feedback({
     required this.id,
     required this.text,
     required this.createdAt,
   });
 
-  factory feedback.fromJson(Map<String, dynamic> json) {
-    return feedback(
+  factory Feedback.fromJson(Map<String, dynamic> json) {
+    return Feedback(
       id: json['id'],
       text: json['text'],
       createdAt: json['createdAt'],
