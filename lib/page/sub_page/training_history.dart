@@ -73,7 +73,29 @@ class _HistoryState extends State<History> {
                           );
                         } else {
                           return Center(
-                            child: Text(snapshot.error.toString()),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: Colors.red,
+                                    size: 30.0,
+                                  ),
+                                  SizedBox(height: 16.0),
+                                  Text(
+                                    snapshot.error.toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
                         }
                       } else if (snapshot.hasData) {

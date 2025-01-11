@@ -239,11 +239,37 @@ class _BerandaState extends State<Beranda> {
                         if (snapshot.error == 'tidak ada pelatihan') {
                           return Center(child: Text('tidak ada pelatihan'));
                         } else {
-                          return Center(child: Text(snapshot.error.toString()));
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: Colors.red,
+                                    size: 30.0,
+                                  ),
+                                  SizedBox(height: 16.0),
+                                  Text(
+                                    snapshot.error.toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
                         }
                       } else if (snapshot.hasData) {
                         List<Training> trainingData =
                             filterTraining(snapshot.data!, searchQuery);
+                        trainingData
+                            .sort((a, b) => a.nama.compareTo(b.createdAt));
                         if (trainingData.isEmpty) {
                           return Center(child: Text('Tidak ada pelatihan'));
                         }
@@ -319,7 +345,31 @@ class _BerandaState extends State<Beranda> {
                           },
                         );
                       } else {
-                        return Center(child: Text('gagal koneksi ke server'));
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                  size: 30.0,
+                                ),
+                                SizedBox(height: 16.0),
+                                Text(
+                                  'tidak dapat terhubung ke server',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
                       }
                     }))
           ],

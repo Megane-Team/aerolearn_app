@@ -1,22 +1,19 @@
-class Question {
+class Options {
   final int id;
-  final String question;
-  final String gambar;
-  final int idExam;
+  final int idQuestion;
+  final String jawaban;
 
-  Question({
+  Options({
     required this.id,
-    required this.question,
-    required this.gambar,
-    required this.idExam,
+    required this.idQuestion,
+    required this.jawaban,
   });
 
-  factory Question.fromJson(Map<String, dynamic> json) {
-    return Question(
+  factory Options.fromJson(Map<String, dynamic> json) {
+    return Options(
       id: json['id'],
-      question: json['question'],
-      gambar: json['gambar'],
-      idExam: json['id_exam'],
+      idQuestion: json['id_question'],
+      jawaban: json['jawaban'],
     );
   }
 }

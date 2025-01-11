@@ -1,14 +1,14 @@
 class Esertifikat {
   final int id;
-  final String idPeserta;
-  final String idPelatihan;
+  final int idPeserta;
+  final int idPelaksanaanPelatihan;
   final String sertifikasi;
   final String createdAt;
 
   Esertifikat({
     required this.id,
     required this.idPeserta,
-    required this.idPelatihan,
+    required this.idPelaksanaanPelatihan,
     required this.sertifikasi,
     required this.createdAt,
   });
@@ -17,7 +17,7 @@ class Esertifikat {
     return Esertifikat(
       id: json['id'],
       idPeserta: json['id_peserta'],
-      idPelatihan: json['id_pelatihan'],
+      idPelaksanaanPelatihan: json['id_pelaksanaan_pelatihan'],
       sertifikasi: json['sertifikasi'],
       createdAt: json['createdAt'],
     );

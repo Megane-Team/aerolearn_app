@@ -22,7 +22,7 @@ class _MateriState extends State<MateriPage> {
 
   void _loadPDF() {
     setState(() {
-      _pdfViewer = Assets.files(widget.konten);
+      _pdfViewer = Assets.filesMateri(widget.konten);
     });
   }
 

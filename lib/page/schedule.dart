@@ -173,7 +173,31 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
             if (snapshot.error == 'tidak ada pelatihan') {
               return Center(child: Text('tidak ada jadwal pelatihan'));
             } else {
-              return Center(child: Text(snapshot.error.toString()));
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 30.0,
+                      ),
+                      SizedBox(height: 16.0),
+                      Text(
+                        'tidak dapat terhubung ke server',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              );
             }
           } else if (snapshot.hasData) {
             List<PelaksanaanPelatihan>? progress = snapshot.data;
@@ -281,7 +305,31 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
               },
             );
           } else {
-            return Center(child: Text('gagal koneksi ke server'));
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.error_outline,
+                      color: Colors.red,
+                      size: 30.0,
+                    ),
+                    SizedBox(height: 16.0),
+                    Text(
+                      'tidak dapat terhubung ke server',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.red,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
         }),
   );

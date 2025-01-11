@@ -87,13 +87,51 @@ class _ProgressState extends State<Progress> {
                         if (snapshot.error == 'tidak ada pelatihan') {
                           return Center(child: Text('tidak ada progress'));
                         } else {
-                          return Center(child: Text(snapshot.error.toString()));
+                          return Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: Colors.red,
+                                    size: 30.0,
+                                  ),
+                                  SizedBox(height: 16.0),
+                                  Text(
+                                    snapshot.error.toString(),
+                                    style: TextStyle(
+                                      fontSize: 12.0,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.red,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
                         }
                       } else if (snapshot.hasData) {
                         List<PelaksanaanPelatihan> training = snapshot.data
                                 ?.where((item) => item.isSelesai != 'selesai')
                                 .toList() ??
                             [];
+                        training.sort((a, b) {
+                          // ignore: unrelated_type_equality_checks
+                          if (a.tanggalMulai ==
+                              DateTime.now().toString().substring(0, 10)) {
+                            return -1;
+                            // ignore: unrelated_type_equality_checks
+                          } else if (b.tanggalMulai ==
+                              DateTime.now().toString().substring(0, 10)) {
+                            return 1;
+                          } else {
+                            return a.tanggalMulai.compareTo(b.tanggalMulai);
+                          }
+                        });
+
                         if (training.isEmpty) {
                           return Center(child: Text('Tidak ada progres'));
                         }
@@ -260,7 +298,31 @@ class _ProgressState extends State<Progress> {
                           },
                         );
                       } else {
-                        return Center(child: Text('gagal koneksi ke server'));
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.error_outline,
+                                  color: Colors.red,
+                                  size: 30.0,
+                                ),
+                                SizedBox(height: 16.0),
+                                Text(
+                                  'tidak dapat terhubung ke server',
+                                  style: TextStyle(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
                       }
                     }),
               )

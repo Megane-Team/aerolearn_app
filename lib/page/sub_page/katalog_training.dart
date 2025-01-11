@@ -1,12 +1,14 @@
 import 'package:aerolearn/action/absen_exam.dart';
 import 'package:aerolearn/action/absen_materi.dart';
 import 'package:aerolearn/action/absen_post.dart';
+import 'package:aerolearn/action/alat.dart';
 import 'package:aerolearn/action/exam.dart';
 import 'package:aerolearn/action/materi.dart';
 import 'package:aerolearn/action/nilai.dart';
 import 'package:aerolearn/page/sub_page/feedback.dart';
 import 'package:aerolearn/page/sub_page/ujian_page.dart';
 import 'package:aerolearn/utils/asset.dart';
+import 'package:aerolearn/variable/alat.dart';
 import 'package:aerolearn/variable/exam.dart';
 import 'package:aerolearn/variable/materi.dart';
 import 'package:flutter/material.dart';
@@ -42,14 +44,16 @@ class _KatalogTrainingState extends State<KatalogTraining> {
   late Future<List<Materi>?> futureMateri;
   late Future<List<Exam>?> futureExam;
   late Future<Nilai?> futureNilai;
+  late Future<List<Alat>?> futureAlat;
   UserProfile? userProfile;
   bool isLocked = false;
-
+  bool nilai = false;
   @override
   void initState() {
     super.initState();
     futureMateri = fetchMateriData(context, widget.idPelatihan);
     futureExam = fetchExamData(context, widget.idPelatihan);
+    futureAlat = fetchAlat(context, widget.id);
     _fetchUserProfile();
     futureNilai = Future.value(null);
   }
@@ -99,6 +103,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
             setState(() {
               futureMateri = fetchMateriData(context, widget.idPelatihan);
               futureExam = fetchExamData(context, widget.idPelatihan);
+              futureAlat = fetchAlat(context, widget.id);
               _fetchUserProfile();
             });
           },
@@ -123,426 +128,631 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                         topLeft: Radius.circular(15),
                       ),
                     ),
-                    child: Column(
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 22, left: 18),
-                          child: Text(
-                            widget.training,
-                            style: TextStyle(
-                                color: Color(0xFF1D5C96),
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold),
-                          ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 22, left: 18),
+                              child: Text(
+                                widget.training,
+                                style: TextStyle(
+                                  color: Color(0xFF1D5C96),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1.2, // Added letter spacing
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 4, left: 18),
+                              child: Text(
+                                widget.instruktur,
+                                style: TextStyle(
+                                  color: Color(0xFF1D5C96),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  letterSpacing: 1.1, // Added letter spacing
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 4, left: 18),
-                          child: Text(
-                            widget.instruktur,
-                            style: TextStyle(
-                                color: Color(0xFF1D5C96),
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600),
-                          ),
-                        ),
+                        FutureBuilder<Nilai?>(
+                            future: futureNilai,
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else if (snapshot.hasError) {
+                                return Container();
+                              } else if (snapshot.hasData) {
+                                nilai = true;
+                                var nilaiData = snapshot.data;
+                                return Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(right: 40),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        nilaiData!.score.toString(),
+                                        style: TextStyle(
+                                          color: Color(0xFF1D5C96),
+                                          fontSize: 36, // Increased font size
+                                          fontWeight: FontWeight.bold,
+                                          shadows: [
+                                            Shadow(
+                                              blurRadius: 10.0,
+                                              color:
+                                                  Colors.black.withOpacity(0.5),
+                                              offset: Offset(2.0, 2.0),
+                                            ),
+                                          ], // Added shadow for a stylish effect
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            })
                       ],
                     ),
                   ),
                 ),
-                SizedBox(
-                  child: Column(
-                    children: [
-                      Center(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.92,
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Color(0xFF898989)),
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15),
+                SingleChildScrollView(
+                  child: SizedBox(
+                    child: Column(
+                      children: [
+                        Center(
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.92,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Color(0xFF898989)),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                bottomLeft: Radius.circular(15),
+                                bottomRight: Radius.circular(15),
+                              ),
                             ),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                widget.kategori != "mandatory"
-                                    ? FutureBuilder<List<Materi>?>(
-                                        future: futureMateri,
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.waiting) {
-                                            return Center(
-                                                child:
-                                                    CircularProgressIndicator());
-                                          } else if (snapshot.hasError) {
-                                            if (snapshot.error ==
-                                                "materi tidak ada") {
+                            child: Padding(
+                              padding: EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  widget.kategori != "mandatory"
+                                      ? FutureBuilder<List<Materi>?>(
+                                          future: futureMateri,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
                                               return Center(
                                                   child:
-                                                      Text('tidak ada materi'));
-                                            } else {
-                                              return Center(
-                                                  child: Text(snapshot.error
-                                                      .toString()));
-                                            }
-                                          } else if (snapshot.hasData) {
-                                            List<Materi> materiAll =
-                                                snapshot.data ?? [];
-                                            if (materiAll.isEmpty) {
-                                              return Center(
-                                                  child:
-                                                      Text('Tidak ada materi'));
-                                            }
-                                            return Column(
-                                              children: [
-                                                ListView.builder(
-                                                  shrinkWrap: true,
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  itemCount: materiAll.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    var materi =
-                                                        materiAll[index];
-                                                    return FutureBuilder<bool?>(
-                                                      future:
-                                                          fetchAbsenDataMateri(
-                                                              context,
-                                                              materi.id,
-                                                              widget.id),
-                                                      builder: (context,
-                                                          attendanceSnapshot) {
-                                                        if (attendanceSnapshot
-                                                                .connectionState ==
-                                                            ConnectionState
-                                                                .waiting) {
-                                                          return Center(
-                                                              child:
-                                                                  CircularProgressIndicator());
-                                                        } else if (attendanceSnapshot
-                                                            .hasError) {
-                                                          return Container();
-                                                        } else if (attendanceSnapshot
-                                                                .hasData &&
-                                                            attendanceSnapshot
-                                                                    .data ==
-                                                                true) {
-                                                          return buildTrainingButton(
-                                                            context,
-                                                            materi.judul,
-                                                            true,
-                                                            materi.konten,
-                                                            materi.id,
-                                                            widget.id,
-                                                          );
-                                                        } else {
-                                                          return buildTrainingButton(
-                                                            context,
-                                                            materi.judul,
-                                                            false,
-                                                            materi.konten,
-                                                            materi.id,
-                                                            widget.id,
-                                                          );
-                                                        }
-                                                      },
-                                                    );
-                                                  },
-                                                ),
-                                                widget.isProgress
-                                                    ? FutureBuilder<bool>(
+                                                      CircularProgressIndicator());
+                                            } else if (snapshot.hasError) {
+                                              if (snapshot.error ==
+                                                  "materi tidak ada") {
+                                                return Center(
+                                                    child: Text(
+                                                        'tidak ada materi'));
+                                              } else {
+                                                return Center(
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16.0),
+                                                    child: Column(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.error_outline,
+                                                          color: Colors.red,
+                                                          size: 30.0,
+                                                        ),
+                                                        SizedBox(height: 16.0),
+                                                        Text(
+                                                          snapshot.error
+                                                              .toString(),
+                                                          style: TextStyle(
+                                                            fontSize: 12.0,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Colors.red,
+                                                          ),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+                                            } else if (snapshot.hasData) {
+                                              List<Materi> materiAll =
+                                                  snapshot.data ?? [];
+                                              if (materiAll.isEmpty) {
+                                                return Center(
+                                                    child: Text(
+                                                        'Tidak ada materi'));
+                                              }
+                                              return Column(
+                                                children: [
+                                                  ListView.builder(
+                                                    shrinkWrap: true,
+                                                    physics:
+                                                        NeverScrollableScrollPhysics(),
+                                                    itemCount: materiAll.length,
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      var materi =
+                                                          materiAll[index];
+                                                      return FutureBuilder<
+                                                          bool?>(
                                                         future:
-                                                            checkAllAttendanceMateri(
-                                                                materiAll,
+                                                            fetchAbsenDataMateri(
                                                                 context,
+                                                                materi.id,
                                                                 widget.id),
                                                         builder: (context,
-                                                            snapshot) {
-                                                          bool
-                                                              allMaterialsAttended =
-                                                              snapshot.hasData &&
-                                                                  snapshot.data ==
-                                                                      true;
+                                                            attendanceSnapshot) {
+                                                          if (attendanceSnapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          } else if (attendanceSnapshot
+                                                              .hasError) {
+                                                            return Container();
+                                                          } else if (attendanceSnapshot
+                                                                  .hasData &&
+                                                              attendanceSnapshot
+                                                                      .data ==
+                                                                  true) {
+                                                            return buildTrainingButton(
+                                                              context,
+                                                              materi.judul,
+                                                              true,
+                                                              materi.konten,
+                                                              materi.id,
+                                                              widget.id,
+                                                            );
+                                                          } else {
+                                                            return buildTrainingButton(
+                                                              context,
+                                                              materi.judul,
+                                                              false,
+                                                              materi.konten,
+                                                              materi.id,
+                                                              widget.id,
+                                                            );
+                                                          }
+                                                        },
+                                                      );
+                                                    },
+                                                  ),
+                                                  widget.isProgress
+                                                      ? FutureBuilder<bool>(
+                                                          future:
+                                                              checkAllAttendanceMateri(
+                                                                  materiAll,
+                                                                  context,
+                                                                  widget.id),
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            bool
+                                                                allMaterialsAttended =
+                                                                snapshot.hasData &&
+                                                                    snapshot.data ==
+                                                                        true;
+                                                            return FutureBuilder<
+                                                                List<Exam>?>(
+                                                              future:
+                                                                  futureExam,
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                if (snapshot
+                                                                        .connectionState ==
+                                                                    ConnectionState
+                                                                        .waiting) {
+                                                                  return Center(
+                                                                      child:
+                                                                          CircularProgressIndicator());
+                                                                } else if (snapshot
+                                                                    .hasError) {
+                                                                  return Container();
+                                                                } else if (snapshot
+                                                                    .hasData) {
+                                                                  List<Exam>
+                                                                      examAll =
+                                                                      snapshot.data ??
+                                                                          [];
+                                                                  return Column(
+                                                                    children: [
+                                                                      ListView
+                                                                          .builder(
+                                                                        shrinkWrap:
+                                                                            true,
+                                                                        physics:
+                                                                            NeverScrollableScrollPhysics(),
+                                                                        itemCount:
+                                                                            examAll.length,
+                                                                        itemBuilder:
+                                                                            (context,
+                                                                                index) {
+                                                                          var exam =
+                                                                              examAll[index];
+                                                                          return FutureBuilder<
+                                                                              bool?>(
+                                                                            future: fetchAbsenDataExam(
+                                                                                context,
+                                                                                exam.id,
+                                                                                widget.id),
+                                                                            builder:
+                                                                                (context, attendanceSnapshot) {
+                                                                              if (attendanceSnapshot.connectionState == ConnectionState.waiting) {
+                                                                                return Center(child: CircularProgressIndicator());
+                                                                              } else if (attendanceSnapshot.hasData && attendanceSnapshot.data == true) {
+                                                                                return buildTrainingButtonExam(
+                                                                                  context,
+                                                                                  true,
+                                                                                  widget.id,
+                                                                                  exam.id,
+                                                                                  allMaterialsAttended,
+                                                                                );
+                                                                              } else {
+                                                                                return buildTrainingButtonExam(
+                                                                                  context,
+                                                                                  false,
+                                                                                  widget.id,
+                                                                                  exam.id,
+                                                                                  allMaterialsAttended,
+                                                                                );
+                                                                              }
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                      FutureBuilder<
+                                                                          bool>(
+                                                                        future: checkAllAttendance(
+                                                                            examAll,
+                                                                            context,
+                                                                            widget.id),
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          if (snapshot.connectionState ==
+                                                                              ConnectionState
+                                                                                  .waiting) {
+                                                                            return Center(child: CircularProgressIndicator());
+                                                                          } else if (snapshot.hasData &&
+                                                                              snapshot.data == true) {
+                                                                            return feedbackButton(
+                                                                                context,
+                                                                                true,
+                                                                                widget.id,
+                                                                                nilai);
+                                                                          } else {
+                                                                            return feedbackButton(
+                                                                                context,
+                                                                                false,
+                                                                                widget.id,
+                                                                                nilai);
+                                                                          }
+                                                                        },
+                                                                      ),
+                                                                    ],
+                                                                  );
+                                                                } else {
+                                                                  return Container();
+                                                                }
+                                                              },
+                                                            );
+                                                          },
+                                                        )
+                                                      : Container(),
+                                                ],
+                                              );
+                                            } else {
+                                              return Center(
+                                                  child: Text(
+                                                      'gagal koneksi ke server'));
+                                            }
+                                          },
+                                        )
+                                      : widget.isProgress
+                                          ? FutureBuilder<List<Exam>?>(
+                                              future: futureExam,
+                                              builder: (context, snapshot) {
+                                                if (snapshot.connectionState ==
+                                                    ConnectionState.waiting) {
+                                                  return Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                } else if (snapshot.hasError) {
+                                                  if (snapshot.error ==
+                                                      "ujian tidak ada") {
+                                                    return Center(
+                                                        child: Text(
+                                                            'tidak ada ujian'));
+                                                  } else {
+                                                    return Center(
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(16.0),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Icon(
+                                                              Icons
+                                                                  .error_outline,
+                                                              color: Colors.red,
+                                                              size: 30.0,
+                                                            ),
+                                                            SizedBox(
+                                                                height: 16.0),
+                                                            Text(
+                                                              snapshot.error
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                fontSize: 12.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                color:
+                                                                    Colors.red,
+                                                              ),
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }
+                                                } else if (snapshot.hasData) {
+                                                  List<Exam> examAll =
+                                                      snapshot.data ?? [];
+                                                  return Column(
+                                                    children: [
+                                                      ListView.builder(
+                                                        shrinkWrap: true,
+                                                        physics:
+                                                            NeverScrollableScrollPhysics(),
+                                                        itemCount:
+                                                            examAll.length,
+                                                        itemBuilder:
+                                                            (context, index) {
+                                                          var exam =
+                                                              examAll[index];
                                                           return FutureBuilder<
-                                                              List<Exam>?>(
-                                                            future: futureExam,
+                                                              bool?>(
+                                                            future:
+                                                                fetchAbsenDataExam(
+                                                                    context,
+                                                                    exam.id,
+                                                                    widget.id),
                                                             builder: (context,
-                                                                snapshot) {
-                                                              if (snapshot
+                                                                attendanceSnapshot) {
+                                                              if (attendanceSnapshot
                                                                       .connectionState ==
                                                                   ConnectionState
                                                                       .waiting) {
                                                                 return Center(
                                                                     child:
                                                                         CircularProgressIndicator());
-                                                              } else if (snapshot
-                                                                  .hasError) {
-                                                                return Container();
-                                                              } else if (snapshot
-                                                                  .hasData) {
-                                                                List<Exam>
-                                                                    examAll =
-                                                                    snapshot.data ??
-                                                                        [];
-                                                                return Column(
-                                                                  children: [
-                                                                    ListView
-                                                                        .builder(
-                                                                      shrinkWrap:
-                                                                          true,
-                                                                      physics:
-                                                                          NeverScrollableScrollPhysics(),
-                                                                      itemCount:
-                                                                          examAll
-                                                                              .length,
-                                                                      itemBuilder:
-                                                                          (context,
-                                                                              index) {
-                                                                        var exam =
-                                                                            examAll[index];
-                                                                        return FutureBuilder<
-                                                                            bool?>(
-                                                                          future: fetchAbsenDataExam(
-                                                                              context,
-                                                                              exam.id,
-                                                                              widget.id),
-                                                                          builder:
-                                                                              (context, attendanceSnapshot) {
-                                                                            if (attendanceSnapshot.connectionState ==
-                                                                                ConnectionState.waiting) {
-                                                                              return Center(child: CircularProgressIndicator());
-                                                                            } else if (attendanceSnapshot.hasData && attendanceSnapshot.data == true) {
-                                                                              return buildTrainingButtonExam(
-                                                                                context,
-                                                                                true,
-                                                                                widget.id,
-                                                                                exam.id,
-                                                                                allMaterialsAttended,
-                                                                              );
-                                                                            } else {
-                                                                              return buildTrainingButtonExam(
-                                                                                context,
-                                                                                false,
-                                                                                widget.id,
-                                                                                exam.id,
-                                                                                allMaterialsAttended,
-                                                                              );
-                                                                            }
-                                                                          },
-                                                                        );
-                                                                      },
-                                                                    ),
-                                                                    FutureBuilder<
-                                                                        bool>(
-                                                                      future: checkAllAttendance(
-                                                                          examAll,
-                                                                          context,
-                                                                          widget
-                                                                              .id),
-                                                                      builder:
-                                                                          (context,
-                                                                              snapshot) {
-                                                                        if (snapshot.connectionState ==
-                                                                            ConnectionState
-                                                                                .waiting) {
-                                                                          return Center(
-                                                                              child: CircularProgressIndicator());
-                                                                        } else if (snapshot.hasData &&
-                                                                            snapshot.data ==
-                                                                                true) {
-                                                                          return feedbackButton(
-                                                                              context,
-                                                                              true,
-                                                                              widget.id);
-                                                                        } else {
-                                                                          return feedbackButton(
-                                                                              context,
-                                                                              false,
-                                                                              widget.id);
-                                                                        }
-                                                                      },
-                                                                    ),
-                                                                  ],
+                                                              } else if (attendanceSnapshot
+                                                                      .hasData &&
+                                                                  attendanceSnapshot
+                                                                          .data ==
+                                                                      true) {
+                                                                return buildTrainingButtonExam(
+                                                                  context,
+                                                                  true,
+                                                                  widget.id,
+                                                                  exam.id,
+                                                                  true,
                                                                 );
                                                               } else {
-                                                                return Container();
+                                                                return buildTrainingButtonExam(
+                                                                  context,
+                                                                  false,
+                                                                  widget.id,
+                                                                  exam.id,
+                                                                  true,
+                                                                );
                                                               }
                                                             },
                                                           );
                                                         },
-                                                      )
-                                                    : Container(),
-                                              ],
-                                            );
-                                          } else {
-                                            return Center(
-                                                child: Text(
-                                                    'gagal koneksi ke server'));
-                                          }
-                                        },
-                                      )
-                                    : widget.isProgress
-                                        ? FutureBuilder<List<Exam>?>(
-                                            future: futureExam,
-                                            builder: (context, snapshot) {
-                                              if (snapshot.connectionState ==
-                                                  ConnectionState.waiting) {
-                                                return Center(
-                                                    child:
-                                                        CircularProgressIndicator());
-                                              } else if (snapshot.hasError) {
-                                                if (snapshot.error ==
-                                                    "ujian tidak ada") {
-                                                  return Center(
-                                                      child: Text(
-                                                          'tidak ada ujian'));
-                                                } else {
-                                                  return Center(
-                                                      child: Text(snapshot.error
-                                                          .toString()));
-                                                }
-                                              } else if (snapshot.hasData) {
-                                                List<Exam> examAll =
-                                                    snapshot.data ?? [];
-                                                return Column(
-                                                  children: [
-                                                    ListView.builder(
-                                                      shrinkWrap: true,
-                                                      physics:
-                                                          NeverScrollableScrollPhysics(),
-                                                      itemCount: examAll.length,
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        var exam =
-                                                            examAll[index];
-                                                        return FutureBuilder<
-                                                            bool?>(
-                                                          future:
-                                                              fetchAbsenDataExam(
-                                                                  context,
-                                                                  exam.id,
-                                                                  widget.id),
-                                                          builder: (context,
-                                                              attendanceSnapshot) {
-                                                            if (attendanceSnapshot
-                                                                    .connectionState ==
-                                                                ConnectionState
-                                                                    .waiting) {
-                                                              return Center(
-                                                                  child:
-                                                                      CircularProgressIndicator());
-                                                            } else if (attendanceSnapshot
-                                                                    .hasData &&
-                                                                attendanceSnapshot
-                                                                        .data ==
-                                                                    true) {
-                                                              return buildTrainingButtonExam(
+                                                      ),
+                                                      FutureBuilder<bool>(
+                                                        future:
+                                                            checkAllAttendance(
+                                                                examAll,
+                                                                context,
+                                                                widget.id),
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          if (snapshot
+                                                                  .connectionState ==
+                                                              ConnectionState
+                                                                  .waiting) {
+                                                            return Center(
+                                                                child:
+                                                                    CircularProgressIndicator());
+                                                          } else if (snapshot
+                                                                  .hasData &&
+                                                              snapshot.data ==
+                                                                  true) {
+                                                            return feedbackButton(
                                                                 context,
                                                                 true,
                                                                 widget.id,
-                                                                exam.id,
-                                                                true,
-                                                              );
-                                                            } else {
-                                                              return buildTrainingButtonExam(
+                                                                nilai);
+                                                          } else {
+                                                            return feedbackButton(
                                                                 context,
                                                                 false,
                                                                 widget.id,
-                                                                exam.id,
-                                                                true,
-                                                              );
-                                                            }
-                                                          },
-                                                        );
-                                                      },
+                                                                nilai);
+                                                          }
+                                                        },
+                                                      ),
+                                                    ],
+                                                  );
+                                                } else {
+                                                  return Container();
+                                                }
+                                              },
+                                            )
+                                          : Container(),
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 24),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Alat yang Diperlukan:',
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                            color: Color(0xFF1D5C96),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10),
+                                        FutureBuilder<List<Alat>?>(
+                                          future: futureAlat,
+                                          builder: (context, snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.waiting) {
+                                              return Center(
+                                                  child:
+                                                      CircularProgressIndicator());
+                                            } else if (snapshot.hasError) {
+                                              if (snapshot.error.toString() ==
+                                                  "Tidak ada alat yang diperlukan") {
+                                                return Center(
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(16),
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.red.shade50,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8),
+                                                      // Memberikan sudut melengkung
+                                                      border: Border.all(
+                                                          color: Colors.red
+                                                              .shade200), // Memberikan border merah muda
                                                     ),
-                                                    FutureBuilder<bool>(
-                                                      future:
-                                                          checkAllAttendance(
-                                                              examAll,
-                                                              context,
-                                                              widget.id),
-                                                      builder:
-                                                          (context, snapshot) {
-                                                        if (snapshot
-                                                                .connectionState ==
-                                                            ConnectionState
-                                                                .waiting) {
-                                                          return Center(
-                                                              child:
-                                                                  CircularProgressIndicator());
-                                                        } else if (snapshot
-                                                                .hasData &&
-                                                            snapshot.data ==
-                                                                true) {
-                                                          return feedbackButton(
-                                                              context,
-                                                              true,
-                                                              widget.id);
-                                                        } else {
-                                                          return feedbackButton(
-                                                              context,
-                                                              false,
-                                                              widget.id);
-                                                        }
-                                                      },
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.error_outline,
+                                                          color: Colors
+                                                              .red.shade700,
+                                                          // Warna ikon error
+                                                          size: 30,
+                                                        ),
+                                                        SizedBox(width: 12),
+                                                        // Memberikan jarak antara ikon dan teks
+                                                        Expanded(
+                                                          child: Text(
+                                                            snapshot.error
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              color: Colors
+                                                                  .red.shade800,
+                                                              // Warna teks lebih gelap
+                                                              fontWeight: FontWeight
+                                                                  .w500, // Bobot teks lebih ringan agar mudah dibaca
+                                                            ),
+                                                            softWrap: true,
+                                                            overflow: TextOverflow
+                                                                .ellipsis, // Untuk menghindari overflow teks panjang
+                                                          ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  ],
+                                                  ),
                                                 );
                                               } else {
                                                 return Container();
                                               }
-                                            },
-                                          )
-                                        : Container(),
-                                FutureBuilder<Nilai?>(
-                                  future: futureNilai,
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Center(
-                                          child: CircularProgressIndicator());
-                                    } else if (snapshot.hasError) {
-                                      return Container();
-                                    } else if (snapshot.hasData) {
-                                      var nilaiData = snapshot.data;
-                                      return ListTile(
-                                        title: Container(
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.92,
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: Colors.black),
-                                              borderRadius:
-                                                  BorderRadius.circular(20)),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 10),
-                                            child: Text(
-                                              'Nilai anda: ${nilaiData?.score}',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          ),
+                                            } else if (snapshot.hasData) {
+                                              final alatList =
+                                                  snapshot.data ?? [];
+                                              return ListView.builder(
+                                                shrinkWrap: true,
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                itemCount: alatList.length,
+                                                itemBuilder: (context, index) {
+                                                  final alat = alatList[index];
+                                                  return Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(vertical: 4),
+                                                    child: Card(
+                                                      elevation: 8,
+                                                      shadowColor: Colors.grey
+                                                          .withOpacity(0.4),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(12),
+                                                      ),
+                                                      child: ListTile(
+                                                        contentPadding:
+                                                            EdgeInsets.only(
+                                                                left: 20,
+                                                                top: 5,
+                                                                bottom: 5),
+                                                        title: Text(
+                                                          alat.nama,
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xFF1D5C96),
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              );
+                                            } else {
+                                              return Container();
+                                            }
+                                          },
                                         ),
-                                      );
-                                    } else {
-                                      return Container();
-                                    }
-                                  },
-                                ),
-                              ],
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 )
               ],
@@ -635,20 +845,22 @@ Widget buildTrainingButton(BuildContext context, String title, bool isUnlocked,
 }
 
 Widget feedbackButton(
-    BuildContext context, bool isUnLocked, idPelaksanaanPelatihan) {
+    BuildContext context, bool isUnLocked, idPelaksanaanPelatihan, bool nilai) {
   return Padding(
     padding: EdgeInsets.symmetric(vertical: 8.0),
     child: GestureDetector(
-      onTap: isUnLocked
-          ? () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      FeedbackPage(idPelaksanaan: idPelaksanaanPelatihan),
-                ),
-              );
-            }
+      onTap: nilai
+          ? isUnLocked
+              ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          FeedbackPage(idPelaksanaan: idPelaksanaanPelatihan),
+                    ),
+                  );
+                }
+              : null
           : null,
       child: Container(
         padding: EdgeInsets.all(10),
@@ -670,7 +882,7 @@ Widget feedbackButton(
                     fontWeight: FontWeight.w600),
               ),
             ),
-            if (!isUnLocked)
+            if (!isUnLocked || !nilai)
               Icon(
                 Icons.lock,
                 color: Colors.red,
@@ -694,7 +906,8 @@ Widget buildTrainingButtonExam(BuildContext context, bool isUnlocked,
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => UjianPage(),
+                          builder: (context) => UjianPage(
+                              id: idExam, idPelatihan: idPelaksanaanPelatihan),
                         ),
                       )
                     }

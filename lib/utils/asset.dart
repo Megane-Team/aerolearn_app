@@ -15,7 +15,7 @@ class Assets {
     return '$path/icon/$name.png';
   }
 
-  static Future<Widget> files(String name) async {
+  static Future<Widget> filesMateri(String name) async {
     final token = await SessionService.getToken();
     try {
       final response =
@@ -29,10 +29,47 @@ class Assets {
           },
         );
       } else {
-        return Text('file not found');
+        return Center(child: Text('file not found'));
       }
     } catch (e) {
-      return Text('Koneksi Error');
+      return Text('tidak dapat terhubung ke server');
+    }
+  }
+
+  static Future<Widget> filesSertifikat(String id) async {
+    try {
+      final response =
+          await HttpService.getRequest('$baseURL/file/e-sertifikat/$id');
+
+      if (response.statusCode == 200) {
+        return SfPdfViewer.network(
+          '$baseURL/file/e-sertifikat/$id',
+        );
+      } else {
+        return Container();
+      }
+    } catch (e) {
+      return Container();
+    }
+  }
+
+  static Future<Widget> filesKonten(String name) async {
+    final token = await SessionService.getToken();
+    try {
+      final response =
+          await HttpService.getRequest('$baseURL/file/konten/$name');
+      if (response.statusCode == 200) {
+        return Image.network(
+          '$baseURL/file/konten/$name',
+          headers: {
+            'authorization': 'Bearer $token',
+          },
+        );
+      } else {
+        return Container();
+      }
+    } catch (e) {
+      return Text('tidak dapat terhubung ke server');
     }
   }
 }
