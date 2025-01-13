@@ -187,14 +187,6 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                           color: Color(0xFF1D5C96),
                                           fontSize: 36, // Increased font size
                                           fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              offset: Offset(2.0, 2.0),
-                                            ),
-                                          ], // Added shadow for a stylish effect
                                         ),
                                       ),
                                     ),
@@ -627,19 +619,22 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                     borderRadius: BorderRadius.circular(15),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(18),
+                    padding: const EdgeInsets.all(5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Alat yang Diperlukan:',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF1D5C96),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 10),
+                          child: Text(
+                            'Alat yang Diperlukan:',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1D5C96),
+                            ),
                           ),
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 5),
                         FutureBuilder<List<Alat>?>(
                           future: futureAlat,
                           builder: (context, snapshot) {
@@ -709,8 +704,8 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                         borderRadius: BorderRadius.circular(12),
                                       ),
                                       child: ListTile(
-                                        contentPadding: EdgeInsets.only(
-                                            left: 20, top: 5, bottom: 5),
+                                        contentPadding:
+                                            EdgeInsets.only(left: 20),
                                         title: Text(
                                           alat.nama,
                                           style: TextStyle(
