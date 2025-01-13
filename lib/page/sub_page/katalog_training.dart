@@ -619,7 +619,7 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                SizedBox(height: 15),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.92,
                   decoration: BoxDecoration(
