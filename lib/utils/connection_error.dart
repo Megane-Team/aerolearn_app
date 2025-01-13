@@ -63,8 +63,10 @@ void showConnectionErrorDialog(BuildContext context) {
                   ),
                   child: Text(
                     'OK',
-                    style:
-                        TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white),
                   ),
                 ),
               ],
