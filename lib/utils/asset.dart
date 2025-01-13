@@ -2,6 +2,7 @@ import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'package:aerolearn/utils/session.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class Assets {
@@ -20,19 +21,22 @@ class Assets {
     try {
       final response =
           await HttpService.getRequest('$baseURL/file/e-materi/$name');
-
       if (response.statusCode == 200) {
-        return SfPdfViewer.network(
-          '$baseURL/file/e-materi/$name',
-          headers: {
-            'authorization': 'Bearer $token',
-          },
-        );
+        if (name.endsWith('.pdf')) {
+          return SfPdfViewer.network(
+            '$baseURL/file/e-materi/$name',
+            headers: {
+              'authorization': 'Bearer $token',
+            },
+          );
+        } else {
+          return Center(child: Text('Unsupported file type'));
+        }
       } else {
-        return Center(child: Text('file not found'));
+        return Center(child: Text('File not found'));
       }
     } catch (e) {
-      return Text('tidak dapat terhubung ke server');
+      return Center(child: Text('Error: $e'));
     }
   }
 

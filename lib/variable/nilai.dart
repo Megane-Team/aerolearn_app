@@ -2,7 +2,7 @@ class Nilai {
   final int id;
   final int idPeserta;
   final int idPelaksanaanPelatihan;
-  final int score;
+  final String score;
   final String createdAt;
 
   Nilai({

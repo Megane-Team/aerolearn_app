@@ -17,7 +17,12 @@ import '../../variable/question.dart';
 class UjianPage extends StatefulWidget {
   final int id;
   final int idPelatihan;
-  const UjianPage({super.key, required this.id, required this.idPelatihan});
+  final bool isFinalized;
+  const UjianPage(
+      {super.key,
+      required this.id,
+      required this.idPelatihan,
+      required this.isFinalized});
 
   @override
   State<UjianPage> createState() => _UjianPageState();
@@ -33,9 +38,11 @@ class _UjianPageState extends State<UjianPage> {
   Map<int, int> _idToGroupValue = {};
   Map<int, int> _groupValueToId = {};
   void _handleRadioValueChange(int? value) {
-    setState(() {
-      _groupValue = value ?? 1;
-    });
+    if (!widget.isFinalized) {
+      setState(() {
+        _groupValue = value ?? 1;
+      });
+    }
   }
 
   Future<void> fetchData() async {
@@ -81,16 +88,23 @@ class _UjianPageState extends State<UjianPage> {
   }
 
   void _nextQuestion() async {
-    final jawaban = Jawaban(
-      id: _jawaban?.id ?? 0,
-      idOpsiJawaban: _groupValueToId[_groupValue] != null
+    final jawaban = {
+      'id': _jawaban?.id ?? 0,
+      'idOpsiJawaban': _groupValueToId[_groupValue] != null
           ? _groupValueToId[_groupValue]! + 1
           : _options.first.id,
-      idPelaksanaanPelatihan: widget.idPelatihan,
-      idQuestion: _questions[_currentQuestionIndex].id,
-    );
-    await AnswerPost(context, jawaban.id, jawaban.idOpsiJawaban,
-        jawaban.idQuestion, _userProfile!.id, jawaban.idPelaksanaanPelatihan);
+      'idPelaksanaanPelatihan': widget.idPelatihan,
+      'idQuestion': _questions[_currentQuestionIndex].id,
+    };
+    if (!widget.isFinalized) {
+      await AnswerPost(
+          context,
+          jawaban['id'],
+          jawaban['idOpsiJawaban'],
+          jawaban['idQuestion']!,
+          _userProfile!.id,
+          jawaban['idPelaksanaanPelatihan']);
+    }
     setState(() {
       if (_currentQuestionIndex < _questions.length - 1) {
         _currentQuestionIndex++;
@@ -101,16 +115,23 @@ class _UjianPageState extends State<UjianPage> {
   }
 
   void _previousQuestion() async {
-    final jawaban = Jawaban(
-      id: _jawaban?.id ?? 0,
-      idOpsiJawaban: _groupValueToId[_groupValue] != null
+    final jawaban = {
+      'id': _jawaban?.id ?? 0,
+      'idOpsiJawaban': _groupValueToId[_groupValue] != null
           ? _groupValueToId[_groupValue]! + 1
           : _options.first.id,
-      idPelaksanaanPelatihan: widget.idPelatihan,
-      idQuestion: _questions[_currentQuestionIndex].id,
-    );
-    await AnswerPost(context, jawaban.id, jawaban.idOpsiJawaban,
-        jawaban.idQuestion, _userProfile!.id, jawaban.idPelaksanaanPelatihan);
+      'idPelaksanaanPelatihan': widget.idPelatihan,
+      'idQuestion': _questions[_currentQuestionIndex].id,
+    };
+    if (!widget.isFinalized) {
+      await AnswerPost(
+          context,
+          jawaban['id'],
+          jawaban['idOpsiJawaban'],
+          jawaban['idQuestion']!,
+          _userProfile!.id,
+          jawaban['idPelaksanaanPelatihan']);
+    }
     setState(() {
       if (_currentQuestionIndex > 0) {
         _currentQuestionIndex--;
@@ -121,42 +142,54 @@ class _UjianPageState extends State<UjianPage> {
   }
 
   void _endExam() async {
-    final jawaban = Jawaban(
-      id: _jawaban?.id ?? 0,
-      idOpsiJawaban: _groupValueToId[_groupValue] != null
-          ? _groupValueToId[_groupValue]! + 1
-          : _options.first.id,
-      idPelaksanaanPelatihan: widget.idPelatihan,
-      idQuestion: _questions[_currentQuestionIndex].id,
-    );
-    await AnswerPost(context, jawaban.id, jawaban.idOpsiJawaban,
-        jawaban.idQuestion, _userProfile!.id, jawaban.idPelaksanaanPelatihan);
-    showDialog(
-      // ignore: duplicate_ignore
-      // ignore: use_build_context_synchronously
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Akhiri Ujian'),
-          content: Text('Apakah Anda yakin ingin mengakhiri ujian?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Tidak'),
-            ),
-            TextButton(
-              onPressed: () {
-                addNilai(_userProfile!.id, jawaban.idPelaksanaanPelatihan);
-                Navigator.of(context).pop();
-              },
-              child: Text('Ya'),
-            ),
-          ],
-        );
-      },
-    );
+      final jawaban = {
+        'id': _jawaban?.id ?? 0,
+        'idOpsiJawaban': _groupValueToId[_groupValue] != null
+            ? _groupValueToId[_groupValue]! + 1
+            : _options.first.id,
+        'idPelaksanaanPelatihan': widget.idPelatihan,
+        'idQuestion': _questions[_currentQuestionIndex].id,
+      };
+        await AnswerPost(
+            context,
+            jawaban['id'],
+            jawaban['idOpsiJawaban'],
+            jawaban['idQuestion']!,
+            _userProfile!.id,
+            jawaban['idPelaksanaanPelatihan']);
+
+      showDialog(
+        // ignore: duplicate_ignore
+        // ignore: use_build_context_synchronously
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Akhiri Ujian'),
+            content: Text('Apakah Anda yakin ingin mengakhiri ujian?'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Tidak'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  var result = await addNilai(
+                      _userProfile!.id, jawaban['idPelaksanaanPelatihan']!);
+                  if(result == "nilai berhasil") {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }else{
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Text('Ya'),
+              ),
+            ],
+          );
+        },
+      );
   }
 
   @override
@@ -193,7 +226,7 @@ class _UjianPageState extends State<UjianPage> {
       body: SafeArea(
         minimum: EdgeInsets.symmetric(horizontal: 1),
         child: _questions.isEmpty
-            ? Center(child: CircularProgressIndicator())
+            ? Center(child: Text('Tidak ada pertanyaan'))
             : ListView(
                 children: [
                   Ujian(
@@ -204,6 +237,8 @@ class _UjianPageState extends State<UjianPage> {
                     gambar: _questions[_currentQuestionIndex].gambar,
                     groupValue: _groupValue,
                     onChanged: _handleRadioValueChange,
+                    isFinalized: widget.isFinalized,
+                    isCorrect: _jawaban?.isBenar == "benar" ? true : false,
                   ),
                 ],
               ),
@@ -237,7 +272,8 @@ class _UjianPageState extends State<UjianPage> {
                       ),
                       child: Text('Selanjutnya'),
                     ),
-                  if (_currentQuestionIndex == _questions.length - 1)
+                  if (_currentQuestionIndex == _questions.length - 1 &&
+                      !widget.isFinalized)
                     ElevatedButton(
                       onPressed: _endExam,
                       style: ElevatedButton.styleFrom(
@@ -263,6 +299,8 @@ class Ujian extends StatelessWidget {
   final int groupValue;
   final String? gambar;
   final ValueChanged<int?> onChanged;
+  final bool isFinalized;
+  final bool isCorrect;
   const Ujian({
     super.key,
     required this.nomorPertanyaan,
@@ -271,6 +309,8 @@ class Ujian extends StatelessWidget {
     required this.gambar,
     required this.groupValue,
     required this.onChanged,
+    required this.isFinalized,
+    required this.isCorrect,
   });
   @override
   Widget build(BuildContext context) {
@@ -304,7 +344,7 @@ class Ujian extends StatelessWidget {
                             return Center(child: CircularProgressIndicator());
                           } else if (snapshot.hasError) {
                             return Center(
-                                child: Text('Error: ${snapshot.error}'));
+                                child: Text(snapshot.error.toString()));
                           } else if (snapshot.hasData) {
                             return snapshot.data!;
                           } else {
@@ -325,12 +365,23 @@ class Ujian extends StatelessWidget {
                 .asMap()
                 .entries
                 .map(
-                  (entry) => ListTile(
-                    title: Text(entry.value),
-                    leading: Radio(
-                      value: entry.key,
-                      groupValue: groupValue,
-                      onChanged: onChanged,
+                  (entry) => Container(
+                    color: isFinalized
+                        ? (isCorrect && entry.key == groupValue
+                            ? Colors.green
+                            : (!isCorrect && entry.key == groupValue
+                                ? Colors.red
+                                : null))
+                        : null,
+                    child: ListTile(
+                      title: Text(
+                        entry.value,
+                      ),
+                      leading: Radio(
+                        value: entry.key,
+                        groupValue: groupValue,
+                        onChanged: onChanged,
+                      ),
                     ),
                   ),
                 )

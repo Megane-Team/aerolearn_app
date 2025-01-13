@@ -113,8 +113,9 @@ class _ScheduleState extends State<Schedule> {
                                   isSameDay(day, endDate) ||
                                   (day.isAfter(startDate) &&
                                       day.isBefore(endDate))) &&
-                              endDate.isAfter(now) &&
-                              day.isAfter(now.subtract(Duration(days: 1)));
+                              (endDate.isAfter(now) ||
+                                  isSameDay(endDate, now)) &&
+                              (day.isAfter(now) || isSameDay(day, now));
                         }).toList();
                       },
                       calendarStyle: const CalendarStyle(

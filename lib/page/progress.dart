@@ -6,6 +6,7 @@ import 'package:aerolearn/variable/pelaksanaan.dart';
 import 'package:aerolearn/utils/formatted.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/variable/profile.dart';
+import 'package:table_calendar/table_calendar.dart';
 import '../action/profile.dart';
 
 class Progress extends StatefulWidget {
@@ -147,7 +148,7 @@ class _ProgressState extends State<Progress> {
 
                             String displayDate;
                             if (currentDate.isAfter(startDate) &&
-                                currentDate.isBefore(endDate)) {
+                                currentDate.isBefore(endDate) || isSameDay(currentDate, startDate) || isSameDay(currentDate, endDate)) {
                               displayDate = 'Today';
                             } else {
                               displayDate = Formatted.formatDate(startDate);
