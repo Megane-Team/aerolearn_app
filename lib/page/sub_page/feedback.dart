@@ -67,7 +67,31 @@ class _FeedbackState extends State<FeedbackPage> {
                   if (snapshot.error == 'feedback tidak ada') {
                     return Center(child: Text('Tidak ada feedback'));
                   } else {
-                    return Center(child: Text(snapshot.error.toString()));
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 30.0,
+                            ),
+                            SizedBox(height: 16.0),
+                            Text(
+                              snapshot.error.toString(),
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
                   }
                 } else if (snapshot.hasData) {
                   List<feedback.Feedback> feedbackQuestion =
@@ -178,7 +202,29 @@ class _FeedbackState extends State<FeedbackPage> {
                   );
                 } else {
                   return Center(
-                    child: Text('gagal koneksi ke server'),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                            size: 30.0,
+                          ),
+                          SizedBox(height: 16.0),
+                          Text(
+                            'tidak dapat terhubung ke server',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.red,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
                   );
                 }
               }),
@@ -199,9 +245,24 @@ Future<void> sendAllFeedbackAnswers(BuildContext context,
     );
 
     if (result != null) {
-      if (!currentContext.mounted) return;
-      ScaffoldMessenger.of(currentContext).showSnackBar(
-        SnackBar(content: Text(result)),
+      // ignore: use_build_context_synchronously
+      showDialog(
+        context: currentContext,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Informasi'),
+            content: Text(result),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
       );
     } else {
       if (!currentContext.mounted) return;

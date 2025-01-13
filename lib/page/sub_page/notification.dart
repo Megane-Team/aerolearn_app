@@ -98,6 +98,9 @@ class NotificationState extends State<NotificationPage> {
                 return notificationDate.isBefore(now) ||
                     notificationDate.isAtSameMomentAs(now);
               }).toList();
+              notifications.sort((a, b) {
+                return b.tanggal.compareTo(a.tanggal);
+              });
               if (notifications.isEmpty) {
                 return Center(child: NoNotificationItem());
               }
@@ -128,7 +131,31 @@ class NotificationState extends State<NotificationPage> {
                 },
               );
             } else {
-              return Center(child: Text('gagal koneksi ke server'));
+              return Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.error_outline,
+                        color: Colors.red,
+                        size: 30.0,
+                      ),
+                      SizedBox(height: 16.0),
+                      Text(
+                        'tidak dapat terhubung ke server',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.red,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+              );
             }
           },
         ),
@@ -175,9 +202,12 @@ class NotificationItem extends StatelessWidget {
                 'info',
                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
               ),
-              Text(
-                Formatted.formatDate(date),
-                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+              Container(
+                margin: EdgeInsets.only(right: 10),
+                child: Text(
+                  Formatted.formatDate(date),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                ),
               ),
             ],
           ),

@@ -1,3 +1,4 @@
+import 'package:aerolearn/utils/formatted.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/action/profile.dart';
 import 'package:aerolearn/page/sub_page/sertifikat_list.dart';
@@ -99,7 +100,7 @@ class ProfileState extends State<Profile> {
                               snapshot.data?.noTelp ??
                                   'tidak ada nomer telepon'),
                           buildNonEditableField('Tempat, Tanggal Lahir',
-                              '${snapshot.data!.tempatLahir}, ${snapshot.data!.tanggalLahir}'),
+                              '${snapshot.data!.tempatLahir}, ${Formatted.formatDate(DateTime.parse(snapshot.data!.tanggalLahir))}'),
                           buildButtonRow('E-Sertifikat', Icons.chevron_right,
                               () {
                             Navigator.push(

@@ -1,21 +1,21 @@
-import 'package:aerolearn/constant/variable.dart';
-import 'package:aerolearn/variable/materi.dart';
-import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io'; // Untuk menangani SocketException
 
-Future<List<Materi>?> fetchMateriData(context, id) async {
-  final url = '$baseURL/materi/$id';
+import 'package:aerolearn/variable/question.dart';
+import '../constant/variable.dart';
+import '../utils/http.dart';
 
+Future<List<Question>?> fetchQuestion(context, id) async {
+  final url = '$baseURL/exam/question/$id';
   try {
     final response = await HttpService.getRequest(url);
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       List<dynamic> data = jsonResponse['data'];
-      return data.map((data) => Materi.fromJson(data)).toList();
+      return data.map((data) => Question.fromJson(data)).toList();
     } else if (response.statusCode == 401) {
-      throw 'Materi tidak ada';
+      throw 'Pertanyaan tidak ada';
     } else if (response.statusCode == 400) {
       throw 'Unauthorized';
     } else if (response.statusCode == 500) {
@@ -24,7 +24,7 @@ Future<List<Materi>?> fetchMateriData(context, id) async {
       throw 'Unexpected error occurred';
     }
   } on SocketException {
-    throw 'tidak dapat terhubung ke server';
+    throw 'Jaringan tidak dapat dijangkau. Pastikan koneksi internet Anda tersedia.';
   } catch (e) {
     rethrow;
   }

@@ -1,4 +1,3 @@
-import 'package:aerolearn/notification_service.dart';
 import 'package:flutter/material.dart';
 import 'package:aerolearn/page/beranda.dart';
 import 'package:aerolearn/page/progress.dart';
@@ -17,7 +16,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    NotificationService.fetchAndScheduleNotifications();
   }
 
   void _onItemTapped(int index) {

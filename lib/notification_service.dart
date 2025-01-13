@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'dart:convert';
 
 import 'package:aerolearn/utils/formatted.dart';
@@ -20,13 +22,20 @@ class NotificationService {
     tz.initializeTimeZones();
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/launcher_icon');
-
     const InitializationSettings initializationSettings =
         InitializationSettings(android: initializationSettingsAndroid);
 
-    await _flutterLocalNotificationsPlugin.initialize(
-      initializationSettings,
-    );
+    await _flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  }
+
+  static bool _isTimeZoneInitialized() {
+    try {
+      tz.TZDateTime.now(
+          tz.local); // This will throw if time zone isn't initialized.
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   static scheduleNotification(
@@ -35,10 +44,12 @@ class NotificationService {
       return;
     }
 
+    if (!_isTimeZoneInitialized()) {
+      return;
+    }
+
     final tz.TZDateTime scheduledDate = tz.TZDateTime.from(
-      pelatihan.tanggalMulai.subtract(Duration(days: 2)),
-      tz.local,
-    );
+        pelatihan.tanggalMulai.subtract(Duration(days: 2)), tz.local);
 
     if (scheduledDate.isBefore(tz.TZDateTime.now(tz.local))) {
       return;
@@ -52,12 +63,12 @@ class NotificationService {
       importance: Importance.max,
       priority: Priority.high,
     );
-
     var platformChannelSpecifics =
         NotificationDetails(android: androidPlatformChannelSpecifics);
 
     var detail =
-        'pelatihan ${pelatihan.namaPelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${Formatted.formatDate(pelatihan.tanggalMulai)}';
+        'Pelatihan ${pelatihan.namaPelatihan} akan dilaksanakan 3 hari lagi, pada tanggal ${Formatted.formatDate(pelatihan.tanggalMulai)}';
+
     await _flutterLocalNotificationsPlugin.zonedSchedule(
       pelatihan.id,
       pelatihan.namaPelatihan,
@@ -114,7 +125,21 @@ class NotificationService {
     }
   }
 
-  static fetchAndScheduleNotifications() async {
+  Future<List<PelaksanaanPelatihan>> fetchNotificationsTraining(
+      String id) async {
+    final url = '$baseURL/peserta/progress/$id';
+    final response = await HttpService.getRequest(url);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      List<dynamic> data = jsonResponse['data'];
+      return data.map((item) => PelaksanaanPelatihan.fromJson(item)).toList();
+    } else {
+      throw Exception('Failed to load training data');
+    }
+  }
+
+  static fetchAndScheduleNotificationsInBackground() async {
+    tz.initializeTimeZones();
     try {
       Future<List<PelaksanaanPelatihan>> fetchNotificationsTraining(
           String id) async {
@@ -136,23 +161,19 @@ class NotificationService {
         UserProfile? userProfile = await fetchUserProfile();
         if (userProfile != null) {
           int userId = userProfile.id;
+
           List<PelaksanaanPelatihan> pelatihanList =
               await fetchNotificationsTraining(userId.toString());
+
           for (var pelatihan in pelatihanList) {
             if (pelatihan.tanggalMulai.isAfter(DateTime.now())) {
               try {
-                scheduleNotification(userId, pelatihan);
-              } catch (e) {
-                // ignore: avoid_print
-              }
-            }
+                await scheduleNotification(userId, pelatihan);
+              } catch (e) {}
+            } else {}
           }
-        } else {
-          throw Exception('User ID is null or empty');
-        }
-      }
-    } catch (e) {
-      throw ('Error fetching and scheduling notifications: $e');
-    }
+        } else {}
+      } else {}
+    } catch (e) {}
   }
 }

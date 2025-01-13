@@ -59,9 +59,33 @@ class _DetailState extends State<Detail> {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               } else if (snapshot.hasError) {
-                return Center(child: Text('Failed to load training details'));
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 30.0,
+                        ),
+                        SizedBox(height: 16.0),
+                        Text(
+                          snapshot.error.toString(),
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.red,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    ),
+                  ),
+                );
               } else if (!snapshot.hasData) {
-                return Center(child: Text('No training details available'));
+                return Center(child: Text('tidak ada data pelatihan'));
               } else {
                 final training = snapshot.data!;
                 return ListView(
@@ -118,37 +142,58 @@ class RincianTraining extends StatelessWidget {
                     topLeft: Radius.circular(15),
                   ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 22, left: 18),
-                      child: Text(
-                        training,
-                        style: TextStyle(
-                            color: Color(0xFF1D5C96),
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 22, left: 18),
+                            child: Text(
+                              training,
+                              style: TextStyle(
+                                color: Color(0xFF1D5C96),
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1.2, // Added letter spacing
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 4, left: 18),
+                            child: Text(
+                              koordinator,
+                              style: TextStyle(
+                                color: Color(0xFF1D5C96),
+                                fontSize: 14,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 1.1, // Added letter spacing
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 18),
-                      child: Text(
-                        koordinator,
-                        style: TextStyle(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          category,
+                          style: TextStyle(
                             color: Color(0xFF1D5C96),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 18),
-                      child: Text(
-                        category,
-                        style: TextStyle(
-                            color: Color(0xFF1D5C96),
-                            fontSize: 14,
-                            fontWeight: FontWeight.w600),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10.0,
+                                color: Colors.black.withOpacity(0.5),
+                                offset: Offset(2.0, 2.0),
+                              ),
+                            ], // Added shadow for a stylish effect
+                          ),
+                        ),
                       ),
                     ),
                   ],

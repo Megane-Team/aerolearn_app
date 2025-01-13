@@ -1,11 +1,11 @@
-import 'package:aerolearn/constant/variable.dart';
-import 'package:aerolearn/variable/materi.dart';
-import 'package:aerolearn/utils/http.dart';
 import 'dart:convert';
-import 'dart:io';
+import 'dart:io'; // Untuk menangani SocketException
+import 'package:aerolearn/variable/alat.dart';
+import '../constant/variable.dart';
+import '../utils/http.dart';
 
-Future<List<Materi>?> fetchMateriData(context, id) async {
-  final url = '$baseURL/materi/$id';
+Future<List<Alat>?> fetchAlat(context, id) async {
+  final url = '$baseURL/alat/$id';
 
   try {
     final response = await HttpService.getRequest(url);
@@ -13,9 +13,9 @@ Future<List<Materi>?> fetchMateriData(context, id) async {
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       List<dynamic> data = jsonResponse['data'];
-      return data.map((data) => Materi.fromJson(data)).toList();
+      return data.map((data) => Alat.fromJson(data)).toList();
     } else if (response.statusCode == 401) {
-      throw 'Materi tidak ada';
+      throw 'Tidak ada alat yang diperlukan';
     } else if (response.statusCode == 400) {
       throw 'Unauthorized';
     } else if (response.statusCode == 500) {
