@@ -182,17 +182,9 @@ class RincianTraining extends StatelessWidget {
                         child: Text(
                           category,
                           style: TextStyle(
-                            color: Color(0xFF1D5C96),
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                            shadows: [
-                              Shadow(
-                                blurRadius: 10.0,
-                                color: Colors.black.withOpacity(0.5),
-                                offset: Offset(2.0, 2.0),
-                              ),
-                            ], // Added shadow for a stylish effect
-                          ),
+                              color: Color(0xFF1D5C96),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600),
                         ),
                       ),
                     ),
