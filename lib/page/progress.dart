@@ -148,7 +148,9 @@ class _ProgressState extends State<Progress> {
 
                             String displayDate;
                             if (currentDate.isAfter(startDate) &&
-                                currentDate.isBefore(endDate) || isSameDay(currentDate, startDate) || isSameDay(currentDate, endDate)) {
+                                    currentDate.isBefore(endDate) ||
+                                isSameDay(currentDate, startDate) ||
+                                isSameDay(currentDate, endDate)) {
                               displayDate = 'Today';
                             } else {
                               displayDate = Formatted.formatDate(startDate);

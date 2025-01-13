@@ -100,7 +100,7 @@ class _FeedbackState extends State<FeedbackPage> {
                     return Center(child: Text('Tidak ada feedback'));
                   }
                   _controllers = List.generate(feedbackQuestion.length,
-                          (index) => TextEditingController());
+                      (index) => TextEditingController());
                   return Form(
                     key: _formKey,
                     child: Column(
@@ -115,7 +115,7 @@ class _FeedbackState extends State<FeedbackPage> {
                                   SizedBox(height: 20),
                                   Column(
                                     crossAxisAlignment:
-                                    CrossAxisAlignment.start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
                                         padding: const EdgeInsets.only(
@@ -133,7 +133,7 @@ class _FeedbackState extends State<FeedbackPage> {
                                           controller: _controllers[index],
                                           decoration: InputDecoration(
                                             hintText:
-                                            'Harap isi sesuai pendapatmu',
+                                                'Harap isi sesuai pendapatmu',
                                             hintStyle: TextStyle(
                                                 color: Colors.grey,
                                                 fontSize: 14,

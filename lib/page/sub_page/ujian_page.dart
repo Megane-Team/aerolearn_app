@@ -142,54 +142,54 @@ class _UjianPageState extends State<UjianPage> {
   }
 
   void _endExam() async {
-      final jawaban = {
-        'id': _jawaban?.id ?? 0,
-        'idOpsiJawaban': _groupValueToId[_groupValue] != null
-            ? _groupValueToId[_groupValue]! + 1
-            : _options.first.id,
-        'idPelaksanaanPelatihan': widget.idPelatihan,
-        'idQuestion': _questions[_currentQuestionIndex].id,
-      };
-        await AnswerPost(
-            context,
-            jawaban['id'],
-            jawaban['idOpsiJawaban'],
-            jawaban['idQuestion']!,
-            _userProfile!.id,
-            jawaban['idPelaksanaanPelatihan']);
+    final jawaban = {
+      'id': _jawaban?.id ?? 0,
+      'idOpsiJawaban': _groupValueToId[_groupValue] != null
+          ? _groupValueToId[_groupValue]! + 1
+          : _options.first.id,
+      'idPelaksanaanPelatihan': widget.idPelatihan,
+      'idQuestion': _questions[_currentQuestionIndex].id,
+    };
+    await AnswerPost(
+        context,
+        jawaban['id'],
+        jawaban['idOpsiJawaban'],
+        jawaban['idQuestion']!,
+        _userProfile!.id,
+        jawaban['idPelaksanaanPelatihan']);
 
-      showDialog(
-        // ignore: duplicate_ignore
-        // ignore: use_build_context_synchronously
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Akhiri Ujian'),
-            content: Text('Apakah Anda yakin ingin mengakhiri ujian?'),
-            actions: [
-              TextButton(
-                onPressed: () {
+    showDialog(
+      // ignore: duplicate_ignore
+      // ignore: use_build_context_synchronously
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Akhiri Ujian'),
+          content: Text('Apakah Anda yakin ingin mengakhiri ujian?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Tidak'),
+            ),
+            TextButton(
+              onPressed: () async {
+                var result = await addNilai(
+                    _userProfile!.id, jawaban['idPelaksanaanPelatihan']!);
+                if (result == "nilai berhasil") {
                   Navigator.of(context).pop();
-                },
-                child: Text('Tidak'),
-              ),
-              TextButton(
-                onPressed: () async {
-                  var result = await addNilai(
-                      _userProfile!.id, jawaban['idPelaksanaanPelatihan']!);
-                  if(result == "nilai berhasil") {
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pop();
-                  }else{
-                    Navigator.of(context).pop();
-                  }
-                },
-                child: Text('Ya'),
-              ),
-            ],
-          );
-        },
-      );
+                  Navigator.of(context).pop();
+                } else {
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text('Ya'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

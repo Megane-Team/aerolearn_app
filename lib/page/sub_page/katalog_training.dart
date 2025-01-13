@@ -178,7 +178,11 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        nilaiData!.score.toString().length > 4 ? nilaiData.score.toString().substring(0, 4) : nilaiData.score.toString(),
+                                        nilaiData!.score.toString().length > 4
+                                            ? nilaiData.score
+                                                .toString()
+                                                .substring(0, 4)
+                                            : nilaiData.score.toString(),
                                         style: TextStyle(
                                           color: Color(0xFF1D5C96),
                                           fontSize: 36, // Increased font size
