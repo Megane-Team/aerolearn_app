@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:aerolearn/utils/asset.dart';
 
 class SertifikatList extends StatefulWidget {
-  const SertifikatList({super.key});
+  final String? id;
+  const SertifikatList({super.key, required this.id});
 
   @override
   State<SertifikatList> createState() => _SertifikatListState();
@@ -16,7 +17,7 @@ class _SertifikatListState extends State<SertifikatList> {
   @override
   void initState() {
     super.initState();
-    futureSertifikatData = fetchSertifikat(context);
+    futureSertifikatData = fetchSertifikat(context, widget.id);
   }
 
   @override

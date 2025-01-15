@@ -4,8 +4,8 @@ import 'package:aerolearn/constant/variable.dart';
 import 'package:aerolearn/variable/e_sertifikat.dart';
 import 'package:aerolearn/utils/http.dart';
 
-Future<List<Esertifikat>?> fetchSertifikat(context) async {
-  final url = '$baseURL/sertifikat/user';
+Future<List<Esertifikat>?> fetchSertifikat(context, idPeserta) async {
+  final url = '$baseURL/sertifikat/$idPeserta';
   try {
     final response = await HttpService.getRequest(url);
 
