@@ -1,6 +1,6 @@
 class Notifications {
   final int id;
-  final int idPeserta;
+  final int idUser;
   final String title;
   final String detail;
   final DateTime tanggal;
@@ -9,7 +9,7 @@ class Notifications {
 
   Notifications({
     required this.id,
-    required this.idPeserta,
+    required this.idUser,
     required this.title,
     required this.detail,
     required this.tanggal,
@@ -20,7 +20,7 @@ class Notifications {
   factory Notifications.fromJson(Map<String, dynamic> json) {
     return Notifications(
       id: json['id'],
-      idPeserta: json['id_peserta'],
+      idUser: json['id_user'],
       title: json['title'],
       detail: json['detail'],
       tanggal: DateTime.parse(json['tanggal']),

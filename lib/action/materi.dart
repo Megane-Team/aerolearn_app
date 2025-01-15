@@ -9,7 +9,6 @@ Future<List<Materi>?> fetchMateriData(context, id) async {
 
   try {
     final response = await HttpService.getRequest(url);
-
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       List<dynamic> data = jsonResponse['data'];

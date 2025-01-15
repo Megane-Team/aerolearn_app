@@ -106,7 +106,9 @@ class ProfileState extends State<Profile> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SertifikatList()),
+                                  builder: (context) => SertifikatList(
+                                    id: snapshot.data!.id.toString()
+                                  )),
                             );
                           }),
                           buildButtonRow(
@@ -134,7 +136,7 @@ class ProfileState extends State<Profile> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SertifikatList()),
+                                  builder: (context) => SertifikatList(id: null)),
                             );
                           }),
                           buildButtonRow(

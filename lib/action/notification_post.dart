@@ -6,7 +6,7 @@ Future<String?> addNotification(int idPeserta, String title, String detail,
   try {
     final url = '$baseURL/notification/+';
     final response = await HttpService.postRequest(url, {
-      'id_peserta': idPeserta,
+      'id_user': idPeserta,
       'title': title,
       'detail': detail,
       'tanggal': tanggal,
