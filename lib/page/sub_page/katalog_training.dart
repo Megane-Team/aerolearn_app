@@ -187,14 +187,6 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                           color: Color(0xFF1D5C96),
                                           fontSize: 36, // Increased font size
                                           fontWeight: FontWeight.bold,
-                                          shadows: [
-                                            Shadow(
-                                              blurRadius: 10.0,
-                                              color:
-                                                  Colors.black.withOpacity(0.5),
-                                              offset: Offset(2.0, 2.0),
-                                            ),
-                                          ], // Added shadow for a stylish effect
                                         ),
                                       ),
                                     ),
@@ -610,134 +602,6 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                                               },
                                             )
                                           : Container(),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 24),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Alat yang Diperlukan:',
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold,
-                                            color: Color(0xFF1D5C96),
-                                          ),
-                                        ),
-                                        SizedBox(height: 10),
-                                        FutureBuilder<List<Alat>?>(
-                                          future: futureAlat,
-                                          builder: (context, snapshot) {
-                                            if (snapshot.connectionState ==
-                                                ConnectionState.waiting) {
-                                              return Center(
-                                                  child:
-                                                      CircularProgressIndicator());
-                                            } else if (snapshot.hasError) {
-                                              if (snapshot.error.toString() ==
-                                                  "Tidak ada alat yang diperlukan") {
-                                                return Center(
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(16),
-                                                    decoration: BoxDecoration(
-                                                      color: Colors.red.shade50,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      // Memberikan sudut melengkung
-                                                      border: Border.all(
-                                                          color: Colors.red
-                                                              .shade200), // Memberikan border merah muda
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Icon(
-                                                          Icons.error_outline,
-                                                          color: Colors
-                                                              .red.shade700,
-                                                          // Warna ikon error
-                                                          size: 30,
-                                                        ),
-                                                        SizedBox(width: 12),
-                                                        // Memberikan jarak antara ikon dan teks
-                                                        Expanded(
-                                                          child: Text(
-                                                            snapshot.error
-                                                                .toString(),
-                                                            style: TextStyle(
-                                                              fontSize: 16,
-                                                              color: Colors
-                                                                  .red.shade800,
-                                                              // Warna teks lebih gelap
-                                                              fontWeight: FontWeight
-                                                                  .w500, // Bobot teks lebih ringan agar mudah dibaca
-                                                            ),
-                                                            softWrap: true,
-                                                            overflow: TextOverflow
-                                                                .ellipsis, // Untuk menghindari overflow teks panjang
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                );
-                                              } else {
-                                                return Container();
-                                              }
-                                            } else if (snapshot.hasData) {
-                                              final alatList =
-                                                  snapshot.data ?? [];
-                                              return ListView.builder(
-                                                shrinkWrap: true,
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                itemCount: alatList.length,
-                                                itemBuilder: (context, index) {
-                                                  final alat = alatList[index];
-                                                  return Padding(
-                                                    padding: const EdgeInsets
-                                                        .symmetric(vertical: 4),
-                                                    child: Card(
-                                                      elevation: 8,
-                                                      shadowColor: Colors.grey
-                                                          .withOpacity(0.4),
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(12),
-                                                      ),
-                                                      child: ListTile(
-                                                        contentPadding:
-                                                            EdgeInsets.only(
-                                                                left: 20,
-                                                                top: 5,
-                                                                bottom: 5),
-                                                        title: Text(
-                                                          alat.nama,
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xFF1D5C96),
-                                                            fontSize: 14,
-                                                            fontWeight:
-                                                                FontWeight.w600,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            } else {
-                                              return Container();
-                                            }
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -746,7 +610,124 @@ class _KatalogTrainingState extends State<KatalogTraining> {
                       ],
                     ),
                   ),
-                )
+                ),
+                SizedBox(height: 15),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.92,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Color(0xFF898989)),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: 15, top: 10),
+                          child: Text(
+                            'Alat yang Diperlukan:',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1D5C96),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 5),
+                        FutureBuilder<List<Alat>?>(
+                          future: futureAlat,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              if (snapshot.error.toString() ==
+                                  "Tidak ada alat yang diperlukan") {
+                                return Center(
+                                  child: Container(
+                                    padding: EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red.shade50,
+                                      borderRadius: BorderRadius.circular(8),
+                                      // Memberikan sudut melengkung
+                                      border: Border.all(
+                                          color: Colors.red
+                                              .shade200), // Memberikan border merah muda
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.error_outline,
+                                          color: Colors.red.shade700,
+                                          // Warna ikon error
+                                          size: 30,
+                                        ),
+                                        SizedBox(width: 12),
+                                        // Memberikan jarak antara ikon dan teks
+                                        Expanded(
+                                          child: Text(
+                                            snapshot.error.toString(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.red.shade800,
+                                              // Warna teks lebih gelap
+                                              fontWeight: FontWeight
+                                                  .w500, // Bobot teks lebih ringan agar mudah dibaca
+                                            ),
+                                            softWrap: true,
+                                            overflow: TextOverflow
+                                                .ellipsis, // Untuk menghindari overflow teks panjang
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            } else if (snapshot.hasData) {
+                              final alatList = snapshot.data ?? [];
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: alatList.length,
+                                itemBuilder: (context, index) {
+                                  final alat = alatList[index];
+                                  return Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 4),
+                                    child: Card(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(12),
+                                      ),
+                                      child: ListTile(
+                                        contentPadding:
+                                            EdgeInsets.only(left: 20),
+                                        title: Text(
+                                          alat.nama,
+                                          style: TextStyle(
+                                            color: Color(0xFF1D5C96),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            } else {
+                              return Container();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
