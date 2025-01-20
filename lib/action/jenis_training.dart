@@ -15,6 +15,8 @@ Future<List<Training>?> fetchTrainingData(context) async {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
       List<dynamic> data = jsonResponse['data'];
       return data.map((item) => Training.fromJson(item)).toList();
+    } else if (response.statusCode == 401) {
+      throw 'Tidak ada data pelatihan';
     } else {
       throw 'Terjadi kesalahan: ${response.statusCode}';
     }
