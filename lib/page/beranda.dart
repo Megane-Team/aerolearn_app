@@ -132,9 +132,6 @@ class _BerandaState extends State<Beranda> {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(
-                              child: Text('Error: ${snapshot.error}'));
                         } else if (snapshot.hasData) {
                           List<Notifications> notifications = snapshot.data!;
                           DateTime now = DateTime.now();
@@ -236,7 +233,7 @@ class _BerandaState extends State<Beranda> {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        if (snapshot.error == 'tidak ada pelatihan') {
+                        if (snapshot.error == 'Tidak ada data pelatihan') {
                           return Center(child: Text('tidak ada pelatihan'));
                         } else {
                           return Center(

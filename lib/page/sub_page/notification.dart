@@ -84,7 +84,7 @@ class NotificationState extends State<NotificationPage> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else if (snapshot.hasError) {
-              if (snapshot.error.toString() == 'notifikasi tidak ada') {
+              if (snapshot.error.toString() == 'Notifikasi tidak ada') {
                 return Center(child: NoNotificationItem());
               } else {
                 return Center(child: Text(snapshot.error.toString()));
@@ -241,9 +241,11 @@ class NoNotificationItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
+      child: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
               Assets.icons('mail_box'),
