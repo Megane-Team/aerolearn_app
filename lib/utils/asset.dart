@@ -42,16 +42,9 @@ class Assets {
 
   static Future<Widget> filesSertifikat(String id) async {
     try {
-      final response =
-          await HttpService.getRequest('$baseURL/file/e-sertifikat/$id');
-
-      if (response.statusCode == 200) {
-        return SfPdfViewer.network(
-          '$baseURL/file/e-sertifikat/$id',
-        );
-      } else {
-        return Container();
-      }
+      return SfPdfViewer.network(
+        '$baseURL/file/e-sertifikat/$id',
+      );
     } catch (e) {
       return Container();
     }
