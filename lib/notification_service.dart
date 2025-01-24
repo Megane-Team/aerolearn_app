@@ -161,7 +161,6 @@ class NotificationService {
         UserProfile? userProfile = await fetchUserProfile();
         if (userProfile != null) {
           int userId = userProfile.id;
-
           List<PelaksanaanPelatihan> pelatihanList =
               await fetchNotificationsTraining(userId.toString());
 

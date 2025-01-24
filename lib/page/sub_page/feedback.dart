@@ -247,6 +247,7 @@ Future<void> sendAllFeedbackAnswers(BuildContext context,
     if (result != null) {
       // ignore: use_build_context_synchronously
       showDialog(
+        // ignore: use_build_context_synchronously
         context: currentContext,
         builder: (BuildContext context) {
           return AlertDialog(
