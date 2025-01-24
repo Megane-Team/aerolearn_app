@@ -51,7 +51,6 @@ class LoginState extends State<Login> {
                 _isAtEnd = false;
               });
             }
-            FocusScope.of(context).unfocus();
           },
           body: Center(
             child: SizedBox(
