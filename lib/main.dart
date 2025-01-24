@@ -42,6 +42,7 @@ Future<void> main() async {
     'fetch_data_api', // Nama worker
     frequency: Duration(minutes: 15), // Frekuensi
     initialDelay: Duration(seconds: 10), // Delay awal
+    existingWorkPolicy: ExistingWorkPolicy.replace,
   );
   await requestExactAlarmPermission();
   await requestNotificationPermission();
