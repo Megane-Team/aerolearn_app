@@ -44,8 +44,6 @@ class NotificationService {
       return;
     }
 
-    print('halo 6');
-
     if (!_isTimeZoneInitialized()) {
       return;
     }
@@ -142,7 +140,6 @@ class NotificationService {
 
   static fetchAndScheduleNotificationsInBackground() async {
     tz.initializeTimeZones();
-    print('halo 2');
     try {
       Future<List<PelaksanaanPelatihan>> fetchNotificationsTraining(
           String id) async {
@@ -161,18 +158,15 @@ class NotificationService {
 
       var token = await SessionService.getToken();
       if (token != null && token.isNotEmpty) {
-        print('halo 3');
         UserProfile? userProfile = await fetchUserProfile();
         if (userProfile != null) {
           int userId = userProfile.id;
-          print('halo 4');
           List<PelaksanaanPelatihan> pelatihanList =
               await fetchNotificationsTraining(userId.toString());
 
           for (var pelatihan in pelatihanList) {
             if (pelatihan.tanggalMulai.isAfter(DateTime.now())) {
               try {
-                print('halo 5');
                 await scheduleNotification(userId, pelatihan);
               } catch (e) {}
             } else {}

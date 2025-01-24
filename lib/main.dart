@@ -17,7 +17,6 @@ Future<void> requestNotificationPermission() async {
 }
 
 void callbackDispatcher() {
-  print('halo');
   Workmanager().executeTask((task, inputData) async {
     try {
       await NotificationService.fetchAndScheduleNotificationsInBackground();
@@ -37,7 +36,7 @@ Future<void> requestExactAlarmPermission() async {
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService.init();
-  await Workmanager().initialize(callbackDispatcher, isInDebugMode  : true);
+  await Workmanager().initialize(callbackDispatcher);
   await Workmanager().registerPeriodicTask(
     'fetch_data_task', // ID tugas
     'fetch_data_api', // Nama worker
