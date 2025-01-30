@@ -13,8 +13,7 @@ Future<String?> feedbackAnswer(context, String text, int idFeedbackQuestion,
       'id_pelaksanaanPelatihan': idPelaksanaanPelatihan,
     });
     if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body);
-      return responseBody['message'];
+      return 'feedback berhasil di simpan';
     } else if (response.statusCode == 401) {
       return 'anda sudah melakukan feedback';
     } else {
