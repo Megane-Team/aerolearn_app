@@ -18,7 +18,7 @@ Future<String?> feedbackAnswer(context, String text, int idFeedbackQuestion,
     } else if (response.statusCode == 401) {
       return 'anda sudah melakukan feedback';
     } else {
-      throw Exception('Failed to feedback');
+      throw Exception('feedback gagal disimpan');
     }
   } catch (e) {
     showConnectionErrorDialog(context);
