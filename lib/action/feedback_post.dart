@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:aerolearn/utils/connection_error.dart';
 import 'package:aerolearn/utils/http.dart';
 import 'package:aerolearn/constant/variable.dart';
@@ -13,12 +12,11 @@ Future<String?> feedbackAnswer(context, String text, int idFeedbackQuestion,
       'id_pelaksanaanPelatihan': idPelaksanaanPelatihan,
     });
     if (response.statusCode == 200) {
-      final responseBody = jsonDecode(response.body);
-      return responseBody['message'];
+      return 'feedback berhasil disimpan';
     } else if (response.statusCode == 401) {
       return 'anda sudah melakukan feedback';
     } else {
-      throw Exception('Failed to feedback');
+      throw Exception('gagal menyimpan feedback');
     }
   } catch (e) {
     showConnectionErrorDialog(context);
