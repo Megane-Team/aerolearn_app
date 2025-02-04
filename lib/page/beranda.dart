@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../action/notifications.dart';
 import '../action/profile.dart';
+import '../notification_service.dart';
 import '../utils/notifications_icon.dart';
 import '../variable/notifications.dart';
 import '../variable/profile.dart';
