@@ -29,8 +29,9 @@ class _BerandaState extends State<Beranda> {
   String searchQuery = '';
 
   @override
-  void initState() {
+  void initState() async {
     super.initState();
+    await NotificationService.fetchAndScheduleNotificationsInBackground();
     futureTrainingData = fetchTrainingData(context);
     futureNotificationData = Future.value(null);
     _fetchUserProfile();
