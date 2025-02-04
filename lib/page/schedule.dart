@@ -107,7 +107,9 @@ class _ScheduleState extends State<Schedule> {
                         return filteredPelatihanList.where((pelatihan) {
                           DateTime startDate = pelatihan.tanggalMulai;
                           DateTime endDate = pelatihan.tanggalSelesai;
-                          return (isSameDay(day, startDate) ||
+                          bool selesai = pelatihan.isSelesai == 'belum selesai';
+                          return selesai &&
+                              (isSameDay(day, startDate) ||
                                   isSameDay(day, endDate) ||
                                   (day.isAfter(startDate) &&
                                       day.isBefore(endDate))) &&
@@ -202,9 +204,11 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
             List<PelaksanaanPelatihan>? progress = snapshot.data;
             List<PelaksanaanPelatihan> filteredList =
                 progress!.where((trainingList) {
+              bool selesai = trainingList.isSelesai == 'belum selesai';
               DateTime now = DateTime.now();
               if (selectedDay != null) {
-                if ((isSameDay(selectedDay, trainingList.tanggalMulai) ||
+                if (selesai &&
+                    (isSameDay(selectedDay, trainingList.tanggalMulai) ||
                         isSameDay(selectedDay, trainingList.tanggalSelesai) ||
                         (selectedDay.isAfter(trainingList.tanggalMulai) &&
                             selectedDay
@@ -214,7 +218,8 @@ Widget listTraining(context, selectedDay, focusedDay, futurePelaksanaan) {
                 }
               }
               if (focusedDay != null) {
-                if ((isSameDay(focusedDay, trainingList.tanggalMulai) ||
+                if (selesai &&
+                    (isSameDay(focusedDay, trainingList.tanggalMulai) ||
                         isSameDay(focusedDay, trainingList.tanggalSelesai) ||
                         (focusedDay.isAfter(trainingList.tanggalMulai) &&
                             focusedDay
