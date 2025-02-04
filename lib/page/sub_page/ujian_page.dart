@@ -323,7 +323,6 @@ class Ujian extends StatelessWidget {
         SizedBox(height: 10),
         Container(
           width: MediaQuery.of(context).size.width * 0.92,
-          height: 300,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.black),
             borderRadius: BorderRadius.circular(15),
