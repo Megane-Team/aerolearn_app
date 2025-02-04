@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:aerolearn/action/jenis_training.dart';
+import 'package:aerolearn/notification_service.dart';
 import 'package:aerolearn/page/sub_page/detail.dart';
 import 'package:aerolearn/page/sub_page/notification.dart';
 import 'package:aerolearn/page/sub_page/profile.dart';
@@ -29,11 +30,11 @@ class _BerandaState extends State<Beranda> {
   String searchQuery = '';
 
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    await NotificationService.fetchAndScheduleNotificationsInBackground();
     futureTrainingData = fetchTrainingData(context);
     futureNotificationData = Future.value(null);
+    NotificationService.fetchAndScheduleNotificationsInBackground();
     _fetchUserProfile();
   }
 
