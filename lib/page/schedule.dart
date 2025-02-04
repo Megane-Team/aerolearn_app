@@ -80,9 +80,7 @@ class _ScheduleState extends State<Schedule> {
                   future: futurePelaksanaanPelatihanData,
                   builder: (context, snapshot) {
                     List<PelaksanaanPelatihan> pelatihanList = [];
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else if (snapshot.hasData) {
+                    if (snapshot.hasData) {
                       pelatihanList = snapshot.data!;
                     }
                     final filteredPelatihanList = pelatihanList.toList();
