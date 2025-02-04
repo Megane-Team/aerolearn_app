@@ -12,7 +12,7 @@ Future<void> requestNotificationPermission() async {
   if (await Permission.notification.request().isGranted) {
     // Notification permission granted
   } else {
-    // Notification permission denied
+    await Permission.notification.request();
   }
 }
 
